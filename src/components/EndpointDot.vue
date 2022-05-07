@@ -1,4 +1,3 @@
-<!-- Example butterfly endpoint -->
 <script setup lang="ts">
 import { vSimulateMouseEvents } from '@/directives/touchHandler'
 const { id } = defineProps<{ id: string }>()
