@@ -35,69 +35,12 @@
 </template>
 
 <script lang="ts" setup>
-// import { defineComponent } from 'vue'
-import Butterfly from '@/components/Butterfly.vue'
-import { NodeData } from '@/types'
+import Butterfly from '@/components/Butterfly/Butterfly.vue'
 import { useController } from '@/hooks/useButterfly'
-import CardNode from '@/components/CardNode.vue'
-import EndpointDot from '@/components/EndpointDot.vue'
-import { ref } from 'vue'
+import CardNode from '@/components/Butterfly/CardNode.vue'
+import EndpointDot from '@/components/Butterfly/EndpointDot.vue'
 
-console.log('what')
-
-const controller = useController({
-  nodes: [
-    {
-      id: '1',
-      top: 100,
-      left: 100,
-      endpoints: [
-        {
-          id: 'endpoint-1',
-          orientation: [1, 0],
-        },
-      ],
-      nodeData: { color: 'white' },
-    },
-    {
-      id: '2',
-      top: 200,
-      left: 400,
-      endpoints: [
-        {
-          id: 'endpoint-2',
-          orientation: [-1, 0],
-        },
-      ],
-      nodeData: { color: 'white' },
-    },
-  ],
-  edges: [],
-})
-
-const nextNodeId = ref(3)
-
-const addNode = (id: string, color: NodeData['color']) =>
-  controller.addNode({
-    id,
-    top: 20,
-    left: 20,
-    endpoints: [
-      {
-        id: `node-${id}-endpoint-1`,
-        orientation: [1, 0],
-      },
-      {
-        id: `node-${id}-endpoint-2`,
-        orientation: [-1, 0],
-      },
-    ],
-    nodeData: { color },
-  })
-
-// export default defineComponent({
-//   name: 'Home'
-// })
+const controller = useController()
 </script>
 
 <style scoped lang="stylus">
@@ -133,6 +76,7 @@ const addNode = (id: string, color: NodeData['color']) =>
   stroke: hotpink;
   stroke-width: 3px;
 }
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -11,7 +11,41 @@ import { injectNodeClass } from '@/utils/butterfly'
 const noCanvasAttachedError = Error(
   'Canvas not attached, remember to pass controller down to Butterfly component',
 )
-export const useController = (initialData: ButterflyDataInitial) => {
+
+export const useController = () => {
+  const initialData = {
+    nodes: [
+      {
+        id: '1',
+        top: 100,
+        left: 100,
+        endpoints: [
+          {
+            id: 'endpoint-1',
+            orientation: [1, 0],
+          },
+        ],
+        nodeData: {
+          color: 'white',
+        },
+      },
+      {
+        id: '2',
+        top: 200,
+        left: 400,
+        endpoints: [
+          {
+            id: 'endpoint-2',
+            orientation: [-1, 0],
+          },
+        ],
+        nodeData: {
+          color: 'white',
+        },
+      },
+    ],
+    edges: [],
+  } as ButterflyDataInitial
   const _currentData = ref<ButterflyData>(initialData)
   /** Ref storing original butterfly Canvas instance */
   const canvas = ref<CanvasInternal | null>(null)

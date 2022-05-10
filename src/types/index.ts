@@ -1,5 +1,5 @@
 /** The data to store on the given node */
-export type NodeData = { color: 'black' | 'white' }
+export type NodeData = { color: string }
 
 export interface NavItem {
   path: string
