@@ -45,6 +45,7 @@ export const useController = () => {
       },
     ],
     edges: [],
+    group: [],
   } as ButterflyDataInitial
   const _currentData = ref<ButterflyData>(initialData)
   /** Ref storing original butterfly Canvas instance */

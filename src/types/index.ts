@@ -32,14 +32,26 @@ export type Edge = {
   label?: string
 }
 
+export type Group = {
+  id: string
+  top: number
+  left: number
+  width: number
+  height: number
+  endpoints : Endpoint[]
+  group: string
+}
+
 export type ButterflyDataInitial = {
   nodes: NodeInitial[]
   edges: Edge[]
+  groups: Group[]
 }
 
 export type ButterflyData = {
   nodes: Node[]
   edges: Edge[]
+  groups: Group[]
 }
 
 export type CanvasInternal = {
