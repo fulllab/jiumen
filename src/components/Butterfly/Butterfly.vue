@@ -7,7 +7,6 @@ import { injectClasses } from '@/utils/butterfly'
 import { Controller } from '@/hooks/useButterfly'
 import { buildShortUUID } from '@/utils/uuid'
 import { BorderOutlined, BlockOutlined } from '@ant-design/icons-vue'
-import OperationButton from './OperationButton.vue'
 
 export type ButterflyProps = {
   controller: Controller
@@ -31,7 +30,6 @@ const canvasRef = ref<HTMLElement | null>(null)
 
 const preAdd = (ot: OperationType) => {
   operationTypeRef.value = ot == operationTypeRef.value ? null : ot
-  console.log(operationTypeRef.value)
 }
 
 const buttonType = (ot: OperationType) => {
@@ -88,9 +86,9 @@ onMounted(() => {
         break;
     }
     // update nodes state on node events
-    if ((event.type as string).startsWith('node')) {
-      data.value.nodes = [...canvas.getDataMap().nodes]
-    }
+    // if ((event.type as string).startsWith('node')) {
+    //   data.value.nodes = [...canvas.getDataMap().nodes]
+    // }
   })
 })
 </script>
@@ -103,6 +101,9 @@ onMounted(() => {
       </template>
       <template v-for="endpoint in endpoints" :key="endpoint.id">
         <slot name="endpoint" v-bind="endpoint"></slot>
+      </template>
+      <template v-for="group in data.groups" :key="group.id">
+        <slot name="group" v-bind="group"></slot>
       </template>
     </div>
   </div>

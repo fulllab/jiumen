@@ -45,7 +45,19 @@ export const useController = () => {
       },
     ],
     edges: [],
-    group: [],
+    groups: [
+      {
+        id: 'testGroup',
+        options: {
+          text: 'Group'
+        },
+        width: 500,
+        height: 300,
+        top: 360,
+        left: 100,
+        endpoints: [],
+      }
+    ],
   } as ButterflyDataInitial
   const _currentData = ref<ButterflyData>(initialData)
   /** Ref storing original butterfly Canvas instance */

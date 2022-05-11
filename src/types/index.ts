@@ -21,7 +21,20 @@ export type NodeInitial = {
   nodeData: NodeData
 }
 
+export type GroupInitial = {
+  id: string
+  top: number
+  left: number
+  width: number
+  height: number
+  endpoints : Endpoint[]
+  options: GroppOption
+  group?: string,
+  nodeData?: NodeData
+}
+
 export type Node = Omit<NodeInitial, 'nodeData'>
+export type Group = Omit<GroupInitial, 'nodeData'>
 
 export type Edge = {
   id: string
@@ -32,14 +45,8 @@ export type Edge = {
   label?: string
 }
 
-export type Group = {
-  id: string
-  top: number
-  left: number
-  width: number
-  height: number
-  endpoints : Endpoint[]
-  group: string
+export type GroppOption = {
+  text: string
 }
 
 export type ButterflyDataInitial = {
