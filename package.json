@@ -42,7 +42,6 @@
     "@ant-design/icons-vue": "^6.1.0",
     "ant-design-vue": "3.2.3",
     "axios": "^0.21.1",
-    "butterfly-dag": "^4.2.8",
     "pinia": "2.0.13",
     "vite-plugin-windicss": "^1.8.4",
     "vue": "^3.2.6",

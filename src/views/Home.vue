@@ -1,44 +1,9 @@
 <template>
   <div class="home-container page-container">
-    <Butterfly :controller="controller" container-class="canvas" :config="{
-      moveable: true,
-      disLinkable: true,
-      linkable: true,
-      draggable: true,
-      zoomable: true,
-      moveable: true,
-      theme: {
-        edge: {
-          arrow: true,
-          shapeType: 'AdvancedBezier',
-        },
-        group: {
-          type: 'normal', // Node group type: normal (drag in and drag out), inner (can only be dragged in and not out)
-        },
-      },
-    }">
-      <template #node="{ id, top, left }">
-        <card-node :id="id" v-model:node-data="controller.nodesData[id]" :top="top" :left="left"
-          @delete="controller.removeNode(id)" />
-      </template>
-      <template #group="{ id, top, left, width, height }">
-        <Group :id="id" :top="top" :left="left" :width="width" :height="height" />
-      </template>
-      <template #endpoint="{ id }">
-        <endpoint-dot :id="id" />
-      </template>
-    </Butterfly>
   </div>
 </template>
 
 <script lang="ts" setup>
-import Butterfly from '@/components/Butterfly/Butterfly.vue'
-import { useController } from '@/hooks/useButterfly'
-import CardNode from '@/components/Butterfly/CardNode.vue'
-import EndpointDot from '@/components/Butterfly/EndpointDot.vue'
-import Group from '@/components/Butterfly/Group.vue'
-
-const controller = useController()
 </script>
 
 <style scoped lang="stylus">

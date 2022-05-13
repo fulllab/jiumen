@@ -81,6 +81,8 @@ export type CanvasConfig = {
     group?: {
       type?: 'normal' | 'inner'
       dragGroupZIndex?: number
+      resize?: boolean
+      position: string
     }
     node?: {
       dragNodeZIndex?: number
