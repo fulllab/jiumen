@@ -2,9 +2,11 @@ import { Graph } from '@antv/x6'
 import { VueShape } from '@antv/x6-vue-shape'
 
 import Count from '../coms/Count.vue'
+import TextInput from '../coms/TextInput.vue'
 
 const ShapeComs = {
   COUNT: 'Count',
+  TEXT_INPUT: 'TextInput'
 }
 
 const registerVueComponent = (comNm: string) => {
@@ -14,6 +16,7 @@ const registerVueComponent = (comNm: string) => {
       template: `<${comNm} />`,
       components: {
         Count,
+        TextInput,
       },
     },
     true,
@@ -92,12 +95,12 @@ MyShape.config({
       },
     ],
   },
-  // component: {
-  //   template: `< />`,
-  //   components: {
-  //     ,
-  //   },
-  // },
+  component: {
+    template: `<text-input />`,
+    components: {
+      TextInput,
+    },
+  },
 })
 
 Graph.registerNode('my-shape', MyShape)

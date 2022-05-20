@@ -61,17 +61,17 @@ onMounted(() => {
         strokeWidth: 4
       }
     },
-    component: {
-      template: `<count :num="num" />`,
-      data() {
-        return {
-          num: 2,
-        }
-      },
-      components: {
-        Count,
-      },
-    },
+    // component: {
+    //   template: `<count :num="num" />`,
+    //   data() {
+    //     return {
+    //       num: 2,
+    //     }
+    //   },
+    //   components: {
+    //     Count,
+    //   },
+    // },
   }
 
   const r = new Rect({

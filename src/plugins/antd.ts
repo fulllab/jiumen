@@ -7,6 +7,7 @@ import {
   Col,
   Popconfirm,
   Radio,
+  Input,
 } from 'ant-design-vue'
 
 /**
@@ -15,7 +16,7 @@ import {
  * @returns void
  */
 export default function loadAnt(app: any) {
-  ;[Button, Card, Descriptions, Tooltip, Row, Col, Popconfirm,Radio].forEach(
+  ;[Button, Card, Descriptions, Tooltip, Row, Col, Popconfirm, Radio, Input].forEach(
     v => {
       app.use(v)
     },

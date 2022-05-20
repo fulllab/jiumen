@@ -45,17 +45,17 @@ onMounted(() => {
     height: 64,
     x: 240,
     y: 40,
-    component: {
-      template: `<count :num="num" />`,
-      data() {
-        return {
-          num: 'AB测试',
-        }
-      },
-      components: {
-        Count,
-      },
-    },
+    // component: {
+    //   template: `<count :num="num" />`,
+    //   data() {
+    //     return {
+    //       num: 'AB测试',
+    //     }
+    //   },
+    //   components: {
+    //     Count,
+    //   },
+    // },
   })
 
   let node2 = graph.value?.addNode({
