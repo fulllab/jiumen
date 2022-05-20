@@ -16,10 +16,10 @@
 import { ref } from 'vue'
 import { Sketch } from '@ckpack/vue-color'
 import { useContext } from '@/hooks/GraphContext'
-import {modeProps} from './ModeProps'
+import { modeProps } from './ModeProps'
 
 const props = defineProps(modeProps);
-const {mode} = props
+const { mode } = props
 const color = ref('#194D33A8')
 const selectedColors = ref({
   hex8: '#E04343FF'
@@ -27,17 +27,18 @@ const selectedColors = ref({
 const selectedNodes = ref(0)
 const { graph } = useContext()
 
-const attrkey = mode == 'stroke' ? 'stroke' : 'fill'
-const realBodyKey = mode == 'text' ? 'label' : 'body'
-
-graph.on('node:selected', (attrs) => {
-  selectedNodes.value += 1
-  console.log(attrs);
-
-  if (selectedNodes.value == 1) {
-    color.value = (attrs.node.attrs as any)[realBodyKey][attrkey]
+const getPath = (cell) => {
+  if (mode == 'stroke') {
+    return `${cell.data.primer || cell.shape}/stroke`
   }
+  return `${mode}/fill`
+}
 
+graph.on('node:selected', (a) => {
+  selectedNodes.value += 1
+  if (selectedNodes.value == 1) {
+    color.value = a.node.getAttrByPath(getPath(a.node))
+  }
 })
 
 graph.on('node:unselected', () => {
@@ -51,11 +52,7 @@ const confirm = () => {
 
   cells.forEach(cell => {
     if (cell.isNode()) {
-      cell.setAttrs({
-        [realBodyKey]: {
-          [attrkey]: confirmColor
-        }
-      })
+      cell.setAttrByPath(getPath(cell),confirmColor)
     }
   });
 

@@ -9,7 +9,7 @@
       <ColorPicker v-if="isReady" mode="stroke">
         <MinusOutlined />
       </ColorPicker>
-      <ColorPicker v-if="isReady" mode="text">
+      <ColorPicker v-if="isReady" mode="label">
         <FontColorsOutlined />
       </ColorPicker>
     </div>
@@ -36,7 +36,6 @@ const containered = ref<HTMLElement | undefined>(undefined) // 流程图挂载do
 const isReady = ref(false)
 
 onMounted(() => {
-  console.log('isReady 2', isReady);
   const graph = createGraph(containered)
 
   let node1 = graph.value?.addNode({

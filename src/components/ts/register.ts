@@ -117,7 +117,7 @@ GroupShape.config({
       magnet: true,
     },
     body: {
-      fill: '#00000000',
+      fill: '#E6F3FA7D',
       stroke: '#d9d9d9',
       strokeWidth: 1,
     },
