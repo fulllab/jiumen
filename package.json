@@ -40,13 +40,20 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
+    "@antv/x6": "^1.31.5",
+    "@antv/x6-vue-shape": "^1.4.0",
+    "@ckpack/vue-color": "^1.1.9",
+    "add": "^2.0.6",
     "ant-design-vue": "3.2.3",
     "axios": "^0.21.1",
+    "less": "^4.1.2",
     "pinia": "2.0.13",
     "vite-plugin-windicss": "^1.8.4",
     "vue": "^3.2.6",
+    "vue-color-kit": "^1.0.5",
     "vue-router": "^4.0.11",
-    "vuex": "^4.0.2"
+    "vuex": "^4.0.2",
+    "yarn": "^1.22.18"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.1",

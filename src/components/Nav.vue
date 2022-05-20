@@ -1,16 +1,9 @@
 <template>
   <aside class="nav">
-    <ul class="nav-list">
-      <li
-        class="nav-item flex-center"
-        v-for="(nav, index) in navList"
-        :key="index"
-        :class="{ active: nav.isActive }"
-        @click="navClick(nav)"
-      >
-        {{ nav.name }}
-      </li>
-    </ul>
+    <a-button type="link" class="nav-item flex-center" v-for="(nav, index) in navList" :key="index"
+      :class="{ active: nav.isActive }" @click="navClick(nav)">
+      {{ nav.name }}
+    </a-button>
   </aside>
 </template>
 
@@ -36,6 +29,26 @@ export default defineComponent({
           name: 'Test',
           isActive: false,
           path: '/test',
+        },
+        {
+          name: 'Dag',
+          isActive: false,
+          path: '/dag',
+        },
+        {
+          name: 'graphNodeAndEdge',
+          isActive: false,
+          path: '/graphNodeAndEdge',
+        },
+        {
+          name: 'graphConnect',
+          isActive: false,
+          path: '/graphConnect',
+        },
+        {
+          name: 'graphVueNode',
+          isActive: false,
+          path: '/graphVueNode',
         },
       ],
 
@@ -82,12 +95,10 @@ export default defineComponent({
   height 100%
   box-sizing border-box
   background: #fff
-
-  .nav-list {
+  display: flex
 
     .nav-item {
       box-sizing border-box
-      width 100%
       height 60px
       cursor pointer
 
@@ -97,8 +108,6 @@ export default defineComponent({
       }
 
     }
-
-  }
 
 }
 </style>

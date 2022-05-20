@@ -1,4 +1,4 @@
-import { Button, Card, Descriptions, Tooltip } from 'ant-design-vue'
+import { Button, Card, Descriptions, Tooltip, Row, Col, Popconfirm } from 'ant-design-vue'
 
 /**
  * @description Automatically register components under Button, such as Button.Group
@@ -6,7 +6,7 @@ import { Button, Card, Descriptions, Tooltip } from 'ant-design-vue'
  * @returns void
  */
 export default function loadAnt(app: any) {
-  ;[Button, Card, Descriptions, Tooltip].forEach(v => {
+  ;[Button, Card, Descriptions, Tooltip, Row, Col, Popconfirm].forEach(v => {
     app.use(v)
   })
 }

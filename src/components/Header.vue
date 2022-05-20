@@ -1,6 +1,9 @@
 <template>
   <div class="header">
     <div class="title" @click="router.push('/')">Ourspace & ZeroDAO Strategy</div>
+    <div class="left">
+      <Nav />
+    </div>
     <div class="go-github" @click="goGitHub">
       <i class="icon el-icon-s-promotion"></i> GitHub
     </div>
@@ -9,6 +12,7 @@
 
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
+import Nav from '@/components/Nav.vue'
 
 const router = useRouter()
 

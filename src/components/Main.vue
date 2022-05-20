@@ -5,10 +5,6 @@
     </div>
 
     <div class="bottom">
-      <div class="left">
-        <Nav />
-      </div>
-
       <div class="right">
         <div class="content">
           <router-view />
@@ -21,13 +17,11 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Header from '@/components/Header.vue'
-import Nav from '@/components/Nav.vue'
 
 export default defineComponent({
   name: 'Main',
   components: {
     Header,
-    Nav,
   },
 })
 </script>
@@ -58,7 +52,6 @@ $left-side-width = 80px
     box-sizing border-box
     width 100%
     height $top-height
-    margin-bottom 10px
   }
 
   .bottom {
@@ -68,6 +61,7 @@ $left-side-width = 80px
     height 100%
     display flex
     justify-content space-between
+    overflow hidden
 
     .left {
       position relative
@@ -81,7 +75,6 @@ $left-side-width = 80px
       width 100%
       height 100%
       box-sizing border-box
-      padding 0 10px 10px 10px
 
       .content {
         position relative
@@ -90,7 +83,6 @@ $left-side-width = 80px
         background $background-color
         border-radius 5px
         box-sizing border-box
-        padding 10px
       }
     }
   }
