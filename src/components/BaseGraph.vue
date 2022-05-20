@@ -23,7 +23,7 @@ import "@antv/x6-vue-shape"
 import Count from "@/components/coms/Count.vue"
 import Stencil from '@/components/Stencil.vue'
 import './ts/register'
-import ColorPicker from './Graph/Tools/ColorPicker.vue'
+import ColorPicker from './Tools/ColorPicker.vue'
 import { Graph } from '@antv/x6'
 import { MinusOutlined, BorderOutlined, FontColorsOutlined } from '@ant-design/icons-vue'
 

@@ -35,21 +35,6 @@ export default defineComponent({
           isActive: false,
           path: '/dag',
         },
-        {
-          name: 'graphNodeAndEdge',
-          isActive: false,
-          path: '/graphNodeAndEdge',
-        },
-        {
-          name: 'graphConnect',
-          isActive: false,
-          path: '/graphConnect',
-        },
-        {
-          name: 'graphVueNode',
-          isActive: false,
-          path: '/graphVueNode',
-        },
       ],
 
       navClick(e: NavItem) {
