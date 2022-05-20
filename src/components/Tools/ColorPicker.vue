@@ -34,7 +34,6 @@ graph.on('node:selected', (attrs) => {
   selectedNodes.value += 1
   console.log(attrs);
 
-
   if (selectedNodes.value == 1) {
     color.value = (attrs.node.attrs as any)[realBodyKey][attrkey]
   }

@@ -1,6 +1,8 @@
 /** The data to store on the given node */
 export type NodeData = { color: string }
 
+export type EdgeShape = 'Process' | 'Support'
+
 export interface NavItem {
   path: string
   name: string

@@ -1,6 +1,7 @@
 import { ref, Ref, shallowReactive } from 'vue'
 import { Graph, Shape } from '@antv/x6'
-import {createContext} from './GraphContext'
+import { createContext } from './GraphContext'
+import { EdgeShape } from '@/types'
 
 export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
   const graph = ref<Graph>()
@@ -59,7 +60,7 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
         enabled: true,
         findParent({ node }) {
           const bbox = node.getBBox()
-          return this.getNodes().filter((node) => {
+          return this.getNodes().filter(node => {
             const data = node.getData<any>()
             if (data && data.parent) {
               const targetBBox = node.getBBox()
@@ -67,7 +68,7 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
             }
             return false
           })
-        }
+        },
       },
       highlighting: {
         embedding: {
@@ -138,20 +139,37 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
         },
         createEdge(e) {
           // 连接的过程中创建新的边
-          console.log(e);
+          console.log(e)
+          // 通过设置查找
 
-          return new Shape.Edge({
-            attrs: {
-              line: {
-                stroke: '#136fff',
-                strokeWidth: 1,
-                targetMarker: {
-                  name: 'classic',
-                  size: 7,
+          if (edgeShape.value == 'Process') {
+            return new Shape.Edge({
+              attrs: {
+                line: {
+                  stroke: '#136fff',
+                  strokeWidth: 1,
+                  targetMarker: {
+                    name: 'classic',
+                    size: 7,
+                  },
                 },
               },
-            },
-          })
+            })
+          } else if(edgeShape.value == 'Support') {
+            return new Shape.Edge({
+              attrs: {
+                line: {
+                  stroke: '#000000',
+                  strokeWidth: 1,
+                  targetMarker: {
+                    name: 'classic',
+                    size: 7,
+                  },
+                },
+              },
+            })
+          }
+
         },
         // validateConnection({
         //   sourceMagnet,
@@ -173,7 +191,10 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
   return graph
 }
 
+export const edgeShape = ref<EdgeShape>('Process')
+
 export default {
   createGraph,
   Graph,
+  edgeShape,
 }

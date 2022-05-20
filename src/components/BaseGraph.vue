@@ -13,11 +13,15 @@
         <FontColorsOutlined />
       </ColorPicker>
     </div>
+    <div class="absolute top-4 right-4">
+      <EdgeSelect />
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref, provide } from 'vue'
+import EdgeSelect from './Tools/EdgeSelect.vue'
 import { createGraph } from '@/hooks/useGraph'
 import "@antv/x6-vue-shape"
 import Count from "@/components/coms/Count.vue"
