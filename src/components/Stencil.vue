@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { useContext } from '@/hooks/GraphContext'
-import Count from "@/components/coms/Count.vue";
+import { ShapeBorderColor, GroupBorderColor } from '@/settings/graph'
 import { Addon } from '@antv/x6'
 import "@antv/x6-vue-shape"
 
@@ -25,11 +25,11 @@ onMounted(() => {
     stencilGraphHeight: 300,
     groups: [
       {
-        name: 'group1',
-        title: 'Group(Collapsable)',
+        name: 'shape',
+        title: 'Shape',
       },
       {
-        name: 'group2',
+        name: 'group',
         title: 'Group',
         collapsable: false,
       },
@@ -42,9 +42,12 @@ onMounted(() => {
     getDropNode(node) {
       const { width, height } = node.size()
       if (node.data && node.data.parent) {
-        return node.clone().size(width * 3, height * 2)
+        return node.clone().size(width * 4, height * 3)
       }
-      return node.clone()
+      if (node.data.primer == 'rect') {
+        return node.clone().size(width * 4, height)
+      }
+      return node.clone().size(width * 2, height * 2)
     }
   })
   stencilContainer.value?.appendChild(stencil.container)
@@ -52,12 +55,14 @@ onMounted(() => {
   const rectShape = {
     shape: 'my-shape',
     width: 64,
-    height: 64,
+    height: 45,
     attrs: {
       rect: {
         magnet: true,
-        stroke: "#333333",
-        strokeWidth: 4
+        rx: 5,
+        ry: 5,
+        stroke: ShapeBorderColor,
+        strokeWidth: 2
       }
     },
   }
@@ -69,19 +74,23 @@ onMounted(() => {
     attrs: {
       rect: {
         magnet: true,
-        stroke: "#333333",
-        strokeWidth: 4
+        rx: 5,
+        ry: 5,
+        stroke: GroupBorderColor,
+        strokeWidth: 2
       }
     },
   }
 
-  stencil.load([rectShape, rectShape], 'group1')
-  stencil.load([groupShape], 'group2')
+  stencil.load([rectShape, rectShape], 'shape')
+  stencil.load([groupShape], 'group')
 });
 
 graph.on('cell:mouseenter', (args: { cell: any }) => {
   if (args.cell.isNode()) {
     const currentNode = args.cell
+    console.log(currentNode);
+
     currentNode.setAttrByPath(`${currentNode.data.primer || currentNode.shape}`, {
       strokeWidth: 8
     })

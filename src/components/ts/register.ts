@@ -5,6 +5,7 @@ import Count from '../coms/Count.vue'
 import TextInput from '../coms/TextInput.vue'
 import GroupCom from '../coms/GroupCom.vue'
 import RectCom from '../coms/RectCom.vue'
+import { ShapeBorderColor, GroupBorderColor, GroupbgColor, ShapebgColor } from '@/settings/graph'
 
 const ShapeComs = {
   COUNT: 'Count',
@@ -51,8 +52,8 @@ MyShape.config({
       magnet: true,
     },
     body: {
-      fill: '#f5f5f5',
-      stroke: '#d9d9d9',
+      fill: ShapebgColor,
+      stroke: ShapeBorderColor,
       strokeWidth: 1,
     },
   },
@@ -67,28 +68,12 @@ MyShape.config({
       },
       {
         id: 'port2',
-        group: 'left',
-      },
-      {
-        id: 'port3',
-        group: 'right',
-      },
-      {
-        id: 'port4',
         group: 'bottom',
       },
     ],
     groups: {
       top: {
         position: 'top',
-        attrs: portsAttrs,
-      },
-      left: {
-        position: 'left',
-        attrs: portsAttrs,
-      },
-      right: {
-        position: 'right',
         attrs: portsAttrs,
       },
       bottom: {
@@ -117,8 +102,8 @@ GroupShape.config({
       magnet: true,
     },
     body: {
-      fill: '#E6F3FA7D',
-      stroke: '#d9d9d9',
+      fill: GroupbgColor,
+      stroke: GroupBorderColor,
       strokeWidth: 1,
     },
   },
@@ -134,28 +119,12 @@ GroupShape.config({
       },
       {
         id: 'port2',
-        group: 'left',
-      },
-      {
-        id: 'port3',
-        group: 'right',
-      },
-      {
-        id: 'port4',
         group: 'bottom',
       },
     ],
     groups: {
       top: {
         position: 'top',
-        attrs: portsAttrs,
-      },
-      left: {
-        position: 'left',
-        attrs: portsAttrs,
-      },
-      right: {
-        position: 'right',
         attrs: portsAttrs,
       },
       bottom: {
