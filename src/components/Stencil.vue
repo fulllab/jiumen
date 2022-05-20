@@ -43,7 +43,7 @@ onMounted(() => {
     getDropNode(node) {
       const { width, height } = node.size()
       if (node.data && node.data.parent) {
-        return node.clone().size(width * 3, height * 3)
+        return node.clone().size(width * 3, height * 2)
       }
       return node.clone()
     }
@@ -61,30 +61,23 @@ onMounted(() => {
         strokeWidth: 4
       }
     },
-    // component: {
-    //   template: `<count :num="num" />`,
-    //   data() {
-    //     return {
-    //       num: 2,
-    //     }
-    //   },
-    //   components: {
-    //     Count,
-    //   },
-    // },
   }
 
-  const r = new Rect({
-    width: 70,
-    height: 40,
+  const groupShape = {
+    shape: 'group-shape',
+    width: 64,
+    height: 64,
     attrs: {
-      rect: { fill: '#31D0C6', stroke: '#4B4A67', strokeWidth: 6 },
-      text: { text: 'rect', fill: 'white' },
+      rect: {
+        magnet: true,
+        stroke: "#333333",
+        strokeWidth: 4
+      }
     },
-  })
+  }
 
-  stencil.load([rectShape,rectShape], 'group1')
-  stencil.load([rectShape], 'group2')
+  stencil.load([rectShape, rectShape], 'group1')
+  stencil.load([groupShape], 'group2')
 });
 
 graph.on('cell:mouseenter', (args: { cell: any }) => {

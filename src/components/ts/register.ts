@@ -3,10 +3,12 @@ import { VueShape } from '@antv/x6-vue-shape'
 
 import Count from '../coms/Count.vue'
 import TextInput from '../coms/TextInput.vue'
+import GroupCom from '../coms/GroupCom.vue'
 
 const ShapeComs = {
   COUNT: 'Count',
-  TEXT_INPUT: 'TextInput'
+  TEXT_INPUT: 'TextInput',
+  GROUP_COM: 'GroupCom'
 }
 
 const registerVueComponent = (comNm: string) => {
@@ -17,6 +19,7 @@ const registerVueComponent = (comNm: string) => {
       components: {
         Count,
         TextInput,
+        GroupCom,
       },
     },
     true,
@@ -26,6 +29,8 @@ const registerVueComponent = (comNm: string) => {
 Object.values(ShapeComs).map(comNm => registerVueComponent(comNm))
 
 export class MyShape extends VueShape {}
+export class GroupShape extends VueShape {}
+
 const portsAttrs = {
   circle: {
     r: 5,
@@ -103,4 +108,72 @@ MyShape.config({
   },
 })
 
+GroupShape.config({
+  attrs: {
+    root: {
+      magnet: true,
+    },
+    body: {
+      fill: '#00000000',
+      stroke: '#d9d9d9',
+      strokeWidth: 1,
+    },
+  },
+  data: {
+    primer: 'rect',
+    parent: true
+  },
+  ports: {
+    items: [
+      {
+        id: 'port1',
+        group: 'top',
+      },
+      {
+        id: 'port2',
+        group: 'left',
+      },
+      {
+        id: 'port3',
+        group: 'right',
+      },
+      {
+        id: 'port4',
+        group: 'bottom',
+      },
+    ],
+    groups: {
+      top: {
+        position: 'top',
+        attrs: portsAttrs,
+      },
+      left: {
+        position: 'left',
+        attrs: portsAttrs,
+      },
+      right: {
+        position: 'right',
+        attrs: portsAttrs,
+      },
+      bottom: {
+        position: 'bottom',
+        attrs: portsAttrs,
+      },
+    },
+    portMarkup: [
+      {
+        tagName: 'circle',
+        selector: 'portBody',
+      },
+    ],
+  },
+  component: {
+    template: `<group-com />`,
+    components: {
+      GroupCom,
+    },
+  },
+})
+
 Graph.registerNode('my-shape', MyShape)
+Graph.registerNode('group-shape', GroupShape)

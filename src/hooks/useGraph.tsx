@@ -63,6 +63,8 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
           return this.getNodes().filter(node => {
             const data = node.getData<any>()
             if (data && data.parent) {
+              // put parent node to the back
+              node.toBack()
               const targetBBox = node.getBBox()
               return bbox.isIntersectWithRect(targetBBox)
             }
