@@ -13,7 +13,9 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
   if (containered) {
     graph.value = new Graph({
       container: containered?.value,
+      // @ts-ignore
       width: '100%',
+      // @ts-ignore
       height: '100%',
       resizing: {
         enabled: true,

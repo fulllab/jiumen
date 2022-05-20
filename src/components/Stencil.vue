@@ -6,7 +6,7 @@
 import { onMounted, ref } from 'vue'
 import { useContext } from '@/hooks/GraphContext'
 import Count from "@/components/coms/Count.vue";
-import { Addon, Shape, Graph } from '@antv/x6'
+import { Addon, Shape } from '@antv/x6'
 import "@antv/x6-vue-shape"
 
 const { Stencil } = Addon
