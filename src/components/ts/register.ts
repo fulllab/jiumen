@@ -4,11 +4,13 @@ import { VueShape } from '@antv/x6-vue-shape'
 import Count from '../coms/Count.vue'
 import TextInput from '../coms/TextInput.vue'
 import GroupCom from '../coms/GroupCom.vue'
+import RectCom from '../coms/RectCom.vue'
 
 const ShapeComs = {
   COUNT: 'Count',
   TEXT_INPUT: 'TextInput',
-  GROUP_COM: 'GroupCom'
+  GROUP_COM: 'GroupCom',
+  RECT_COM: 'RectCom',
 }
 
 const registerVueComponent = (comNm: string) => {
@@ -20,6 +22,7 @@ const registerVueComponent = (comNm: string) => {
         Count,
         TextInput,
         GroupCom,
+        RectCom,
       },
     },
     true,
@@ -101,9 +104,9 @@ MyShape.config({
     ],
   },
   component: {
-    template: `<text-input />`,
+    template: `<rect-com />`,
     components: {
-      TextInput,
+      RectCom,
     },
   },
 })

@@ -60,12 +60,19 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
         enabled: true,
         findParent({ node }) {
           const bbox = node.getBBox()
-          return this.getNodes().filter(node => {
-            const data = node.getData<any>()
+          return this.getNodes().filter(targetNode => {
+            const data = targetNode.getData<any>()
             if (data && data.parent) {
-              // put parent node to the back
-              node.toBack()
-              const targetBBox = node.getBBox()
+              // Exclude nodes itself
+              if (targetNode.id != node.id) {
+                // put parent node to the back
+                targetNode.toBack()
+                // put all parent node to the back
+                targetNode.getAncestors().map((n)=>{
+                  n.toBack()
+                })
+              }
+              const targetBBox = targetNode.getBBox()
               return bbox.isIntersectWithRect(targetBBox)
             }
             return false

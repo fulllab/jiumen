@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center w-full h-full p-4 text-base text-center" @dblclick="edit">
+  <div class="flex items-center w-full p-1 text-base text-center" @dblclick="edit">
     <Input class="text-center" v-if="isEditStatus" v-model:value="text" :placeholder="text" @blur="blur" />
     <p class="w-full" v-else>{{ text }}</p>
   </div>

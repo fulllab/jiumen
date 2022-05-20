@@ -1,7 +1,7 @@
 <template>
-  <div class="flex w-full h-full p-4 items-top">
+  <div class="flex flex-col w-full h-full p-2 items-top">
     <TextInput />
-    <Divider />
+    <Divider class="m-0" />
   </div>
 </template>
 
