@@ -8,6 +8,8 @@ import {
   Popconfirm,
   Radio,
   Input,
+  Layout,
+  ConfigProvider,
 } from 'ant-design-vue'
 
 /**
@@ -16,9 +18,19 @@ import {
  * @returns void
  */
 export default function loadAnt(app: any) {
-  ;[Button, Card, Descriptions, Tooltip, Row, Col, Popconfirm, Radio, Input].forEach(
-    v => {
-      app.use(v)
-    },
-  )
+  ;[
+    Button,
+    Card,
+    Descriptions,
+    Tooltip,
+    Row,
+    Col,
+    Popconfirm,
+    Radio,
+    Input,
+    Layout,
+    ConfigProvider,
+  ].forEach(v => {
+    app.use(v)
+  })
 }

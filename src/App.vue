@@ -1,15 +1,20 @@
 <template>
-  <Main />
+  <a-config-provider>
+    <div id="app">
+      <!-- <full-loading></full-loading> -->
+      <app-layout />
+    </div>
+  </a-config-provider>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Main from '@/components/Main.vue'
+import AppLayout from '@/layout/AppLayout.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
-    Main,
+    AppLayout,
   },
 })
 </script>

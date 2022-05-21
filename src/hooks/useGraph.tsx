@@ -8,6 +8,7 @@ import {
   ProcessColor,
   SupportWidth,
   SupportColor,
+  CanveBackground,
 } from '@/settings/graph'
 
 export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
@@ -30,7 +31,7 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
         minHeight: 35
       },
       background: {
-        color: '#fffbe6',
+        color: CanveBackground,
       },
       grid: {
         size: 10,

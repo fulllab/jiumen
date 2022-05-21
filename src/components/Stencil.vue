@@ -27,6 +27,7 @@ onMounted(() => {
       {
         name: 'shape',
         title: 'Shape',
+        collapsable: false,
       },
       {
         name: 'group',
@@ -190,10 +191,11 @@ graph.on('cell:mouseleave', (args: { cell: any }) => {
 <style lang="stylus">
 
 .app-stencil {
-  width: 120px
+  width 120px
 }
 .x6-widget-stencil {
-  width: 120px
+  width 120px
+  background: #ffffff !important
 }
 .x6-widget-stencil-group-content {
   margin auto
