@@ -100,7 +100,7 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
           name: 'stroke',
           args: {
             attrs: {
-              stroke: '#31d0c6',
+              stroke: '#47C769',
             },
           },
         },
@@ -137,41 +137,35 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
         //   radius: 20
         // },
         validateMagnet({ magnet, cell }) {
+          console.log(magnet);
+
           // console.log('magnet', e, magnet, view, cell);
           // if (magnet.getAttribute('port-group') === 'in') {
           //   return false
           // }
           return true
         },
-        createEdge(e) {
-          if (edgeShape.value == 'Process') {
-            return new Shape.Edge({
-              attrs: {
-                line: {
-                  stroke: '#136fff',
-                  strokeWidth: 1,
-                  targetMarker: {
-                    name: 'classic',
-                    size: 7,
-                  },
-                },
-              },
-            })
-          } else if(edgeShape.value == 'Support') {
-            return new Shape.Edge({
-              attrs: {
-                line: {
-                  stroke: '#000000',
-                  strokeWidth: 1,
-                  targetMarker: {
-                    name: 'classic',
-                    size: 7,
-                  },
-                },
-              },
-            })
+        createEdge() {
+          let edgeLineOp = {
+            stroke: '#333333',
+            strokeWidth: 2,
+            targetMarker: {
+              name: 'classic',
+              size: 7,
+            },
           }
-
+          if (edgeShape.value == 'Process') {
+            edgeLineOp.stroke = '#4E81BDF0'
+            edgeLineOp.strokeWidth = 4
+          } else if(edgeShape.value == 'Support') {
+            edgeLineOp.stroke = '#6EA87BE0'
+            edgeLineOp.strokeWidth = 2
+          }
+          return new Shape.Edge({
+            attrs: {
+              line: edgeLineOp,
+            },
+          })
         },
         // validateConnection({
         //   sourceMagnet,
