@@ -125,8 +125,6 @@ onMounted(() => {
 graph.on('cell:mouseenter', (args: { cell: any }) => {
   if (args.cell.isNode()) {
     const currentNode = args.cell
-    console.log(currentNode);
-
     currentNode.setAttrByPath(`${(currentNode.data ? currentNode.data.primer : false) || currentNode.shape}`, {
       strokeWidth: 8
     })
