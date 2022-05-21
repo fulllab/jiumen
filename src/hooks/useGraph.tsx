@@ -85,7 +85,6 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
           args: {
             attrs: {
               stroke: '#47C769',
-              fill: '#fff',
             },
           },
         },
@@ -93,7 +92,6 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
           name: 'stroke',
           args: {
             attrs: {
-              fill: '#fff',
               stroke: '#47C769',
             },
           },
@@ -102,7 +100,6 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
           name: 'stroke',
           args: {
             attrs: {
-              fill: '#fff',
               stroke: '#31d0c6',
             },
           },
@@ -147,10 +144,6 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
           return true
         },
         createEdge(e) {
-          // 连接的过程中创建新的边
-          console.log(e)
-          // 通过设置查找
-
           if (edgeShape.value == 'Process') {
             return new Shape.Edge({
               attrs: {
