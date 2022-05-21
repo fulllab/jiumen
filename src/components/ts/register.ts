@@ -168,6 +168,7 @@ GroupShape.config({
     },
   },
   data: {
+    primer: "rect",
     parent: true,
   },
   ports: {
