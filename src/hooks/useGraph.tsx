@@ -2,6 +2,13 @@ import { ref, Ref, shallowReactive } from 'vue'
 import { Graph, Shape } from '@antv/x6'
 import { createContext } from './GraphContext'
 import { EdgeShape } from '@/types'
+import {
+  HighlightingStyle,
+  ProcessWidth,
+  ProcessColor,
+  SupportWidth,
+  SupportColor,
+} from '@/settings/graph'
 
 export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
   const graph = ref<Graph>()
@@ -20,6 +27,7 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
       height: '100%',
       resizing: {
         enabled: true,
+        minHeight: 35
       },
       background: {
         color: '#fffbe6',
@@ -68,7 +76,7 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
                 // put parent node to the back
                 targetNode.toBack()
                 // put all parent node to the back
-                targetNode.getAncestors().map((n)=>{
+                targetNode.getAncestors().map(n => {
                   n.toBack()
                 })
               }
@@ -80,30 +88,9 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
         },
       },
       highlighting: {
-        embedding: {
-          name: 'stroke',
-          args: {
-            attrs: {
-              stroke: '#47C769',
-            },
-          },
-        },
-        magnetAvailable: {
-          name: 'stroke',
-          args: {
-            attrs: {
-              stroke: '#47C769',
-            },
-          },
-        },
-        magnetAdsorbed: {
-          name: 'stroke',
-          args: {
-            attrs: {
-              stroke: '#47C769',
-            },
-          },
-        },
+        embedding: HighlightingStyle,
+        magnetAvailable: HighlightingStyle,
+        magnetAdsorbed: HighlightingStyle,
       },
       connecting: {
         snap: true,
@@ -137,7 +124,7 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
         //   radius: 20
         // },
         validateMagnet({ magnet, cell }) {
-          console.log(magnet);
+          console.log(magnet)
 
           // console.log('magnet', e, magnet, view, cell);
           // if (magnet.getAttribute('port-group') === 'in') {
@@ -155,11 +142,11 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
             },
           }
           if (edgeShape.value == 'Process') {
-            edgeLineOp.stroke = '#4E81BDF0'
-            edgeLineOp.strokeWidth = 4
-          } else if(edgeShape.value == 'Support') {
-            edgeLineOp.stroke = '#6EA87BE0'
-            edgeLineOp.strokeWidth = 2
+            edgeLineOp.stroke = ProcessColor
+            edgeLineOp.strokeWidth = ProcessWidth
+          } else if (edgeShape.value == 'Support') {
+            edgeLineOp.stroke = SupportColor
+            edgeLineOp.strokeWidth = SupportWidth
           }
           return new Shape.Edge({
             attrs: {

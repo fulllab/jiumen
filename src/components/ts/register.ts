@@ -1,17 +1,21 @@
 import { Graph } from '@antv/x6'
 import { VueShape } from '@antv/x6-vue-shape'
-
 import Count from '../coms/Count.vue'
 import TextInput from '../coms/TextInput.vue'
 import GroupCom from '../coms/GroupCom.vue'
-import RectCom from '../coms/RectCom.vue'
-import { ShapeBorderColor, GroupBorderColor, GroupbgColor, ShapebgColor } from '@/settings/graph'
+import GeneralCom from '../coms/GeneralCom.vue'
+import {
+  ShapeBorderColor,
+  GroupBorderColor,
+  GroupbgColor,
+  ShapebgColor,
+} from '@/settings/graph'
 
 const ShapeComs = {
   COUNT: 'Count',
   TEXT_INPUT: 'TextInput',
   GROUP_COM: 'GroupCom',
-  RECT_COM: 'RectCom',
+  GENERAL_COM: 'GeneralCom',
 }
 
 const registerVueComponent = (comNm: string) => {
@@ -23,7 +27,7 @@ const registerVueComponent = (comNm: string) => {
         Count,
         TextInput,
         GroupCom,
-        RectCom,
+        GeneralCom,
       },
     },
     true,
@@ -32,21 +36,23 @@ const registerVueComponent = (comNm: string) => {
 
 Object.values(ShapeComs).map(comNm => registerVueComponent(comNm))
 
-export class MyShape extends VueShape {}
+export class RectShape extends VueShape {}
 export class GroupShape extends VueShape {}
+export class EllipseShape extends VueShape {}
 
 const portsAttrs = {
   circle: {
-    r: 5,
-    stroke: '#136fff',
-    fill: '#fff',
+    r: 3,
+    stroke: ShapeBorderColor,
+    fill: ShapebgColor,
     magnet: true,
     strokeWidth: 1,
     visibility: 'visible', // hidden  visible
   },
 }
 
-MyShape.config({
+RectShape.config({
+  primer: "rect",
   attrs: {
     root: {
       magnet: true,
@@ -58,26 +64,26 @@ MyShape.config({
     },
   },
   data: {
-    primer: 'rect',
+    primer: "rect",
   },
   ports: {
     items: [
       {
         id: 'port1',
-        group: 'top',
+        group: 'left',
       },
       {
         id: 'port2',
-        group: 'bottom',
+        group: 'right',
       },
     ],
     groups: {
-      top: {
-        position: 'top',
+      left: {
+        position: 'left',
         attrs: portsAttrs,
       },
-      bottom: {
-        position: 'bottom',
+      right: {
+        position: 'right',
         attrs: portsAttrs,
       },
     },
@@ -89,14 +95,68 @@ MyShape.config({
     ],
   },
   component: {
-    template: `<rect-com />`,
+    template: `<general-com />`,
     components: {
-      RectCom,
+      GeneralCom,
+    },
+  },
+})
+
+EllipseShape.config({
+  primer: "ellipse",
+  attrs: {
+    body: {
+      magnet: true,
+      fill: ShapebgColor,
+      stroke: ShapeBorderColor,
+      strokeWidth: 2,
+    },
+  },
+  data: {
+    primer: "ellipse",
+  },
+  ports: {
+    items: [
+      {
+        id: 'port1',
+        group: 'ellipse',
+      },
+      {
+        id: 'port2',
+        group: 'ellipse',
+      },
+      {
+        id: 'port3',
+        group: 'ellipse',
+      },
+      {
+        id: 'port4',
+        group: 'ellipse',
+      },
+    ],
+    groups: {
+      ellipse: {
+        position: 'ellipseSpread',
+        attrs: portsAttrs,
+      },
+    },
+    portMarkup: [
+      {
+        tagName: 'circle',
+        selector: 'portBody',
+      },
+    ],
+  },
+  component: {
+    template: `<general-com />`,
+    components: {
+      GeneralCom,
     },
   },
 })
 
 GroupShape.config({
+  primer: 'rect',
   attrs: {
     root: {
       magnet: true,
@@ -108,27 +168,26 @@ GroupShape.config({
     },
   },
   data: {
-    primer: 'rect',
-    parent: true
+    parent: true,
   },
   ports: {
     items: [
       {
         id: 'port1',
-        group: 'top',
+        group: 'left',
       },
       {
         id: 'port2',
-        group: 'bottom',
+        group: 'right',
       },
     ],
     groups: {
-      top: {
-        position: 'top',
+      left: {
+        position: 'left',
         attrs: portsAttrs,
       },
-      bottom: {
-        position: 'bottom',
+      right: {
+        position: 'right',
         attrs: portsAttrs,
       },
     },
@@ -147,5 +206,7 @@ GroupShape.config({
   },
 })
 
-Graph.registerNode('my-shape', MyShape)
+Graph.registerNode('rect-shape', RectShape)
 Graph.registerNode('group-shape', GroupShape)
+Graph.registerNode('ellipse-shape', EllipseShape)
+

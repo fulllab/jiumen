@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { useContext } from '@/hooks/GraphContext'
-import { ShapeBorderColor, GroupBorderColor } from '@/settings/graph'
+import { ShapeBorderColor, GroupBorderColor, ShapebgDarkColor } from '@/settings/graph'
 import { Addon } from '@antv/x6'
 import "@antv/x6-vue-shape"
 
@@ -44,23 +44,59 @@ onMounted(() => {
       if (node.data && node.data.parent) {
         return node.clone().size(width * 4, height * 3)
       }
-      if (node.data.primer == 'rect') {
-        return node.clone().size(width * 4, height)
-      }
+      // if (node.data.primer == 'rect') {
+      //   return node.clone().size(width * 3, height)
+      // }
       return node.clone().size(width * 2, height * 2)
     }
   })
   stencilContainer.value?.appendChild(stencil.container)
 
   const rectShape = {
-    shape: 'my-shape',
+    shape: 'rect-shape',
     width: 64,
-    height: 45,
+    height: 35,
     attrs: {
       rect: {
         magnet: true,
         rx: 5,
         ry: 5,
+        stroke: ShapeBorderColor,
+        strokeWidth: 2
+      }
+    },
+  }
+
+  const rectShapeDark = {
+    shape: 'rect-shape',
+    width: 64,
+    height: 35,
+    attrs: {
+      rect: {
+        magnet: true,
+        rx: 5,
+        ry: 5,
+        stroke: ShapeBorderColor,
+        strokeWidth: 2
+      },
+      body: {
+        fill: ShapebgDarkColor,
+        stroke: ShapeBorderColor,
+        strokeWidth: 1,
+      },
+      label: {
+        fill: '#FFF'
+      }
+    },
+  }
+
+  const ellipseShape = {
+    shape: 'ellipse-shape',
+    width: 64,
+    height: 45,
+    attrs: {
+      ellipse: {
+        magnet: true,
         stroke: ShapeBorderColor,
         strokeWidth: 2
       }
@@ -82,7 +118,7 @@ onMounted(() => {
     },
   }
 
-  stencil.load([rectShape, rectShape], 'shape')
+  stencil.load([rectShape, rectShapeDark, ellipseShape], 'shape')
   stencil.load([groupShape], 'group')
 });
 
@@ -91,7 +127,7 @@ graph.on('cell:mouseenter', (args: { cell: any }) => {
     const currentNode = args.cell
     console.log(currentNode);
 
-    currentNode.setAttrByPath(`${currentNode.data.primer || currentNode.shape}`, {
+    currentNode.setAttrByPath(`${(currentNode.data ? currentNode.data.primer : false) || currentNode.shape}`, {
       strokeWidth: 8
     })
 
@@ -140,7 +176,7 @@ graph.on('cell:mouseenter', (args: { cell: any }) => {
 graph.on('cell:mouseleave', (args: { cell: any }) => {
   if (args.cell.isNode()) {
     const currentNode = args.cell
-    currentNode.setAttrByPath(`${currentNode.data.primer || currentNode.shape}`, {
+    currentNode.setAttrByPath(`${(currentNode.data ? currentNode.data.primer : false) || currentNode.shape}`, {
       strokeWidth: 2
     })
   }

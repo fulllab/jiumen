@@ -29,7 +29,7 @@ const { graph } = useContext()
 
 const getPath = (cell) => {
   if (mode == 'stroke') {
-    return `${cell.data.primer || cell.shape}/stroke`
+    return `${(cell.data ? cell.data.primer : false) || cell.shape}/stroke`
   }
   return `${mode}/fill`
 }
