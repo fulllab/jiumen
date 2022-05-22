@@ -22,8 +22,8 @@ import { onMounted, ref } from 'vue'
 import EdgeSelect from './Tools/EdgeSelect.vue'
 import { createGraph } from '@/hooks/useGraph'
 import "@antv/x6-vue-shape"
-import Stencil from '@/components/Stencil.vue'
-import './ts/register'
+import Stencil from '@/components/Tools/Stencil.vue'
+import './register'
 import ColorPicker from './Tools/ColorPicker.vue'
 import { MinusOutlined, BorderOutlined, FontColorsOutlined } from '@ant-design/icons-vue'
 
