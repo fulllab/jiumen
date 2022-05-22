@@ -2,7 +2,8 @@
   <div class="flex w-full h-full">
     <Stencil v-if="isReady" />
     <div id="containered" ref="containered" />
-    <div class="color-picker-group space-x-2">
+    <div class="space-x-2 color-picker-group">
+      <EdgeSelect />
       <ColorPicker v-if="isReady" mode="body">
         <BorderOutlined />
       </ColorPicker>
@@ -12,9 +13,6 @@
       <ColorPicker v-if="isReady" mode="label">
         <FontColorsOutlined />
       </ColorPicker>
-    </div>
-    <div class="absolute top-4 right-4">
-      <EdgeSelect />
     </div>
   </div>
 </template>

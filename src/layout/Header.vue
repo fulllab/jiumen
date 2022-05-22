@@ -1,8 +1,8 @@
 <template>
-  <a-layout-header class="p-1 flex flex-shrink-0 justify-between">
+  <a-layout-header class="flex justify-between flex-shrink-0 p-1">
     <div class="flex items-center">
       <img class="h-full" src="../assets/Ourspace-logo-icon.svg" />
-      <span class="text-xl primary m-1" style="color: #b8bdd3;">Ourspace & ZeroDAO Strategisch Canvas</span>
+      <span class="m-1 text-xl primary" style="color: #b8bdd3;">Ourspace & ZeroDAO Strategy</span>
     </div>
     <Nav />
   </a-layout-header>

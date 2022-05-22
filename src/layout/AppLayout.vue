@@ -4,43 +4,15 @@
       <app-header />
       <a-layout-content class="relative">
         <router-view />
-        <!-- <div v-if="isBroken && !isSollapsed" class="content-mask" @click="onCollapse(true, 'clickBlank')"></div> -->
       </a-layout-content>
     </a-layout>
   </div>
 </template>
 
 <script lang="ts">
-// import AppFooter from './Footer.vue'
 import AppHeader from './Header.vue'
-import { defineComponent, ref, watch, computed, reactive } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
-// import AccountSelector from '@/components/AccountSelector.vue'
-// import { useStore } from 'vuex'
-// import ChangeLanguage from '@/components/ChangeLanguage.vue'
-
-const menuData = [
-  {
-    path: '/',
-    text: 'Home',
-    icon: 'icon-icon-test'
-  },
-  {
-    path: '/wallet',
-    text: 'Wallet',
-    icon: 'icon-licai'
-  },
-  {
-    path: '/seed',
-    text: 'Seed',
-    icon: 'icon-jiangli'
-  },
-  {
-    path: '/tests',
-    text: 'Tests',
-    icon: 'icon-ceshi'
-  }
-]
 
 export default defineComponent({
   components: {
@@ -56,28 +28,9 @@ export default defineComponent({
     const isSollapsed = ref(false)
     const isBroken = ref(false)
 
-    watch(router.currentRoute, currentRoute => {
-      const menuIndex = menuData.findIndex(Obj => Obj.path == currentRoute.path)
-      selectedKeys.value = [menuIndex.toString()]
-      fullScreenMode.value = Boolean(router.currentRoute.value.meta?.fullScreen)
-    })
-
-    const onCollapse = (collapsed: boolean, type: string) => {
-      if (type == 'clickTrigger') {
-        isSollapsed.value = collapsed
-      } else if (type == 'clickBlank' && isBroken.value) {
-        isSollapsed.value = true
-      } else if (type == 'responsive') {
-        isSollapsed.value = collapsed
-        isBroken.value = collapsed
-      }
-    }
-
     return {
       fullScreenMode,
-      onCollapse,
       selectedKeys,
-      menuData,
       isSollapsed,
       isBroken
     }
