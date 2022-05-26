@@ -29,3 +29,23 @@ export const ProcessColor = '#4E81BDF0'
 // Style of the supporting edge
 export const SupportWidth = 2
 export const SupportColor = '#6EA87BE0'
+
+export const ProjectStatus = [
+  'Idea',
+  'Draft',
+  'Review',
+  'implementating',
+  'Final',
+  'Stagnant',
+  'Withdrawn',
+  'Living',
+]
+
+export const docContentDefault = {
+  resources: [],
+  progress: 0,
+  priority: 0,
+  introduction: '',
+  status: 0,
+  description: '',
+}

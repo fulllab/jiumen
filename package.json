@@ -48,6 +48,8 @@
     "axios": "^0.21.1",
     "less": "^4.1.2",
     "pinia": "2.0.13",
+    "showdown": "^2.1.0",
+    "vditor": "^3.8.14",
     "vite-plugin-windicss": "^1.8.4",
     "vue": "^3.2.6",
     "vue-color-kit": "^1.0.5",

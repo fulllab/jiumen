@@ -7,17 +7,18 @@
 
 <script lang="ts" setup>
 import { ref, inject, onMounted, } from 'vue'
-import { Input } from 'ant-design-vue';
+import { Input } from 'ant-design-vue'
 
 const node = inject('getNode', () => { })() as any
 
 const isEditStatus = ref(false)
-const text = ref('test')
+const text = ref('')
 const styleObject = ref({
   color: node.getAttrByPath('label/fill')
 })
 
 const blur = () => {
+  node.data.label =  text.value
   isEditStatus.value = false
 }
 
@@ -26,6 +27,8 @@ const edit = () => {
 }
 
 onMounted(() => {
+  text.value = node.data.label || ''
+
   node.on('changed', (data) => {
     const { options } = data
     if (options && options.propertyPath == 'attrs/label/fill') {

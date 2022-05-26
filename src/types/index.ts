@@ -3,10 +3,82 @@ export type NodeData = { color: string }
 
 export type EdgeShape = 'Process' | 'Support'
 
+export type SaveMode = 'stageDocs' | 'repoDocs'
+
+export enum StatusEnum {
+  Idea,
+  Draft,
+  Review,
+  implementating,
+  Final,
+  Stagnant,
+  Withdrawn,
+  Living,
+}
+
+export enum DocStatus {
+  READ_ONLY,
+  EDIT,
+}
+
+export interface Resource {
+  id: number
+  title: string
+  uri: string
+}
+
+export interface DocsObj {
+  [id: string]: DocContent
+}
+
+export type DocContent = {
+  status: number
+  introduction: string
+  description: string
+  resources: Resource[]
+  priority: number
+  progress: number
+}
+
 export interface NavItem {
   path: string
   name: string
   isActive: boolean
+}
+
+// Lock screen information
+export interface LockInfo {
+  // Password required
+  pwd?: string | undefined
+  // Is it locked?
+  isLock?: boolean
+}
+
+// Error-log information
+export interface ErrorLogInfo {
+  // Error file
+  file: string
+  // Error name
+  name?: string
+  // Error message
+  message: string
+  // Error stack
+  stack?: string
+  // Error detail
+  detail: string
+  // Error url
+  url: string
+  // Error time
+  time?: string
+}
+
+export interface UserInfo {
+  userId: string | number
+  username: string
+  realName: string
+  avatar: string
+  desc?: string
+  homePath?: string
 }
 
 export type Endpoint = {
@@ -29,9 +101,9 @@ export type GroupInitial = {
   left: number
   width: number
   height: number
-  endpoints : Endpoint[]
+  endpoints: Endpoint[]
   options: GroppOption
-  group?: string,
+  group?: string
   nodeData?: NodeData
 }
 

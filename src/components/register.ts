@@ -1,9 +1,9 @@
 import { Graph } from '@antv/x6'
 import { VueShape } from '@antv/x6-vue-shape'
-import Count from '../coms/Count.vue'
-import TextInput from '../coms/TextInput.vue'
-import GroupCom from '../coms/GroupCom.vue'
-import GeneralCom from '../coms/GeneralCom.vue'
+import Count from './Coms/Count.vue'
+import TextInput from './Coms/TextInput.vue'
+import GroupCom from './Coms/GroupCom.vue'
+import GeneralCom from './Coms/GeneralCom.vue'
 import {
   ShapeBorderColor,
   GroupBorderColor,

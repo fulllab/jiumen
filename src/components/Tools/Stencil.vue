@@ -9,6 +9,8 @@ import { ShapeBorderColor, GroupBorderColor, ShapebgDarkColor } from '@/settings
 import { Addon } from '@antv/x6'
 import "@antv/x6-vue-shape"
 
+const emit = defineEmits(['openModal'])
+
 const { Stencil } = Addon
 
 const stencilContainer = ref<HTMLDivElement>()
@@ -156,9 +158,11 @@ graph.on('cell:mouseenter', (args: { cell: any }) => {
           x: 0,
           y: '100%',
           offset: { x: 18, y: -25 },
-          onClick({ view }) {
-            console.log('111111');
-
+          onClick() {
+            emit('openModal',{
+              nodeId: args.cell.id,
+              label: args.cell.data.label
+            })
           },
         },
       },

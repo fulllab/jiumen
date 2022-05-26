@@ -1,7 +1,10 @@
 <template>
   <div class="flex w-full h-full">
-    <Stencil v-if="isReady" />
+    <Stencil v-if="isReady" @open-modal="openModal" />
     <div id="containered" ref="containered" />
+    <div class="absolute right-2 top-2">
+      <Edit />
+    </div>
     <div class="space-x-2 color-picker-group">
       <EdgeSelect />
       <ColorPicker v-if="isReady" mode="body">
@@ -14,41 +17,47 @@
         <FontColorsOutlined />
       </ColorPicker>
     </div>
+    <Doc ref="docRef" :node-id="nodeDataRef.nodeId" :label="nodeDataRef.label" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import EdgeSelect from './Tools/EdgeSelect.vue'
 import { createGraph } from '@/hooks/useGraph'
 import "@antv/x6-vue-shape"
 import Stencil from '@/components/Tools/Stencil.vue'
 import './register'
 import ColorPicker from './Tools/ColorPicker.vue'
+import Doc from './Docs/Doc.vue'
 import { MinusOutlined, BorderOutlined, FontColorsOutlined } from '@ant-design/icons-vue'
+import Edit from './Tools/Edit.vue'
+import { useAppState } from '@/store/modules/app'
 
 const containered = ref<HTMLElement | undefined>(undefined)
-
 const isReady = ref(false)
+const nodeDataRef = ref({
+    nodeId: '',
+    label: ''
+  })
+const docRef = ref();
+
+const appState = useAppState()
+
+// const loading = computed(() => appState.getPageLoading)
+
+const openModal = (n: {nodeId: string, label: string}) => {
+  nodeDataRef.value = n
+  docRef.value?.showModal()
+}
 
 onMounted(() => {
   const graph = createGraph(containered)
-
-  // let node1 = graph.value?.addNode({
-  //   shape: 'ellipse',
-  //   width: 64,
-  //   height: 64,
-  //   x: 240,
-  //   y: 40,
-  // })
-
   graph.value?.centerContent()
-
   isReady.value = true
 });
 
 </script>
-
 
 <style lang="stylus">
 .x6-graph-scroller {
@@ -63,6 +72,6 @@ onMounted(() => {
 .color-picker-group {
   position absolute
   margin-left 130px
-  margin-top 20px
+  margin-top 0.5rem
 }
 </style>

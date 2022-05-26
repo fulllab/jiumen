@@ -10,6 +10,17 @@ import {
   Input,
   Layout,
   ConfigProvider,
+  Modal,
+  Form,
+  Menu,
+  Dropdown,
+  Drawer,
+  InputNumber,
+  Slider,
+  Rate,
+  Select,
+  Space,
+  Spin,
 } from 'ant-design-vue'
 
 /**
@@ -30,6 +41,17 @@ export default function loadAnt(app: any) {
     Input,
     Layout,
     ConfigProvider,
+    Modal,
+    Form,
+    Menu,
+    Dropdown,
+    Drawer,
+    InputNumber,
+    Slider,
+    Rate,
+    Select,
+    Space,
+    Spin,
   ].forEach(v => {
     app.use(v)
   })
