@@ -6,16 +6,19 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, onMounted, } from 'vue'
+import { ref, inject, onMounted, computed} from 'vue'
 import { Input } from 'ant-design-vue'
+import { useAppState } from '@/store/modules/app'
 
 const node = inject('getNode', () => { })() as any
-
+const appState = useAppState()
 const isEditStatus = ref(false)
 const text = ref('')
 const styleObject = ref({
   color: node.getAttrByPath('label/fill')
 })
+
+const isReadonlyRef = computed(()=>appState.getDocStatu)
 
 const blur = () => {
   node.data.label =  text.value
@@ -23,7 +26,7 @@ const blur = () => {
 }
 
 const edit = () => {
-  isEditStatus.value = true
+  isEditStatus.value = !isReadonlyRef.value
 }
 
 onMounted(() => {

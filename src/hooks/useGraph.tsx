@@ -1,4 +1,4 @@
-import { ref, Ref, shallowReactive } from 'vue'
+import { ref, Ref, shallowReactive, watch } from 'vue'
 import { Graph, Shape } from '@antv/x6'
 import { createContext } from './GraphContext'
 import { EdgeShape } from '@/types'
@@ -10,12 +10,15 @@ import {
   SupportColor,
   CanveBackground,
 } from '@/settings/graph'
+import { useAppStateWithOut } from '@/store/modules/app'
+import { useGraphStoreWithOut } from '@/store/modules/graph'
 
 export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
   const graph = ref<Graph>()
   const contextRef = shallowReactive({
     graph: {},
   })
+  const docsStore = useAppStateWithOut()
 
   createContext(contextRef)
 
@@ -28,7 +31,7 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
       height: '100%',
       resizing: {
         enabled: true,
-        minHeight: 35
+        minHeight: 35,
       },
       background: {
         color: CanveBackground,
@@ -63,7 +66,7 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
       mousewheel: {
         enabled: true,
         global: true,
-        modifiers: ['ctrl', 'meta'],
+        modifiers: ['meta'],
       },
       embedding: {
         enabled: true,
@@ -172,6 +175,27 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
     })
     contextRef.graph = graph.value
   }
+
+  watch(
+    () => docsStore.getAtWork,
+    atWork => {
+      const graphStore = useGraphStoreWithOut()
+      let graphLs = atWork ? graphStore.getRepoGraph : graphStore.getRemoteGraph
+      if (!!graphLs) {
+        graph.value?.fromJSON(graphLs as any)
+      }
+      if (atWork) {
+        if (graph.value?.isSelectionEnabled()) {
+          graph.value?.disableSelection()
+        }
+      } else {
+        if (!graph.value?.isSelectionEnabled()) {
+          graph.value?.enableSelection()
+        }
+      }
+    },
+    { immediate: true },
+  )
   return graph
 }
 

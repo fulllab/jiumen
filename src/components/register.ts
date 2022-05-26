@@ -1,6 +1,5 @@
 import { Graph } from '@antv/x6'
 import { VueShape } from '@antv/x6-vue-shape'
-import Count from './Coms/Count.vue'
 import TextInput from './Coms/TextInput.vue'
 import GroupCom from './Coms/GroupCom.vue'
 import GeneralCom from './Coms/GeneralCom.vue'
@@ -12,7 +11,6 @@ import {
 } from '@/settings/graph'
 
 const ShapeComs = {
-  COUNT: 'Count',
   TEXT_INPUT: 'TextInput',
   GROUP_COM: 'GroupCom',
   GENERAL_COM: 'GeneralCom',
@@ -24,7 +22,6 @@ const registerVueComponent = (comNm: string) => {
     {
       template: `<${comNm} />`,
       components: {
-        Count,
         TextInput,
         GroupCom,
         GeneralCom,

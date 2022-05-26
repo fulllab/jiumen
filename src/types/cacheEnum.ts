@@ -1,3 +1,5 @@
 export const DOCS_KEY = 'DOCS__'
 export const STAGE_KEY = 'STAGE__'
 export const REPO_KEY = 'REPO__'
+// export const GRAPH_STAGE_KEY = 'GRAPH_STAGE__'
+export const GRAPH_REPO_KEY = 'GRAPH_REPO__'

@@ -3,9 +3,10 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useContext } from '@/hooks/GraphContext'
 import { ShapeBorderColor, GroupBorderColor, ShapebgDarkColor } from '@/settings/graph'
+import { useAppState } from '@/store/modules/app'
 import { Addon } from '@antv/x6'
 import "@antv/x6-vue-shape"
 
@@ -16,6 +17,9 @@ const { Stencil } = Addon
 const stencilContainer = ref<HTMLDivElement>()
 
 const { graph } = useContext()
+const appState = useAppState()
+
+const isReadonlyRef = computed(() => appState.getDocStatu)
 
 onMounted(() => {
 
@@ -132,6 +136,8 @@ graph.on('cell:mouseenter', (args: { cell: any }) => {
       strokeWidth: 8
     })
 
+    if (isReadonlyRef.value) return
+
     args.cell.addTools([
       {
         name: 'button-remove',
@@ -159,7 +165,7 @@ graph.on('cell:mouseenter', (args: { cell: any }) => {
           y: '100%',
           offset: { x: 18, y: -25 },
           onClick() {
-            emit('openModal',{
+            emit('openModal', {
               nodeId: args.cell.id,
               label: args.cell.data.label
             })
@@ -185,6 +191,15 @@ graph.on('cell:mouseleave', (args: { cell: any }) => {
   }
   args.cell.removeTools()
 })
+
+graph.on('node:click', (args: { node: any }) => {
+  if (!isReadonlyRef.value) return
+  emit('openModal', {
+    nodeId: args.node.id,
+    label: args.node.data.label
+  })
+})
+
 
 // const refStencil = (container: HTMLDivElement) => {
 //   stencilContainer.value = container

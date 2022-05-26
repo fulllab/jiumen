@@ -5,6 +5,7 @@ interface AppState {
   pageLoading: boolean;
   writable: boolean;
   readOnly: boolean;
+  atWork: boolean;
 }
 
 export const useAppState = defineStore({
@@ -12,7 +13,8 @@ export const useAppState = defineStore({
   state: (): AppState => ({
     pageLoading: true,
     writable: false,
-    readOnly: false
+    readOnly: false,
+    atWork: false,
     // projectConfig: Persistent.getLocal(PROJ_CFG_KEY),
     // beforeMiniInfo: {},
   }),
@@ -26,6 +28,9 @@ export const useAppState = defineStore({
     getPageLoading(): boolean {
       return this.pageLoading;
     },
+    getAtWork(): boolean {
+      return this.atWork;
+    }
   },
   actions: {
     setWritable(writable: boolean): void {
@@ -36,6 +41,9 @@ export const useAppState = defineStore({
     },
     setPageLoading(loading: boolean): void {
       this.pageLoading = loading;
+    },
+    setAtWork(loading: boolean): void {
+      this.atWork = loading;
     },
   },
 });

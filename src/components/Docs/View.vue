@@ -20,8 +20,8 @@
     <a-divider />
     <a-empty v-if="nodeContent.node.resources.length == 0" :description="null" />
     <ul>
-      <li v-for="resource in nodeContent.node.resources">
-        <a :href="resource.uri" target="_blank">{{ resource.title }}</a>
+      <li class="list-circle list-inside" v-for="resource in nodeContent.node.resources">
+        <a-button :href="resource.uri" type="link" target="_blank" size="large">{{ resource.title }}</a-button>
       </li>
     </ul>
   </div>
@@ -58,8 +58,6 @@ const nodeContent = reactive<nodeContentType>({
 const initDoc = (id: string) => {
   nodeIdRef.value = id
   nodeContent.node = useWokingDoc(id)
-  console.log(nodeContent.node);
-
 }
 
 defineExpose({

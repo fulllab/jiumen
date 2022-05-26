@@ -1,20 +1,27 @@
 <template>
-  <a-dropdown-button @click="changeStatu">
-    <FormOutlined v-if="isReadOnly" />
-    <SaveOutlined v-else />
+  <a-dropdown-button>
+    <div v-if="!atWork" @click="startWork">
+      <FormOutlined /> Edit
+    </div>
+    <div v-if="!isReadOnly && atWork" @click="preview">
+      <CoffeeOutlined /> Preview
+    </div>
+    <div v-if="isReadOnly && atWork" @click="exitPreview">
+      <EyeInvisibleOutlined /> Exit Preview
+    </div>
     <template #overlay>
       <a-menu @click="menuClick">
         <a-menu-item key="1">
           <UploadOutlined />
-          发布
+          Release
         </a-menu-item>
-        <a-menu-item key="2">
+        <a-menu-item key="2" @click="exitEdit">
           <PoweroffOutlined />
-          退出编辑
+          Exit Edit
         </a-menu-item>
-        <a-menu-item danger key="2">
+        <a-menu-item danger key="2" @click="emptyDraft">
           <DeleteOutlined />
-          清除草稿
+          Empty draft
         </a-menu-item>
       </a-menu>
     </template>
@@ -22,25 +29,40 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { FormOutlined, SaveOutlined, PoweroffOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons-vue'
+import { computed } from 'vue'
+import { FormOutlined, CoffeeOutlined, PoweroffOutlined, EyeInvisibleOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons-vue'
 import type { MenuProps } from 'ant-design-vue'
 import { useAppState } from '@/store/modules/app'
 
 const appState = useAppState()
 
-const isReadOnly = ref(false)
+const isReadOnly = computed(() => appState.getDocStatu)
+const atWork = computed(() => appState.getAtWork)
 
-const changeStatu = () => {
-  isReadOnly.value = !isReadOnly.value
-  appState.setDocStatu(isReadOnly.value)
+const startWork = () => {
+  appState.setDocStatu(false)
+  appState.setAtWork(true)
+}
+
+const preview = () => {
+  appState.setDocStatu(true)
+}
+
+const exitPreview = () => {
+  appState.setDocStatu(false)
+}
+
+const exitEdit = () => {
+  appState.setDocStatu(true)
+  appState.setAtWork(false)
 }
 
 const menuClick: MenuProps['onClick'] = e => {
   console.log(e);
 }
 
-</script>
+const emptyDraft = () => {
 
-<style scoped lang="stylus">
-</style>
+}
+
+</script>

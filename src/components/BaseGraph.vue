@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, } from 'vue'
 import EdgeSelect from './Tools/EdgeSelect.vue'
 import { createGraph } from '@/hooks/useGraph'
 import "@antv/x6-vue-shape"
@@ -32,7 +32,6 @@ import ColorPicker from './Tools/ColorPicker.vue'
 import Doc from './Docs/Doc.vue'
 import { MinusOutlined, BorderOutlined, FontColorsOutlined } from '@ant-design/icons-vue'
 import Edit from './Tools/Edit.vue'
-import { useAppState } from '@/store/modules/app'
 
 const containered = ref<HTMLElement | undefined>(undefined)
 const isReady = ref(false)
@@ -41,10 +40,6 @@ const nodeDataRef = ref({
     label: ''
   })
 const docRef = ref();
-
-const appState = useAppState()
-
-// const loading = computed(() => appState.getPageLoading)
 
 const openModal = (n: {nodeId: string, label: string}) => {
   nodeDataRef.value = n
