@@ -22,6 +22,8 @@ import {
   Space,
   Spin,
   Progress,
+  Divider,
+  Empty,
 } from 'ant-design-vue'
 
 /**
@@ -54,6 +56,8 @@ export default function loadAnt(app: any) {
     Space,
     Spin,
     Progress,
+    Divider,
+    Empty,
   ].forEach(v => {
     app.use(v)
   })

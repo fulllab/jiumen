@@ -1,28 +1,29 @@
 <template>
-  <div class="container lg-auto">
-    <div>
-      <div class="min-w-12">Status</div>
-      <div>{{ ProjectStatus[nodeContent.node.status] }}</div>
-    </div>
-    <div>
-      <div class="min-w-12">Progress</div>
-      <a-progress :percent="nodeContent.node.progress" status="active" />
-    </div>
-    <div>
-      <div class="min-w-12">Priority</div>
-      <a-rate :value="nodeContent.node.priority" disabled />
-    </div>
-    <div>
-      <div class="min-w-12">Introduction</div>
-      <p>{{ nodeContent.node.introduction }}</p>
-    </div>
+  <div class="max-w-screen-lg m-auto">
+    <a-descriptions bordered size="size" :column="1">
+      <a-descriptions-item label="Status">{{ ProjectStatus[nodeContent.node.status] }}</a-descriptions-item>
+      <a-descriptions-item label="Progress">
+        <a-progress :percent="nodeContent.node.progress" status="active" />
+      </a-descriptions-item>
+      <a-descriptions-item label="Priority">
+        <a-rate :value="nodeContent.node.priority" disabled />
+      </a-descriptions-item>
+      <a-descriptions-item label="Introduction">{{ nodeContent.node.introduction }}</a-descriptions-item>
+    </a-descriptions>
+
+    <p class="text-2xl mt-8 font-bold">Description</p>
+    <a-divider />
+    <a-empty v-if="!nodeContent.node.description" :description="null" />
     <MarkdownViewer :value="nodeContent.node.description" />
-    <div>
-      <div>resources</div>
-    </div>
-    <div>
-      <a v-for="resource in nodeContent.node.resources" :href="resource.uri" target="_blank">{{resource.title}}</a>
-    </div>
+
+    <p class="text-2xl mt-8 font-bold">Resources</p>
+    <a-divider />
+    <a-empty v-if="nodeContent.node.resources.length == 0" :description="null" />
+    <ul>
+      <li v-for="resource in nodeContent.node.resources">
+        <a :href="resource.uri" target="_blank">{{ resource.title }}</a>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -30,7 +31,7 @@
 import { onMounted, ref, reactive } from 'vue'
 import { DocContent } from '@/types'
 import { ProjectStatus } from '@/settings/graph'
-import { useWokingDoc} from '@/hooks/useDocs'
+import { useWokingDoc } from '@/hooks/useDocs'
 import { MarkdownViewer } from './Markdown'
 
 const props = defineProps({
@@ -57,6 +58,8 @@ const nodeContent = reactive<nodeContentType>({
 const initDoc = (id: string) => {
   nodeIdRef.value = id
   nodeContent.node = useWokingDoc(id)
+  console.log(nodeContent.node);
+
 }
 
 defineExpose({
@@ -68,13 +71,3 @@ onMounted(() => {
 });
 
 </script>
-
-
-<style lang="stylus">
-.ant-form-item-label > label {
-  min-width 120px
-  font-weight: bold
-  font-size: large
-  color: rgb(96 96 96 / 85%)
-}
-</style>
