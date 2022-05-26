@@ -1,8 +1,7 @@
 <template>
   <a-drawer :title="label" placement="bottom" :visible="visible" @close="onClose" height="100%">
     <Form v-if="isReadonly" ref="contentRef" :node-id="props.nodeId"></Form>
-
-    <!-- <MarkdownViewer v-else :value="nodeContentRef?.description" /> -->
+    <View v-else ref="contentRef" :node-id="props.nodeId" />
   </a-drawer>
 </template>
 
@@ -10,6 +9,7 @@
 import { onMounted, ref, computed, defineExpose, watch } from 'vue'
 import { useAppState } from '@/store/modules/app'
 import Form from './Form.vue'
+import View from './View.vue';
 
 const props = defineProps({
   nodeId: { type: String, default: '' },

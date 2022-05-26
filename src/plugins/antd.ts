@@ -21,6 +21,7 @@ import {
   Select,
   Space,
   Spin,
+  Progress,
 } from 'ant-design-vue'
 
 /**
@@ -52,6 +53,7 @@ export default function loadAnt(app: any) {
     Select,
     Space,
     Spin,
+    Progress,
   ].forEach(v => {
     app.use(v)
   })
