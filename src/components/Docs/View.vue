@@ -28,9 +28,9 @@
 
 <script lang="ts" setup>
 import { onMounted, ref, reactive } from 'vue'
-import { DocContent, Resource } from '@/types'
-import { ProjectStatus, docContentDefault } from '@/settings/graph'
-import { useWokingDoc, useAdd, useCommit } from '@/hooks/useDocs'
+import { DocContent } from '@/types'
+import { ProjectStatus } from '@/settings/graph'
+import { useWokingDoc} from '@/hooks/useDocs'
 import { MarkdownViewer } from './Markdown'
 
 const props = defineProps({
@@ -44,12 +44,19 @@ interface nodeContentType {
 }
 
 const nodeContent = reactive<nodeContentType>({
-  node: docContentDefault
+  node: {
+    resources: [],
+    progress: 0,
+    priority: 0,
+    introduction: '',
+    status: 0,
+    description: '',
+  }
 });
 
 const initDoc = (id: string) => {
   nodeIdRef.value = id
-  nodeContent.node = useWokingDoc(id) || docContentDefault
+  nodeContent.node = useWokingDoc(id)
 }
 
 defineExpose({

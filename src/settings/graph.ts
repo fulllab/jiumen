@@ -40,12 +40,3 @@ export const ProjectStatus = [
   'Withdrawn',
   'Living',
 ]
-
-export const docContentDefault = {
-  resources: [],
-  progress: 0,
-  priority: 0,
-  introduction: '',
-  status: 0,
-  description: '',
-}

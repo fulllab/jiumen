@@ -25,7 +25,7 @@
       }">
         <a-input v-model:value="resource.title" placeholder="Description of resources" />
       </a-form-item>
-      <a-form-item label="Uri" :name="['node','resources',index,'uri']" :rules="{
+      <a-form-item label="Uri" :name="['node', 'resources', index, 'uri']" :rules="{
         required: true,
         message: 'Missing Uri',
       }">
@@ -48,7 +48,7 @@
 <script lang="ts" setup>
 import { onMounted, ref, reactive } from 'vue'
 import { DocContent, Resource } from '@/types'
-import { ProjectStatus, docContentDefault } from '@/settings/graph'
+import { ProjectStatus } from '@/settings/graph'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons-vue';
 import { useWokingDoc, useAdd, useCommit } from '@/hooks/useDocs'
 import { MarkDown } from './Markdown'
@@ -64,12 +64,20 @@ interface formStateType {
 }
 
 const formState = reactive<formStateType>({
-  node: docContentDefault
+  node: {
+    resources: [],
+    progress: 0,
+    priority: 0,
+    introduction: '',
+    status: 0,
+    description: '',
+  }
 });
 
 const initDoc = (id: string) => {
   nodeIdRef.value = id
-  formState.node = useWokingDoc(id) || docContentDefault
+  const workdingDoc = useWokingDoc(nodeIdRef.value)
+  formState.node = workdingDoc
 }
 
 const removeResource = (item: Resource) => {

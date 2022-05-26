@@ -1,6 +1,5 @@
 import { DocContent } from '@/types'
 import { useDocsStore } from '@/store/modules/docs'
-import { docContentDefault } from '@/settings/graph'
 
 export const useWokingDoc = (
   nodeId: string,
@@ -11,7 +10,14 @@ export const useWokingDoc = (
     docsStore.getStageDocs[nodeId] ||
     docsStore.getRepoDocs[nodeId] ||
     docsStore.getRemoteDocs[nodeId] ||
-    docContentDefault
+    {
+      resources: [],
+      progress: 0,
+      priority: 0,
+      introduction: '',
+      status: 0,
+      description: '',
+    }
   )
 }
 
