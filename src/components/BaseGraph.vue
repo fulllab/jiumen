@@ -2,7 +2,7 @@
   <div class="flex w-full h-full">
     <Stencil v-if="isReady" @open-modal="openModal" />
     <div id="containered" ref="containered" />
-    <div class="absolute right-2 top-2">
+    <div class="absolute right-5 top-2">
       <Edit />
     </div>
     <div class="space-x-2 color-picker-group">
