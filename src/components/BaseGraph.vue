@@ -35,6 +35,7 @@ import Doc from './Docs/Doc.vue'
 import { MinusOutlined, BorderOutlined, FontColorsOutlined } from '@ant-design/icons-vue'
 import Edit from './Tools/Edit.vue'
 import { useIsReadOnly } from '@/hooks/useApp'
+import { NodeLabelPath } from '@/settings/graph'
 
 const containered = ref<HTMLElement | undefined>(undefined)
 const isReady = ref(false)
@@ -45,10 +46,11 @@ const nodeDataRef = ref({
 const docRef = ref();
 const isReadonlyRef = useIsReadOnly()
 
-const openModal = (n: { nodeId: string, label: string }) => {
-  console.log('Base - showModal');
-
-  nodeDataRef.value = n
+const openModal = (cell: any) => {
+  nodeDataRef.value = {
+    nodeId: cell.id,
+    label: cell.getAttrByPath(NodeLabelPath)
+  }
   docRef.value?.showModal()
 }
 
@@ -93,10 +95,7 @@ onMounted(() => {
             y: '100%',
             offset: { x: 18, y: -25 },
             onClick() {
-              openModal({
-                nodeId: args.cell.id,
-                label: args.cell.data.label
-              })
+              openModal(args.cell)
             },
           },
         },
@@ -121,15 +120,7 @@ onMounted(() => {
   })
 
   graph.value?.on('node:click', (args: { node: any }) => {
-    console.log('node:click', isReadonlyRef.value);
-
-    if (!isReadonlyRef.value) return
-    console.log('openModal');
-
-    openModal({
-      nodeId: args.node.id,
-      label: args.node.data.label
-    })
+    openModal(args.node)
   })
 });
 

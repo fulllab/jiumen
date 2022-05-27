@@ -40,3 +40,6 @@ export const ProjectStatus = [
   'Withdrawn',
   'Living',
 ]
+
+// The path of the node's label text storage
+export const NodeLabelPath = 'data/label'

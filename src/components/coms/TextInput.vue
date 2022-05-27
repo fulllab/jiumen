@@ -9,6 +9,7 @@
 import { ref, inject, onMounted} from 'vue'
 import { Input } from 'ant-design-vue'
 import { useIsReadOnly } from '@/hooks/useApp'
+import { NodeLabelPath } from '@/settings/graph'
 
 const isReadonlyRef = useIsReadOnly()
 
@@ -20,7 +21,7 @@ const styleObject = ref({
 })
 
 const blur = () => {
-  node.setAttrByPath('data/label',text.value)
+  node.setAttrByPath(NodeLabelPath,text.value)
   isEditStatus.value = false
 }
 
@@ -29,7 +30,7 @@ const edit = () => {
 }
 
 onMounted(() => {
-  text.value = node.getAttrByPath('data/label') || ''
+  text.value = node.getAttrByPath(NodeLabelPath) || ''
 
   node.on('changed', (data) => {
     const { options } = data
