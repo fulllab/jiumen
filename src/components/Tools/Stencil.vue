@@ -3,23 +3,19 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useContext } from '@/hooks/GraphContext'
 import { ShapeBorderColor, GroupBorderColor, ShapebgDarkColor } from '@/settings/graph'
-import { useAppState } from '@/store/modules/app'
+import { useIsReadOnly } from '@/hooks/useApp'
 import { Addon } from '@antv/x6'
 import "@antv/x6-vue-shape"
 
 const emit = defineEmits(['openModal'])
 
 const { Stencil } = Addon
-
 const stencilContainer = ref<HTMLDivElement>()
-
 const { graph } = useContext()
-const appState = useAppState()
-
-const isReadonlyRef = computed(() => appState.getDocStatu)
+const isReadonlyRef = useIsReadOnly()
 
 onMounted(() => {
 

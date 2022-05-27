@@ -12,6 +12,7 @@ import {
 } from '@/settings/graph'
 import { useAppStateWithOut } from '@/store/modules/app'
 import { useGraphStoreWithOut } from '@/store/modules/graph'
+import { useIsReadOnly } from '@/hooks/useApp'
 
 export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
   const graph = ref<Graph>()
@@ -19,6 +20,7 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
     graph: {},
   })
   const docsStore = useAppStateWithOut()
+  const isReadOnly = () => useIsReadOnly()
 
   createContext(contextRef)
 
@@ -30,7 +32,9 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
       // @ts-ignore
       height: '100%',
       resizing: {
-        enabled: true,
+        enabled: ()=>{
+          return !isReadOnly().value
+        },
         minHeight: 35,
       },
       background: {
@@ -68,6 +72,14 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
         global: true,
         modifiers: ['meta'],
       },
+      interacting: ()=>{
+        if (isReadOnly().value) {
+          return {
+            magnetConnectable: false,
+          }
+        }
+        return true
+      },
       embedding: {
         enabled: true,
         findParent({ node }) {
@@ -102,6 +114,7 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
         allowLoop: true,
         allowMulti: true,
         highlight: true,
+        allowNode: true,
         sourceAnchor: {
           name: 'center',
         },
@@ -178,20 +191,11 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
 
   watch(
     () => docsStore.getAtWork,
-    atWork => {
+    (atWork) => {
       const graphStore = useGraphStoreWithOut()
       let graphLs = atWork ? graphStore.getRepoGraph : graphStore.getRemoteGraph
       if (!!graphLs) {
         graph.value?.fromJSON(graphLs as any)
-      }
-      if (atWork) {
-        if (graph.value?.isSelectionEnabled()) {
-          graph.value?.disableSelection()
-        }
-      } else {
-        if (!graph.value?.isSelectionEnabled()) {
-          graph.value?.enableSelection()
-        }
       }
     },
     { immediate: true },

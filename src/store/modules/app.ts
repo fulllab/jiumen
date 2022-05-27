@@ -13,7 +13,7 @@ export const useAppState = defineStore({
   state: (): AppState => ({
     pageLoading: true,
     writable: false,
-    readOnly: false,
+    readOnly: true,
     atWork: false,
     // projectConfig: Persistent.getLocal(PROJ_CFG_KEY),
     // beforeMiniInfo: {},
@@ -22,7 +22,7 @@ export const useAppState = defineStore({
     isWritable(): boolean {
       return this.writable
     },
-    getDocStatu(): boolean {
+    getIsReadOnly(): boolean {
       return this.readOnly
     },
     getPageLoading(): boolean {
@@ -36,7 +36,7 @@ export const useAppState = defineStore({
     setWritable(writable: boolean): void {
       this.writable = writable
     },
-    setDocStatu(status: boolean): void {
+    setIsReadOnly(status: boolean): void {
       this.readOnly = status
     },
     setPageLoading(loading: boolean): void {

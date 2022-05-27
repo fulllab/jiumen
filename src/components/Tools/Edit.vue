@@ -33,27 +33,28 @@ import { computed } from 'vue'
 import { FormOutlined, CoffeeOutlined, PoweroffOutlined, EyeInvisibleOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons-vue'
 import type { MenuProps } from 'ant-design-vue'
 import { useAppState } from '@/store/modules/app'
+import { useIsReadOnly } from '@/hooks/useApp'
 
 const appState = useAppState()
 
-const isReadOnly = computed(() => appState.getDocStatu)
+const isReadOnly = useIsReadOnly()
 const atWork = computed(() => appState.getAtWork)
 
 const startWork = () => {
-  appState.setDocStatu(false)
+  appState.setIsReadOnly(false)
   appState.setAtWork(true)
 }
 
 const preview = () => {
-  appState.setDocStatu(true)
+  appState.setIsReadOnly(true)
 }
 
 const exitPreview = () => {
-  appState.setDocStatu(false)
+  appState.setIsReadOnly(false)
 }
 
 const exitEdit = () => {
-  appState.setDocStatu(true)
+  appState.setIsReadOnly(true)
   appState.setAtWork(false)
 }
 

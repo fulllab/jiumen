@@ -5,7 +5,7 @@
     <div class="absolute right-5 top-2">
       <Edit />
     </div>
-    <div class="space-x-2 color-picker-group">
+    <div v-if="!isReadOnly" class="space-x-2 color-picker-group">
       <EdgeSelect />
       <ColorPicker v-if="isReady" mode="body">
         <BorderOutlined />
@@ -32,6 +32,7 @@ import ColorPicker from './Tools/ColorPicker.vue'
 import Doc from './Docs/Doc.vue'
 import { MinusOutlined, BorderOutlined, FontColorsOutlined } from '@ant-design/icons-vue'
 import Edit from './Tools/Edit.vue'
+import { useIsReadOnly } from '@/hooks/useApp'
 
 const containered = ref<HTMLElement | undefined>(undefined)
 const isReady = ref(false)
@@ -40,6 +41,7 @@ const nodeDataRef = ref({
     label: ''
   })
 const docRef = ref();
+const isReadOnly = useIsReadOnly()
 
 const openModal = (n: {nodeId: string, label: string}) => {
   nodeDataRef.value = n

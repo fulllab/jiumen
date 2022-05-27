@@ -39,10 +39,13 @@ graph.on('node:selected', (a) => {
   if (selectedNodes.value == 1) {
     color.value = a.node.getAttrByPath(getPath(a.node))
   }
+
 })
 
 graph.on('node:unselected', () => {
-  selectedNodes.value -= 1
+  if (selectedNodes.value > 0) {
+    selectedNodes.value -= 1
+  }
 })
 
 const confirm = () => {
