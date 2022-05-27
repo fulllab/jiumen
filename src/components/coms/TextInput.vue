@@ -20,18 +20,16 @@ const styleObject = ref({
 })
 
 const blur = () => {
-  node.data.label =  text.value
+  node.setAttrByPath('data/label',text.value)
   isEditStatus.value = false
 }
 
 const edit = () => {
-  console.log('input isReadOnly',isReadonlyRef.value);
-
   isEditStatus.value = !isReadonlyRef.value
 }
 
 onMounted(() => {
-  text.value = node.data.label || ''
+  text.value = node.getAttrByPath('data/label') || ''
 
   node.on('changed', (data) => {
     const { options } = data
