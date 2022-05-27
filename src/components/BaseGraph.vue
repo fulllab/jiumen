@@ -35,7 +35,9 @@ import Doc from './Docs/Doc.vue'
 import { MinusOutlined, BorderOutlined, FontColorsOutlined } from '@ant-design/icons-vue'
 import Edit from './Tools/Edit.vue'
 import { useIsReadOnly } from '@/hooks/useApp'
-import { NodeLabelPath } from '@/settings/graph'
+import { NodeLabelPath, InstantSaveTime } from '@/settings/graph'
+import { Graph } from '@antv/x6'
+import {useGraphStore} from '@/store/modules/graph'
 
 const containered = ref<HTMLElement | undefined>(undefined)
 const isReady = ref(false)
@@ -45,6 +47,7 @@ const nodeDataRef = ref({
 })
 const docRef = ref();
 const isReadonlyRef = useIsReadOnly()
+const graphStore = useGraphStore()
 
 const openModal = (cell: any) => {
   nodeDataRef.value = {
@@ -52,6 +55,16 @@ const openModal = (cell: any) => {
     label: cell.getAttrByPath(NodeLabelPath)
   }
   docRef.value?.showModal()
+}
+
+const saveGraph = (graph: Graph | undefined) => {
+  console.log('saveGraph is work');
+
+  if (graph) {
+    console.log(graph.toJSON());
+
+    graphStore.setRepoGraph(graph.toJSON() as any)
+  }
 }
 
 onMounted(() => {
@@ -120,7 +133,15 @@ onMounted(() => {
   })
 
   graph.value?.on('node:click', (args: { node: any }) => {
+    if (!isReadonlyRef.value) return
     openModal(args.node)
+  })
+
+  graph.value?.on('cell:changed', () => {
+    if (isReadonlyRef.value) return
+    setTimeout(() => {
+      saveGraph(graph.value);
+    }, InstantSaveTime);
   })
 });
 

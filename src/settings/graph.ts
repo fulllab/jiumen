@@ -43,3 +43,7 @@ export const ProjectStatus = [
 
 // The path of the node's label text storage
 export const NodeLabelPath = 'data/label'
+
+// Auto-save if no operation has been performed for
+// more than a certain period of time
+export const InstantSaveTime = 2000

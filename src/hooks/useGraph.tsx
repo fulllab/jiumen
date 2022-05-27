@@ -196,7 +196,7 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
       const graphStore = useGraphStoreWithOut()
       let graphLs = atWork ? graphStore.getRepoGraph : graphStore.getRemoteGraph
       if (!!graphLs) {
-        graph.value?.fromJSON(graphLs as any)
+        graph.value?.fromJSON(graphLs)
       }
     },
     { immediate: true },

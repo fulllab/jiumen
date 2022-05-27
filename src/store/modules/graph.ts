@@ -22,7 +22,7 @@ export const useGraphStore = defineStore({
     //   return this.stageGraph || ''
     // },
     getRepoGraph(): string | '' {
-      return this.repoGraph || localStorage.getItem(GRAPH_REPO_KEY) || ''
+      return this.repoGraph || JSON.parse(localStorage.getItem(GRAPH_REPO_KEY) as any) || ''
     },
     getRemoteGraph(): DocsObj | {} {
       return this.remoteGraph
