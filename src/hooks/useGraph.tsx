@@ -70,7 +70,8 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
       mousewheel: {
         enabled: true,
         global: true,
-        modifiers: ['meta'],
+        // Preventing conflicts with scroller
+        // modifiers: ['meta'],
       },
       interacting: ()=>{
         if (isReadOnly().value) {
