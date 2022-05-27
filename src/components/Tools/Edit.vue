@@ -10,12 +10,12 @@
       <EyeInvisibleOutlined /> Exit Preview
     </div>
     <template #overlay>
-      <a-menu @click="menuClick">
+      <a-menu @click="release">
         <a-menu-item key="1">
           <UploadOutlined />
           Release
         </a-menu-item>
-        <a-menu-item key="2" @click="exitEdit">
+        <a-menu-item key="2" @click="exitEdit" :disabled="!atWork">
           <PoweroffOutlined />
           Exit Edit
         </a-menu-item>
@@ -34,6 +34,8 @@ import { FormOutlined, CoffeeOutlined, PoweroffOutlined, EyeInvisibleOutlined, D
 import type { MenuProps } from 'ant-design-vue'
 import { useAppState } from '@/store/modules/app'
 import { useIsReadOnly } from '@/hooks/useApp'
+import { useRemoveLsGraph } from '@/hooks/useGraph'
+import { useRemoveLsDocs } from '@/hooks/useDocs'
 
 const appState = useAppState()
 
@@ -58,12 +60,14 @@ const exitEdit = () => {
   appState.setAtWork(false)
 }
 
-const menuClick: MenuProps['onClick'] = e => {
+const release: MenuProps['onClick'] = e => {
   console.log(e);
 }
 
 const emptyDraft = () => {
-
+  useRemoveLsDocs()
+  useRemoveLsGraph()
+  exitEdit()
 }
 
 </script>

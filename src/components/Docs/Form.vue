@@ -95,7 +95,6 @@ const addResource = () => {
     uri: '',
     id: Date.now(),
   });
-  console.log(formState.node.resources);
 };
 
 const saveMarkDown = (v) => {

@@ -73,6 +73,13 @@ export const useDocsStore = defineStore({
       delete this.stageDocs[nodeId]
       localStorage.setItem(STAGE_KEY, JSON.stringify(this.stageDocs))
     },
+    removeLsDocs(): void {
+      this.stageDocs = {}
+      this.repoDocs = {}
+      this.workingDocs = {}
+      localStorage.removeItem(STAGE_KEY)
+      localStorage.removeItem(REPO_KEY)
+    },
   },
 })
 

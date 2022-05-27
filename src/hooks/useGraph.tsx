@@ -206,8 +206,14 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
 
 export const edgeShape = ref<EdgeShape>('Process')
 
+export function useRemoveLsGraph() {
+  const graphStore = useGraphStoreWithOut()
+  graphStore.removeRepoGraph()
+}
+
 export default {
   createGraph,
   Graph,
   edgeShape,
+  useRemoveLsGraph,
 }

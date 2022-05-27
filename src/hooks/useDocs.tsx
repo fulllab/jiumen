@@ -34,8 +34,14 @@ export function useCommit(nodeId: string, data: DocContent) {
   docsStore.setRepoDoc(nodeId, data)
 }
 
+export function useRemoveLsDocs() {
+  const docsStore = useDocsStore()
+  docsStore.removeLsDocs()
+}
+
 export default {
   useCurrentDoc,
   useAdd,
   useCommit,
+  useRemoveLsDocs,
 }

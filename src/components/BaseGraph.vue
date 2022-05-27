@@ -58,11 +58,7 @@ const openModal = (cell: any) => {
 }
 
 const saveGraph = (graph: Graph | undefined) => {
-  console.log('saveGraph is work');
-
   if (graph) {
-    console.log(graph.toJSON());
-
     graphStore.setRepoGraph(graph.toJSON() as any)
   }
 }

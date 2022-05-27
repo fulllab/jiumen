@@ -39,6 +39,10 @@ export const useGraphStore = defineStore({
     setRemoteGraph(graph: string): void {
       this.remoteGraph = graph
     },
+    removeRepoGraph(): void {
+      this.repoGraph = ''
+      localStorage.removeItem(GRAPH_REPO_KEY)
+    }
   },
 })
 
