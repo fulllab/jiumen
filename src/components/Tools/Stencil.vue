@@ -126,13 +126,13 @@ onMounted(() => {
 });
 
 graph.on('cell:mouseenter', (args: { cell: any }) => {
+  if (isReadonlyRef.value) return
+
   if (args.cell.isNode()) {
     const currentNode = args.cell
     currentNode.setAttrByPath(`${(currentNode.data ? currentNode.data.primer : false) || currentNode.shape}`, {
       strokeWidth: 8
     })
-
-    if (isReadonlyRef.value) return
 
     args.cell.addTools([
       {
