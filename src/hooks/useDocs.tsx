@@ -1,16 +1,19 @@
 import { DocContent } from '@/types'
 import { useDocsStore } from '@/store/modules/docs'
+import { useAppState } from '@/store/modules/app'
 
-export const useWokingDoc = (
-  nodeId: string,
-): DocContent => {
+export const useCurrentDoc = (nodeId: string): DocContent => {
   const docsStore = useDocsStore()
+  const appState = useAppState()
+
+  const currentDoc = appState.getAtWork
+    ? docsStore.getWorkingDocs[nodeId] ||
+      docsStore.getStageDocs[nodeId] ||
+      docsStore.getRepoDocs[nodeId] ||
+      docsStore.getRemoteDocs[nodeId]
+    : docsStore.getRemoteDocs[nodeId]
   return (
-    docsStore.getWorkingDocs[nodeId] ||
-    docsStore.getStageDocs[nodeId] ||
-    docsStore.getRepoDocs[nodeId] ||
-    docsStore.getRemoteDocs[nodeId] ||
-    {
+    currentDoc || {
       resources: [],
       progress: 0,
       priority: 0,
@@ -32,7 +35,7 @@ export function useCommit(nodeId: string, data: DocContent) {
 }
 
 export default {
-  useWokingDoc,
+  useCurrentDoc,
   useAdd,
   useCommit,
 }

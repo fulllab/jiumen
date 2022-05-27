@@ -50,7 +50,7 @@ import { onMounted, ref, reactive } from 'vue'
 import { DocContent, Resource } from '@/types'
 import { ProjectStatus } from '@/settings/graph'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons-vue';
-import { useWokingDoc, useAdd, useCommit } from '@/hooks/useDocs'
+import { useCurrentDoc, useAdd, useCommit } from '@/hooks/useDocs'
 import { MarkDown } from './Markdown'
 
 const props = defineProps({
@@ -76,8 +76,8 @@ const formState = reactive<formStateType>({
 
 const initDoc = (id: string) => {
   nodeIdRef.value = id
-  const workdingDoc = useWokingDoc(nodeIdRef.value)
-  formState.node = workdingDoc
+  const currentDoc = useCurrentDoc(nodeIdRef.value)
+  formState.node = currentDoc
 }
 
 const removeResource = (item: Resource) => {

@@ -31,7 +31,7 @@
 import { onMounted, ref, reactive } from 'vue'
 import { DocContent } from '@/types'
 import { ProjectStatus } from '@/settings/graph'
-import { useWokingDoc } from '@/hooks/useDocs'
+import { useCurrentDoc } from '@/hooks/useDocs'
 import { MarkdownViewer } from './Markdown'
 
 const props = defineProps({
@@ -57,7 +57,7 @@ const nodeContent = reactive<nodeContentType>({
 
 const initDoc = (id: string) => {
   nodeIdRef.value = id
-  nodeContent.node = useWokingDoc(id)
+  nodeContent.node = useCurrentDoc(id)
 }
 
 defineExpose({
