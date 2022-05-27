@@ -6,7 +6,6 @@
 import { onMounted, ref } from 'vue'
 import { useContext } from '@/hooks/GraphContext'
 import { ShapeBorderColor, GroupBorderColor, ShapebgDarkColor } from '@/settings/graph'
-import { useIsReadOnly } from '@/hooks/useApp'
 import { Addon } from '@antv/x6'
 import "@antv/x6-vue-shape"
 
@@ -15,7 +14,6 @@ const emit = defineEmits(['openModal'])
 const { Stencil } = Addon
 const stencilContainer = ref<HTMLDivElement>()
 const { graph } = useContext()
-const isReadonlyRef = useIsReadOnly()
 
 onMounted(() => {
 
@@ -124,77 +122,6 @@ onMounted(() => {
   stencil.load([rectShape, rectShapeDark, ellipseShape], 'shape')
   stencil.load([groupShape], 'group')
 });
-
-graph.on('cell:mouseenter', (args: { cell: any }) => {
-  if (isReadonlyRef.value) return
-
-  if (args.cell.isNode()) {
-    const currentNode = args.cell
-    currentNode.setAttrByPath(`${(currentNode.data ? currentNode.data.primer : false) || currentNode.shape}`, {
-      strokeWidth: 8
-    })
-
-    args.cell.addTools([
-      {
-        name: 'button-remove',
-        args: {
-          x: '100%',
-          y: 0,
-          offset: { x: -12, y: 18 },
-        },
-      },
-      {
-        name: 'button',
-        args: {
-          markup: {
-            tagName: 'circle',
-            selector: 'button',
-            attrs: {
-              r: 10,
-              stroke: '#fe854f',
-              'stroke-width': 3,
-              fill: 'white',
-              cursor: 'pointer',
-            },
-          },
-          x: 0,
-          y: '100%',
-          offset: { x: 18, y: -25 },
-          onClick() {
-            emit('openModal', {
-              nodeId: args.cell.id,
-              label: args.cell.data.label
-            })
-          },
-        },
-      },
-    ])
-  } else {
-    args.cell.addTools([
-      {
-        name: 'button-remove',
-        args: { distance: 20 },
-      }])
-  }
-})
-
-graph.on('cell:mouseleave', (args: { cell: any }) => {
-  if (args.cell.isNode()) {
-    const currentNode = args.cell
-    currentNode.setAttrByPath(`${(currentNode.data ? currentNode.data.primer : false) || currentNode.shape}`, {
-      strokeWidth: 2
-    })
-  }
-  args.cell.removeTools()
-})
-
-graph.on('node:click', (args: { node: any }) => {
-  if (!isReadonlyRef.value) return
-  emit('openModal', {
-    nodeId: args.node.id,
-    label: args.node.data.label
-  })
-})
 
 
 // const refStencil = (container: HTMLDivElement) => {
