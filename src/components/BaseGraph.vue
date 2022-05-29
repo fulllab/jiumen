@@ -39,6 +39,8 @@ import { NodeLabelPath, InstantSaveTime } from '@/settings/graph'
 import { Graph } from '@antv/x6'
 import {useGraphStore} from '@/store/modules/graph'
 
+console.log(import.meta.env)
+
 const containered = ref<HTMLElement | undefined>(undefined)
 const isReady = ref(false)
 const nodeDataRef = ref({

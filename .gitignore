@@ -6,6 +6,9 @@
 /tmp
 /out-tsc
 
+# Custom files and folders
+.secrets
+
 # dependencies
 /node_modules
 *.local
