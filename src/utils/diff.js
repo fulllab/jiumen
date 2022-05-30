@@ -2,13 +2,7 @@ const adapterArray = (value) => {
   return Array.isArray(value) ? value : [value];
 };
 
-/**
- * Compare data updates between the old and new versions
- * @param {Array} news
- * @param {Array} olds
- * @param {String} key
- */
-const diff = (news = [], olds = [], key = 'id') => {
+const diffArr = (news = [], olds = [], key = 'id') => {
   news = adapterArray(news);
   olds = adapterArray(olds);
 
@@ -16,21 +10,64 @@ const diff = (news = [], olds = [], key = 'id') => {
   const deleted = [];
   const updated = [];
 
-  for (let item of news) {
-    if (!olds.map(item => item[key]).includes(item[key])) {
+  const oldsKeys = olds.map(item => item[key]);
+  const newsKeys = news.map(item => item[key]);
+
+  for (let [index, item] of news) {
+    const oldIndex = oldsKeys.indexOf(item[key])
+    if (oldIndex == -1) {
+      item.newIndex = index
       created.push(item);
-    } else {
+    } else if (olds[oldIndex] != item) {
+      item.oldIndex = oldIndex
       updated.push(item);
     }
   }
 
-  for (let item of olds) {
-    if (!news.map(item => item[key]).includes(item[key])) {
-      deleted.push(item);
+  for (let [index, item] of olds) {
+    if (!newsKeys.includes(item[key])) {
+      deleted.push(index);
     }
   }
 
-  return {created, deleted, updated};
+  return { created, deleted, updated };
 };
 
-export default diff;
+const diffObj = (news = {}, olds = {}) => {
+  const deleted = [];
+  const updated = {};
+
+  for (const key in news) {
+    if (Object.hasOwnProperty.call(olds, key)) {
+      if (olds[key] != news[key]) {
+        updated[key] = news[key];
+      }
+    } else {
+      updated[key] = news[key];
+    }
+  }
+
+  for (const key in olds) {
+    if (!Object.hasOwnProperty.call(news, key)) {
+      deleted.push(key)
+    }
+  }
+
+  return { deleted, updated };
+}
+
+const deletedKeys = (arr = [], obj = {}, key = 'id') => {
+  const deleted = [];
+
+  const keys = arr.map(item => item[key]);
+
+  for (const key in obj) {
+    if (!keys.includes(key)) {
+      deleted.push(key)
+    }
+  }
+
+  return deleted;
+}
+
+export { diffArr, diffObj, deletedKeys };

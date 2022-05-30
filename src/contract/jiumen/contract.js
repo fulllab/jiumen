@@ -1,13 +1,5 @@
 export async function handle(state, action) {
 
-  function deepMerge(src, target) {
-    let key = '';
-    for (key in target) {
-      src[key] = Object.keys(src[key]).length === 0 ? deepMerge(src[key], target[key]) : (src[key] = target[key]);
-    }
-    return src;
-  }
-
   function isMember(member) {
     return state.members.includes(member)
   }
@@ -23,26 +15,32 @@ export async function handle(state, action) {
 
     case "setDocs": {
       checkedMember(action.caller)
-      for (nodeId in action.input.data.deleted) {
+      for (const nodeId of action.input.data.deleted) {
         Reflect.deleteProperty(state.docs, nodeId);
       }
-      deepMerge(state.docs, action.input.data.updated);
-      Object.assign(state.docs, action.input.data.created);
+      Object.assign(state.docs, action.input.data.updated);
       return { state };
     }
 
     case "setGraph": {
       checkedMember(action.caller)
-      for (cell in action.input.data.updated) {
-        state.graph[cell.oldIndex] = deepMerge(state.graph[cell.oldIndex], cell)
+      for (let cell of action.input.data.updated) {
+        const oldIndex = cell.oldIndex
+        Reflect.deleteProperty(cell, oldIndex);
+        state.graph[oldIndex] = cell
       }
-      const deleted_length = action.input.data.deleted.length;
-      if (deleted_length > 0) {
-        for (let i = deleted_length; i > 0; i--) {
+      const deletedLength = action.input.data.deleted.length;
+      if (deletedLength > 0) {
+        for (let i = deletedLength; i > 0; i--) {
           state.graph.splice(action.input.data.deleted[i], 1)
         }
       }
-      state.graph = [...state.graph, ...action.input.data.created];
+      // Keep the layers in order!
+      for (let cell of action.input.data.created) {
+        const newIndex = cell.oldIndex
+        Reflect.deleteProperty(cell, newIndex);
+        state.graph[newIndex] = cell
+      }
       return { state };
     }
 
