@@ -50,9 +50,8 @@ const jwk = require('../../.secrets/jwk.json');
       await arweave.api.get(`mint/${address}/10000000000000`);
       await mine();
     }
-    // Set up SmartWeave client
-    LoggerFactory.INST.logLevel('debug');
   }
+  LoggerFactory.INST.logLevel('debug');
 
   const smartweave = SmartWeaveNodeFactory.memCached(arweave);
 
@@ -65,9 +64,11 @@ const jwk = require('../../.secrets/jwk.json');
     await write('./jiumen/initial-state.json', initialState)
   }
 
+  console.log(initialState[env]);
+
   const contractTxId = await smartweave.createContract.deploy({
     wallet: jwk,
-    initState: JSON.stringify(initialState),
+    initState: JSON.stringify(initialState[env]),
     src: contractSrc,
   });
   await mine();
