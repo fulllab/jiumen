@@ -4,10 +4,11 @@ const Arweave = require('arweave');
 const { SmartWeaveNodeFactory, LoggerFactory } = require('redstone-smartweave');
 const { default: ArLocal } = require('arlocal');
 const jwk = require('../../.secrets/jwk.json');
-const arConfig = require('../settings/contract.ts').arConfig();
 
 (async () => {
   const env = process.env.NODE_ENV || 'arlocal';
+  require('dotenv').config({ path: `.env.${env}` })
+  console.log(process.env.ARWEAVE_HOST);
 
   const readJson = file => {
     return fs.readFileSync(path.join(__dirname, file), 'utf8');
@@ -19,17 +20,23 @@ const arConfig = require('../settings/contract.ts').arConfig();
 
   const isArLocal = env == 'arlocal';
 
+  const { ARWEAVE_HOST, ARWEAVE_PROTOCOL, PORT } = process.env
+
   // Start arlocal
   if (isArLocal) {
-    const arLocalConfig = arConfig.arlocal.arLocal;
-    const arLocal = new ArLocal(arLocalConfig.port, arLocalConfig.showLogs);
+    const arLocal = new ArLocal({
+      port: PORT,
+      showLogs: false
+    });
     await arLocal.start();
   }
 
   // Set up Arweave client
-  const arweave = Arweave.init(
-    Object.assign({ port: arConfig[env].arLocal.port }, arConfig[env].arweave),
-  );
+  const arweave = Arweave.init({
+    port: PORT,
+    host: ARWEAVE_HOST,
+    protocol: ARWEAVE_PROTOCOL,
+  });
 
   const mine = () => isArLocal && arweave.api.get('mine');
 
@@ -55,7 +62,7 @@ const arConfig = require('../settings/contract.ts').arConfig();
 
   if (initialState[env].members.indexOf(address) == -1) {
     initialState[env].members.push(address)
-    await write('./jiumen/initial-state.json',initialState)
+    await write('./jiumen/initial-state.json', initialState)
   }
 
   const contractTxId = await smartweave.createContract.deploy({
@@ -67,6 +74,6 @@ const arConfig = require('../settings/contract.ts').arConfig();
 
   let deployed = JSON.parse(readJson('./deployed.json'))
   deployed[env] = contractTxId
-  await write('./deployed.json',deployed)
+  await write('./deployed.json', deployed)
   console.log('Deployment completed: ' + contractTxId);
 })();

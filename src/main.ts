@@ -7,6 +7,7 @@ import '@/style/basic.styl'
 import 'virtual:windi-base.css'
 import 'virtual:windi-components.css'
 import 'virtual:windi-utilities.css'
+// import rsdk from 'redstone-smartweave'
 
 import App from './App.vue'
 

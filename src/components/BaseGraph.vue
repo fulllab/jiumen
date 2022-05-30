@@ -35,11 +35,10 @@ import Doc from './Docs/Doc.vue'
 import { MinusOutlined, BorderOutlined, FontColorsOutlined } from '@ant-design/icons-vue'
 import Edit from './Tools/Edit.vue'
 import { useIsReadOnly } from '@/hooks/useApp'
+import {initState} from '@/hooks/useApi'
 import { NodeLabelPath, InstantSaveTime } from '@/settings/graph'
 import { Graph } from '@antv/x6'
 import {useGraphStore} from '@/store/modules/graph'
-
-console.log(import.meta.env)
 
 const containered = ref<HTMLElement | undefined>(undefined)
 const isReady = ref(false)
@@ -65,7 +64,8 @@ const saveGraph = (graph: Graph | undefined) => {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
+  initState()
   const graph = createGraph(containered)
   graph.value?.centerContent()
   isReady.value = true

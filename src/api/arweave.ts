@@ -1,32 +1,30 @@
-import Arweave from 'arweave';
-import {
-  LoggerFactory,
-  SmartWeaveWebFactory,
-  RedstoneGatewayInteractionsLoader,
-} from 'redstone-smartweave';
-import deployedContracts from '@/contract/deployed.json';
-import { url } from '@/settings/contract';
+// @ts-nocheck
+import Arweave from 'arweave'
+import deployedContracts from '@/contract/deployed.json'
+import { url } from '@/settings/url'
+
+const { MODE, ARWEAVE_HOST, ARWEAVE_PROTOCOL, PORT } = import.meta.env
+
+const arMode = MODE == 'arlocal' ? 'arlocal' : 'production'
 
 // Set up Arweave client
-export const arweave = Arweave.init({
-  host: 'dh48zl0solow5.cloudfront.net',
-  port: 443,
-  protocol: 'https',
+const arweave = Arweave.init({
+  port: PORT,
+  host: ARWEAVE_HOST,
+  protocol: ARWEAVE_PROTOCOL,
 });
 
 // Set up SmartWeave client
-LoggerFactory.INST.logLevel('debug');
-
-// const smartweave = new SmartWeaveWebFactory.memCached(arweave);
-const smartweave = SmartWeaveWebFactory.memCachedBased(arweave)
-  .setInteractionsLoader(
-    new RedstoneGatewayInteractionsLoader(url.redstoneGateway)
-  )
-  .build();
+// LoggerFactory.INST.logLevel('debug')
+const smartweave = arMode == 'arlocal'
+  ? rsdk.SmartWeaveWebFactory.memCached(arweave)
+  : rsdk.SmartWeaveWebFactory.memCachedBased(arweave)
+      .setInteractionsLoader(new rsdk.RedstoneGatewayInteractionsLoader(url.redstoneGateway))
+      .build()
 
 // Interacting with the contract
 const contract = smartweave
-  .contract(deployedContracts.dev)
+  .contract(deployedContracts[arMode])
   .connect('use_wallet');
 
-export default contract;
+export default contract
