@@ -3,15 +3,15 @@ import Arweave from 'arweave'
 import deployedContracts from '@/contract/deployed.json'
 import { url } from '@/settings/url'
 
-const { MODE, ARWEAVE_HOST, ARWEAVE_PROTOCOL, PORT } = import.meta.env
+const { MODE, VITE_ARWEAVE_HOST, VITE_ARWEAVE_PROTOCOL, VITE_PORT } = import.meta.env
 
 const arMode = MODE == 'arlocal' ? 'arlocal' : 'production'
 
 // Set up Arweave client
 const arweave = Arweave.init({
-  port: PORT,
-  host: ARWEAVE_HOST,
-  protocol: ARWEAVE_PROTOCOL,
+  port: VITE_PORT,
+  host: VITE_ARWEAVE_HOST,
+  protocol: VITE_ARWEAVE_PROTOCOL,
 });
 
 // Set up SmartWeave client

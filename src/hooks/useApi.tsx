@@ -5,8 +5,8 @@ import contract from '@/api/arweave'
 export const initState = async () => {
   console.log(contract);
 
-  // const state = await contract.readState();
-  // console.log(state);
+  const state = await contract.readState();
+  console.log(state);
 }
 
 export default {

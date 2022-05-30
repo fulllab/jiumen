@@ -8,7 +8,7 @@ const jwk = require('../../.secrets/jwk.json');
 (async () => {
   const env = process.env.NODE_ENV || 'arlocal';
   require('dotenv').config({ path: `.env.${env}` })
-  console.log(process.env.ARWEAVE_HOST);
+  console.log(process.env.VITE_ARWEAVE_HOST);
 
   const readJson = file => {
     return fs.readFileSync(path.join(__dirname, file), 'utf8');
@@ -20,12 +20,12 @@ const jwk = require('../../.secrets/jwk.json');
 
   const isArLocal = env == 'arlocal';
 
-  const { ARWEAVE_HOST, ARWEAVE_PROTOCOL, PORT } = process.env
+  const { VITE_ARWEAVE_HOST, VITE_ARWEAVE_PROTOCOL, VITE_PORT } = process.env
 
   // Start arlocal
   if (isArLocal) {
     const arLocal = new ArLocal({
-      port: PORT,
+      port: VITE_PORT,
       showLogs: false
     });
     await arLocal.start();
@@ -33,9 +33,9 @@ const jwk = require('../../.secrets/jwk.json');
 
   // Set up Arweave client
   const arweave = Arweave.init({
-    port: PORT,
-    host: ARWEAVE_HOST,
-    protocol: ARWEAVE_PROTOCOL,
+    port: VITE_PORT,
+    host: VITE_ARWEAVE_HOST,
+    protocol: VITE_ARWEAVE_PROTOCOL,
   });
 
   const mine = () => isArLocal && arweave.api.get('mine');
