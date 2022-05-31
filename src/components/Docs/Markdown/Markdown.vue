@@ -31,27 +31,10 @@ export default defineComponent({
     const vditorRef = ref(null) as Ref<Vditor | null>;
     const initedRef = ref(false);
 
-    // const modalFn = useModalContext();
-
     // const { getLocale } = useLocale();
-    // const { getDarkMode } = useRootSetting();
     // const valueRef = ref(props.value || '');
 
     const valueRef = ref('');
-    // watch(
-    //   [() => getDarkMode.value, () => initedRef.value],
-    //   ([val, inited]) => {
-    //     if (!inited) {
-    //       return;
-    //     }
-    //     const theme = val === 'dark' ? 'dark' : 'classic';
-    //     instance.getVditor()?.setTheme(theme);
-    //   },
-    //   {
-    //     immediate: true,
-    //     flush: 'post',
-    //   },
-    // );
 
     watch(
       () => props.value,
@@ -81,21 +64,64 @@ export default defineComponent({
       return lang;
     });
     function init() {
-      console.log('???????????????');
-
       const wrapEl = unref(wrapRef) as HTMLElement;
       if (!wrapEl) return;
       const bindValue = { ...attrs, ...props };
       const insEditor = new Vditor(wrapEl, {
         theme: 'classic',
         lang: unref(getCurrentLang),
-        mode: 'sv',
+        mode: 'wysiwyg',
         fullscreen: {
           index: 520,
         },
         preview: {
           actions: [],
         },
+        resize: {
+          enable: true
+        },
+        toolbar: [
+          "emoji",
+          "headings",
+          "bold",
+          "italic",
+          "strike",
+          "link",
+          "|",
+          "list",
+          "ordered-list",
+          "check",
+          "outdent",
+          "indent",
+          "|",
+          "quote",
+          "line",
+          "code",
+          "inline-code",
+          "insert-before",
+          "insert-after",
+          "|",
+          "table",
+          "|",
+          "undo",
+          "redo",
+          "|",
+          "fullscreen",
+          "edit-mode",
+          {
+            name: "more",
+            toolbar: [
+              "both",
+              "code-theme",
+              "content-theme",
+              "export",
+              "outline",
+              "preview",
+              "devtools",
+              "help",
+            ],
+          },
+        ],
         input: (v) => {
           valueRef.value = v;
           emit('update:value', v);
@@ -103,16 +129,12 @@ export default defineComponent({
         },
         after: () => {
           nextTick(() => {
-            // modalFn?.redoModalHeight?.();
             insEditor.setValue(valueRef.value);
             vditorRef.value = insEditor;
             initedRef.value = true;
             emit('get', instance);
           });
         },
-        // blur: () => {
-        //   // unref(vditorRef)?.setValue(props.value);
-        // },
         ...bindValue,
         cache: {
           enable: false,
