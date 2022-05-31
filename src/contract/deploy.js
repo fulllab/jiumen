@@ -1,9 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const Arweave = require('arweave');
-const { SmartWeaveNodeFactory, LoggerFactory } = require('redstone-smartweave');
+const { SmartWeaveWebFactory, SmartWeaveNodeFactory, LoggerFactory } = require('redstone-smartweave');
 const { default: ArLocal } = require('arlocal');
-const TestWeave = require('testweave-sdk');
 const jwk = require('../../.secrets/jwk.json');
 
 (async () => {
@@ -39,8 +38,6 @@ const jwk = require('../../.secrets/jwk.json');
     protocol: VITE_ARWEAVE_PROTOCOL,
   });
 
-  // const testWeave = await TestWeave.init(arweave);
-
   const mine = () => isArLocal && arweave.api.get('mine');
 
   const address = await arweave.wallets.jwkToAddress(jwk);
@@ -56,7 +53,13 @@ const jwk = require('../../.secrets/jwk.json');
   }
   LoggerFactory.INST.logLevel('debug');
 
-  const smartweave = SmartWeaveNodeFactory.memCached(arweave);
+  const smartweave = isArLocal
+    ? SmartWeaveNodeFactory.memCached(arweave)
+    : SmartWeaveWebFactory.memCachedBased(arweave)
+      .setInteractionsLoader(
+        new RedstoneGatewayInteractionsLoader(url.redstoneGateway),
+      )
+      .build()
 
   const contractSrc = readJson('./jiumen/contract.js');
   // push contract deployer to members

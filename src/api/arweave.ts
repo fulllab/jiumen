@@ -20,7 +20,7 @@ const arweave = Arweave.init({
 // Set up SmartWeave client
 // LoggerFactory.INST.logLevel('debug')
 const smartweave = isArlocal
-  ? rsdk.SmartWeaveWebFactory.memCached(arweave)
+  ? rsdk.SmartWeaveNodeFactory.memCached(arweave)
   : rsdk.SmartWeaveWebFactory.memCachedBased(arweave)
       .setInteractionsLoader(
         new rsdk.RedstoneGatewayInteractionsLoader(url.redstoneGateway),

@@ -81,6 +81,8 @@ export default defineComponent({
       return lang;
     });
     function init() {
+      console.log('???????????????');
+
       const wrapEl = unref(wrapRef) as HTMLElement;
       if (!wrapEl) return;
       const bindValue = { ...attrs, ...props };

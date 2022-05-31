@@ -16,6 +16,8 @@ export const initState = async () => {
   docsStore.setRemoteDocs(state.docs)
   graphStore.setRemoteGraph(graphJson)
 
+  console.log('docsStore.getRemoteDocs',docsStore.getRemoteDocs);
+
   return graphJson
 }
 
@@ -33,10 +35,14 @@ export const sendGraph = async graph => {
   // new Date().getTime()
 
   const docsStore = useDocsStore()
-  const workingDocs = docsStore.getWorkingDocs
+  const allDocs = Object.assign(
+    docsStore.getStageDocs,
+    docsStore.getRepoDocs,
+    docsStore.getWorkingDocs,
+  )
 
   const remoteDocs = docsStore.getRemoteDocs
-  const newDocs = cleanObjs(newGraph.cells, workingDocs)
+  const newDocs = cleanObjs(newGraph.cells, allDocs)
 
   const { deleted: deletedDocs, updated: updatedDocs } = diffObj(newDocs, remoteDocs)
 

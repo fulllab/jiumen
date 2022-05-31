@@ -38,36 +38,28 @@ const diffObj = (news = {}, olds = {}) => {
   const updated = {};
 
   for (const key in news) {
-    if (Object.hasOwnProperty.call(olds, key)) {
-      if (olds[key] != news[key]) {
+    if (!news[key]) {
+      deleted.push(key)
+    } else {
+      const inOlds = Object.hasOwnProperty.call(olds, key)
+      if (!(inOlds && olds[key] == news[key])) {
         updated[key] = news[key];
       }
-    } else {
-      updated[key] = news[key];
     }
   }
-
-  for (const key in olds) {
-    if (!Object.hasOwnProperty.call(news, key)) {
-      deleted.push(key)
-    }
-  }
-
   return { deleted, updated };
 }
 
 const cleanObjs = (arr = [], obj = {}, key = 'id') => {
-  const deleted = {};
-
-  const keys = arr.map(item => item[key]);
-
-  for (const key in obj) {
-    if (!keys.includes(key)) {
-      deleted[key] = obj[key]
+  const objKeys = Object.keys(obj)
+  const newObj = {};
+  arr.map(item => {
+    const cKey = item[key]
+    if (objKeys.includes(cKey)) {
+      newObj[cKey] = obj[cKey]
     }
-  }
-
-  return deleted;
+  });
+  return newObj;
 }
 
 export { diffArr, diffObj, cleanObjs };
