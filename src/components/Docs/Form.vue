@@ -102,7 +102,6 @@ const addResource = () => {
 const saveMarkDown = (v) => {
   formState.node.description = v
   add()
-  emit('save')
 }
 
 const add = () => {
@@ -112,6 +111,7 @@ const add = () => {
 const commit = (values) => {
   console.log('Success:', values);
   useCommit(nodeIdRef.value, formState.node)
+  emit('save')
 }
 
 const onFailed = (e) => {
