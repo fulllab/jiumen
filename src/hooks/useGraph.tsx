@@ -32,7 +32,7 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
       // @ts-ignore
       height: '100%',
       resizing: {
-        enabled: ()=>{
+        enabled: () => {
           return !isReadOnly().value
         },
         minHeight: 35,
@@ -73,7 +73,7 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
         // Preventing conflicts with scroller
         // modifiers: ['meta'],
       },
-      interacting: ()=>{
+      interacting: () => {
         if (isReadOnly().value) {
           return {
             magnetConnectable: false,
@@ -125,31 +125,6 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
         router: {
           name: 'manhattan',
         },
-
-        // router: 'manhattan',
-        // connector: {
-        //   name: 'rounded',
-        //   args: {
-        //     radius: 8
-        //   }
-        // },
-        // anchor: 'top',
-        // sourceAnchor: 'bottom',
-        // connectionPoint: 'anchor',
-        // sourceConnectionPoint: 'anchor',
-        // allowBlank: false,
-        // snap: {
-        //   radius: 20
-        // },
-        validateMagnet({ magnet, cell }) {
-          console.log(magnet)
-
-          // console.log('magnet', e, magnet, view, cell);
-          // if (magnet.getAttribute('port-group') === 'in') {
-          //   return false
-          // }
-          return true
-        },
         createEdge() {
           let edgeLineOp = {
             stroke: '#333333',
@@ -172,19 +147,6 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
             },
           })
         },
-        // validateConnection({
-        //   sourceMagnet,
-        //   targetMagnet,
-        //   sourceCell,
-        //   targetCell,
-        // }: any) {
-        //   return true
-        // },
-        // validateEdge({ edge }) {
-        //   const { source, target } = edge
-
-        //   return true
-        // },
       },
     })
     contextRef.graph = graph.value
@@ -192,7 +154,7 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
 
   watch(
     () => docsStore.getAtWork,
-    (atWork) => {
+    atWork => {
       const graphStore = useGraphStoreWithOut()
       let graphLs = atWork ? graphStore.getRepoGraph : graphStore.getRemoteGraph
       if (!!graphLs) {

@@ -31,13 +31,15 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { FormOutlined, CoffeeOutlined, PoweroffOutlined, EyeInvisibleOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons-vue'
-import type { MenuProps } from 'ant-design-vue'
 import { useAppState } from '@/store/modules/app'
 import { useIsReadOnly } from '@/hooks/useApp'
 import { useRemoveLsGraph } from '@/hooks/useGraph'
 import { useRemoveLsDocs } from '@/hooks/useDocs'
+import { sendGraph } from '@/hooks/useApi'
+import { useContext } from '@/hooks/GraphContext'
 
 const appState = useAppState()
+const { graph } = useContext()
 
 const isReadOnly = useIsReadOnly()
 const atWork = computed(() => appState.getAtWork)
@@ -60,8 +62,8 @@ const exitEdit = () => {
   appState.setAtWork(false)
 }
 
-const release: MenuProps['onClick'] = e => {
-  console.log(e);
+const release = () => {
+  sendGraph(graph)
 }
 
 const emptyDraft = () => {

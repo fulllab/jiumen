@@ -5,7 +5,7 @@
     </div>
     <div id="containered" ref="containered" />
     <div class="absolute right-5 top-2">
-      <Edit />
+      <Edit v-if="isReady" />
     </div>
     <div v-if="!isReadonlyRef" class="space-x-2 color-picker-group">
       <EdgeSelect />
@@ -35,10 +35,10 @@ import Doc from './Docs/Doc.vue'
 import { MinusOutlined, BorderOutlined, FontColorsOutlined } from '@ant-design/icons-vue'
 import Edit from './Tools/Edit.vue'
 import { useIsReadOnly } from '@/hooks/useApp'
-import {initState} from '@/hooks/useApi'
+import { initState } from '@/hooks/useApi'
 import { NodeLabelPath, InstantSaveTime } from '@/settings/graph'
 import { Graph } from '@antv/x6'
-import {useGraphStore} from '@/store/modules/graph'
+import { useGraphStore } from '@/store/modules/graph'
 
 const containered = ref<HTMLElement | undefined>(undefined)
 const isReady = ref(false)
@@ -65,7 +65,6 @@ const saveGraph = (graph: Graph | undefined) => {
 }
 
 onMounted(async () => {
-  initState()
   const graph = createGraph(containered)
   graph.value?.centerContent()
   isReady.value = true
@@ -141,6 +140,10 @@ onMounted(async () => {
       saveGraph(graph.value);
     }, InstantSaveTime);
   })
+
+  const initGraph = await initState()
+  graph.value?.fromJSON(initGraph)
+  graph.value?.centerContent()
 });
 
 </script>

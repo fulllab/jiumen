@@ -1,43 +1,43 @@
-import { DocContent, DocsObj } from '@/types'
 import { defineStore } from 'pinia'
 import { store } from '@/store'
-import { GRAPH_REPO_KEY } from '@/types/cacheEnum'
+import { GRAPH_REPO_KEY, GRAPH_REMOTE_KEY } from '@/types/cacheEnum'
 
 // Temporarily disable the staging area, need to make incremental storage
 // for the diagram to improve efficiency
 interface GraphState {
   // stageGraph: string
-  repoGraph: string
-  remoteGraph: string
+  repoGraph: any
+  remoteGraph: any
 }
 export const useGraphStore = defineStore({
   id: 'graph',
   state: (): GraphState => ({
     // stageGraph: '',
-    repoGraph: '',
-    remoteGraph: '',
+    repoGraph: null,
+    remoteGraph: null,
   }),
   getters: {
     // getStageGraph(): string | '' {
     //   return this.stageGraph || ''
     // },
-    getRepoGraph(): string | '' {
-      return this.repoGraph || JSON.parse(localStorage.getItem(GRAPH_REPO_KEY) as any) || ''
+    getRepoGraph(): any {
+      return this.repoGraph || JSON.parse(localStorage.getItem(GRAPH_REPO_KEY) as any)
     },
-    getRemoteGraph(): DocsObj | {} {
-      return this.remoteGraph
+    getRemoteGraph(): string | '' {
+      return this.remoteGraph || JSON.parse(localStorage.getItem(GRAPH_REMOTE_KEY) as any)
     },
   },
   actions: {
     // setStageGraph(graph: string): void {
     //   this.stageGraph = graph
     // },
-    setRepoGraph(graph: string): void {
+    setRepoGraph(graph: any): void {
       this.repoGraph = graph
       localStorage.setItem(GRAPH_REPO_KEY, JSON.stringify(this.repoGraph))
     },
-    setRemoteGraph(graph: string): void {
+    setRemoteGraph(graph: any): void {
       this.remoteGraph = graph
+      localStorage.setItem(GRAPH_REMOTE_KEY, JSON.stringify(this.remoteGraph))
     },
     removeRepoGraph(): void {
       this.repoGraph = ''

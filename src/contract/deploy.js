@@ -3,6 +3,7 @@ const path = require('path');
 const Arweave = require('arweave');
 const { SmartWeaveNodeFactory, LoggerFactory } = require('redstone-smartweave');
 const { default: ArLocal } = require('arlocal');
+const TestWeave = require('testweave-sdk');
 const jwk = require('../../.secrets/jwk.json');
 
 (async () => {
@@ -37,6 +38,8 @@ const jwk = require('../../.secrets/jwk.json');
     host: VITE_ARWEAVE_HOST,
     protocol: VITE_ARWEAVE_PROTOCOL,
   });
+
+  // const testWeave = await TestWeave.init(arweave);
 
   const mine = () => isArLocal && arweave.api.get('mine');
 

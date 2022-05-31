@@ -73,6 +73,17 @@ export const useDocsStore = defineStore({
       delete this.stageDocs[nodeId]
       localStorage.setItem(STAGE_KEY, JSON.stringify(this.stageDocs))
     },
+    mergerDocs(data: DocsObj): void {
+      this.repoDocs = data
+      this.stageDocs = {}
+      this.workingDocs = {}
+      if (data = {}) {
+        localStorage.removeItem(REPO_KEY)
+      }else {
+        localStorage.setItem(REPO_KEY, JSON.stringify(data))
+      }
+      localStorage.removeItem(STAGE_KEY)
+    },
     removeLsDocs(): void {
       this.stageDocs = {}
       this.repoDocs = {}

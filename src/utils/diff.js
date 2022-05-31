@@ -13,7 +13,7 @@ const diffArr = (news = [], olds = [], key = 'id') => {
   const oldsKeys = olds.map(item => item[key]);
   const newsKeys = news.map(item => item[key]);
 
-  for (let [index, item] of news) {
+  for (let [index, item] of news.entries()) {
     const oldIndex = oldsKeys.indexOf(item[key])
     if (oldIndex == -1) {
       item.newIndex = index
@@ -24,7 +24,7 @@ const diffArr = (news = [], olds = [], key = 'id') => {
     }
   }
 
-  for (let [index, item] of olds) {
+  for (let [index, item] of olds.entries()) {
     if (!newsKeys.includes(item[key])) {
       deleted.push(index);
     }
@@ -56,18 +56,18 @@ const diffObj = (news = {}, olds = {}) => {
   return { deleted, updated };
 }
 
-const deletedKeys = (arr = [], obj = {}, key = 'id') => {
-  const deleted = [];
+const cleanObjs = (arr = [], obj = {}, key = 'id') => {
+  const deleted = {};
 
   const keys = arr.map(item => item[key]);
 
   for (const key in obj) {
     if (!keys.includes(key)) {
-      deleted.push(key)
+      deleted[key] = obj[key]
     }
   }
 
   return deleted;
 }
 
-export { diffArr, diffObj, deletedKeys };
+export { diffArr, diffObj, cleanObjs };
