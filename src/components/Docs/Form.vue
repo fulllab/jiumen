@@ -57,6 +57,8 @@ const props = defineProps({
   nodeId: { type: String, default: '' },
 });
 
+const emit = defineEmits(['save'])
+
 const nodeIdRef = ref()
 
 interface formStateType {
@@ -100,6 +102,7 @@ const addResource = () => {
 const saveMarkDown = (v) => {
   formState.node.description = v
   add()
+  emit('save')
 }
 
 const add = () => {

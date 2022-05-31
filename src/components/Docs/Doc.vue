@@ -1,6 +1,6 @@
 <template>
   <a-drawer :title="label" placement="bottom" :visible="visible" @close="onClose" height="100%">
-    <Form v-if="!isReadonly" ref="contentRef" :node-id="props.nodeId"></Form>
+    <Form v-if="!isReadonly" ref="contentRef" @save="onClose" :node-id="props.nodeId"></Form>
     <View v-else ref="contentRef" :node-id="props.nodeId" />
   </a-drawer>
 </template>
@@ -24,10 +24,6 @@ const contentRef = ref();
 
 const showModal = () => {
   visible.value = true;
-};
-
-const handleOk = (e: MouseEvent) => {
-  visible.value = false;
 };
 
 const onClose = () => {
