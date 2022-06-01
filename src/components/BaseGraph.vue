@@ -1,14 +1,14 @@
 <template>
   <div class="flex w-full h-full">
 
-    <div v-if="!getIsReadOnly">
-      <Stencil v-if="isReady" />
+    <div v-if="!isReadOnly">
+      <Stencil />
     </div>
     <div id="containered" ref="containered" />
     <div class="absolute right-5 top-2">
       <Edit v-if="isReady" />
     </div>
-    <div v-if="!getIsReadOnly" class="space-x-2 color-picker-group">
+    <div v-if="!isReadOnly" class="space-x-2 color-picker-group">
       <EdgeSelect />
       <ColorPicker v-if="isReady" mode="body">
         <BorderOutlined />
@@ -21,13 +21,14 @@
       </ColorPicker>
     </div>
     <Doc ref="docRef" :node-id="nodeDataRef.nodeId" :label="nodeDataRef.label" />
-    <a-spin v-if="getSpinning" class="absolute w-full h-full flex justify-center items-center bg-gray-500/50 bg-opacity-20"
-      :spinning="getSpinning"></a-spin>
+    <a-spin v-if="spinning"
+      class="absolute w-full h-full flex justify-center items-center bg-gray-500/50 bg-opacity-20"
+      :spinning="spinning"></a-spin>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, Ref } from 'vue'
+import { onMounted, ref, inject } from 'vue'
 import EdgeSelect from './Tools/EdgeSelect.vue'
 import { createGraph } from '@/hooks/useGraph'
 import "@antv/x6-vue-shape"
@@ -42,6 +43,7 @@ import { initState } from '@/hooks/useApi'
 import { NodeLabelPath, InstantSaveTime } from '@/settings/graph'
 import { Graph } from '@antv/x6'
 import { useGraphStore } from '@/store/modules/graph'
+import { appSymbol } from '@/hooks/GraphContext'
 
 const containered = ref<HTMLElement | undefined>(undefined)
 const isReady = ref(false)
@@ -50,7 +52,10 @@ const nodeDataRef = ref({
   label: ''
 })
 const docRef = ref();
-const { getIsReadOnly, getSpinning, setSpinning } = useRootState()
+const { setSpinning } = useRootState()
+
+const { isReadOnly, spinning } = inject(appSymbol) as any
+
 const graphStore = useGraphStore()
 
 const openModal = (cell: any) => {
@@ -75,8 +80,7 @@ const initGraph = (graphData, graph) => {
   graph.value?.centerContent()
 
   graph.value?.on('cell:mouseenter', (args: { cell: any }) => {
-    if (getIsReadOnly.value) return
-
+    if (isReadOnly.value) return
     if (args.cell.isNode()) {
       const currentNode = args.cell
       currentNode.setAttrByPath(`${(currentNode.data ? currentNode.data.primer : false) || currentNode.shape}`, {
@@ -135,12 +139,12 @@ const initGraph = (graphData, graph) => {
   })
 
   graph.value?.on('node:click', (args: { node: any }) => {
-    if (!getIsReadOnly.value) return
+    if (!isReadOnly.value) return
     openModal(args.node)
   })
 
   graph.value?.on('cell:changed', () => {
-    if (getIsReadOnly.value) return
+    if (isReadOnly.value) return
     setTimeout(() => {
       saveGraph(graph.value);
     }, InstantSaveTime);

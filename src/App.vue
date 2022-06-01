@@ -8,14 +8,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, provide, shallowReactive } from 'vue'
 import AppLayout from '@/layout/AppLayout.vue'
+import { appSymbol } from '@/hooks/GraphContext'
+import { useRootState } from '@/hooks/useApp'
 
 export default defineComponent({
   name: 'App',
   components: {
     AppLayout,
   },
+  setup() {
+    const { getIsReadOnly, getSpinning } = useRootState()
+    const appContext = shallowReactive({
+      isReadOnly: getIsReadOnly,
+      spinning: getSpinning,
+    })
+    provide(appSymbol, appContext)
+  }
 })
 </script>
 

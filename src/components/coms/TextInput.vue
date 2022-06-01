@@ -8,12 +8,13 @@
 <script lang="ts" setup>
 import { ref, inject, onMounted } from 'vue'
 import { Input } from 'ant-design-vue'
-import { useRootState } from '@/hooks/useApp'
 import { NodeLabelPath } from '@/settings/graph'
+import { useIsReadOnly } from '@/hooks/useApp'
 
-const { getIsReadOnly } = useRootState()
+const getIsReadOnly = useIsReadOnly()
 
 const node = inject('getNode', () => { })() as any
+
 const isEditStatus = ref(false)
 const text = ref('')
 const styleObject = ref({

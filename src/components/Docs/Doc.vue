@@ -1,13 +1,13 @@
 <template>
   <a-drawer :title="label" placement="bottom" :visible="visible" @close="onClose" height="100%">
-    <Form v-if="!getIsReadOnly" ref="contentRef" @save="onClose" :node-id="props.nodeId"></Form>
+    <Form v-if="!isReadOnly" ref="contentRef" @save="onClose" :node-id="props.nodeId"></Form>
     <View v-else ref="contentRef" :node-id="props.nodeId" />
   </a-drawer>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, defineExpose, watch } from 'vue'
-import { useRootState } from '@/hooks/useApp'
+import { onMounted, inject, ref, defineExpose, watch } from 'vue'
+import { appSymbol } from '@/hooks/GraphContext'
 import Form from './Form.vue'
 import View from './View.vue';
 
@@ -16,7 +16,7 @@ const props = defineProps({
   label: { type: String, default: '' },
 });
 
-const { getIsReadOnly } = useRootState()
+const isReadOnly = inject(appSymbol)
 
 const visible = ref<boolean>(false);
 
