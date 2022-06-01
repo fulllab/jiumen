@@ -36,8 +36,8 @@ export function sendGraph<T = any>(graph): Promise<T> {
 
   const docsStore = useDocsStore()
   const allDocs = Object.assign(
-    docsStore.getStageDocs,
     docsStore.getRepoDocs,
+    docsStore.getStageDocs,
     docsStore.getWorkingDocs,
   )
 

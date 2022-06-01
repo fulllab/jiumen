@@ -38,11 +38,12 @@ const diffObj = (news = {}, olds = {}) => {
   const updated = {};
 
   for (const key in news) {
+    // When null, it means delete
     if (!news[key]) {
       deleted.push(key)
     } else {
       const inOlds = Object.hasOwnProperty.call(olds, key)
-      if (!(inOlds && olds[key] == news[key])) {
+      if ((inOlds && olds[key] != news[key]) || !inOlds) {
         updated[key] = news[key];
       }
     }
