@@ -40,6 +40,25 @@
       </a-button>
     </a-form-item>
     <a-form-item class="mb-4 text-right">
+      <a-dropdown placement="top">
+        <a-button shape="circle">
+          <template #icon>
+            <EllipsisOutlined />
+          </template>
+        </a-button>
+        <template #overlay>
+          <a-menu>
+            <a-menu-item @click="recovery">
+              <RollbackOutlined  />
+              Recovery
+            </a-menu-item>
+            <a-menu-item danger @click="delDoc">
+              <DeleteOutlined />
+              Delete
+            </a-menu-item>
+          </a-menu>
+        </template>
+      </a-dropdown>
       <a-button type="primary" html-type="submit">Save</a-button>
     </a-form-item>
   </a-form>
@@ -49,8 +68,8 @@
 import { onMounted, ref, reactive } from 'vue'
 import { DocContent, Resource } from '@/types'
 import { ProjectStatus } from '@/settings/graph'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons-vue';
-import { useCurrentDoc, useAdd, useCommit } from '@/hooks/useDocs'
+import { MinusCircleOutlined, PlusOutlined, EllipsisOutlined, RollbackOutlined, DeleteOutlined, } from '@ant-design/icons-vue';
+import { useCurrentDoc, useAdd, useCommit,useRecoveryDocs } from '@/hooks/useDocs'
 import { MarkDown } from './Markdown'
 
 const props = defineProps({
@@ -108,14 +127,23 @@ const add = () => {
   useAdd(nodeIdRef.value, formState.node)
 }
 
-const commit = (values) => {
-  console.log('Success:', values);
+const commit = () => {
   useCommit(nodeIdRef.value, formState.node)
   emit('save')
 }
 
 const onFailed = (e) => {
   console.log('Fail', e);
+}
+
+const recovery = () => {
+  useRecoveryDocs(nodeIdRef.value)
+  initDoc(nodeIdRef.value)
+}
+
+const delDoc = () => {
+  useCommit(nodeIdRef.value, null)
+  emit('save')
 }
 
 defineExpose({
@@ -135,5 +163,12 @@ onMounted(() => {
   font-weight: bold
   font-size: large
   color: rgb(96 96 96 / 85%)
+}
+
+.ant-form-item-control-input-content {
+    flex: auto;
+    max-width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 </style>

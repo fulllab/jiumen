@@ -65,7 +65,7 @@ export const useDocsStore = defineStore({
       this.stageDocs[nodeId] = data
       localStorage.setItem(STAGE_KEY, JSON.stringify(this.stageDocs))
     },
-    setRepoDoc(nodeId: string, data: DocContent): void {
+    setRepoDoc(nodeId: string, data: DocContent | null): void {
       this.repoDocs[nodeId] = data
       this.workingDocs[nodeId] = data
       localStorage.setItem(REPO_KEY, JSON.stringify(this.repoDocs))
@@ -83,6 +83,10 @@ export const useDocsStore = defineStore({
         localStorage.setItem(REPO_KEY, JSON.stringify(data))
       }
       localStorage.removeItem(STAGE_KEY)
+    },
+    recoveryDoc(nodeId: string): void {
+      Reflect.deleteProperty(this.workingDocs, nodeId)
+      Reflect.deleteProperty(this.remoteDocs, nodeId)
     },
     removeLsDocs(): void {
       this.stageDocs = {}

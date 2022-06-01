@@ -29,7 +29,7 @@ export function useAdd(nodeId: string, data: DocContent) {
   docsStore.setStageDoc(nodeId, data)
 }
 
-export function useCommit(nodeId: string, data: DocContent) {
+export function useCommit(nodeId: string, data: DocContent | null) {
   const docsStore = useDocsStore()
   docsStore.setRepoDoc(nodeId, data)
 }
@@ -37,6 +37,13 @@ export function useCommit(nodeId: string, data: DocContent) {
 export function useRemoveLsDocs() {
   const docsStore = useDocsStore()
   docsStore.removeLsDocs()
+}
+
+// recovery
+
+export function useRecoveryDocs(nodeId: string) {
+  const docsStore = useDocsStore()
+  docsStore.recoveryDoc(nodeId)
 }
 
 export default {

@@ -28,7 +28,7 @@ export interface Resource {
 }
 
 export interface DocsObj {
-  [id: string]: DocContent
+  [id: string]: DocContent | null
 }
 
 export type DocContent = {
