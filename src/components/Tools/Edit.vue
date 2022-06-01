@@ -10,8 +10,8 @@
       <EyeInvisibleOutlined /> Exit Preview
     </div>
     <template #overlay>
-      <a-menu @click="release">
-        <a-menu-item key="1">
+      <a-menu>
+        <a-menu-item key="1" @click="release" :disabled="!atWork">
           <UploadOutlined />
           Release
         </a-menu-item>
@@ -19,7 +19,7 @@
           <PoweroffOutlined />
           Exit Edit
         </a-menu-item>
-        <a-menu-item danger key="2" @click="emptyDraft">
+        <a-menu-item danger key="3" @click="emptyDraft">
           <DeleteOutlined />
           Empty draft
         </a-menu-item>
@@ -37,6 +37,7 @@ import { useRemoveLsGraph } from '@/hooks/useGraph'
 import { useRemoveLsDocs } from '@/hooks/useDocs'
 import { sendGraph } from '@/hooks/useApi'
 import { useContext } from '@/hooks/GraphContext'
+import { Modal } from 'ant-design-vue';
 
 const appState = useAppState()
 const { graph } = useContext()
@@ -63,13 +64,26 @@ const exitEdit = () => {
 }
 
 const release = () => {
-  sendGraph(graph)
+  Modal.confirm({
+    title: 'Do you Want to upload files to Arwave?',
+    onOk() {
+      sendGraph(graph)
+    },
+    onCancel() { },
+  });
 }
 
 const emptyDraft = () => {
-  useRemoveLsDocs()
-  useRemoveLsGraph()
-  exitEdit()
+  Modal.confirm({
+    title: 'Do you Want to empty draft?',
+    okType: 'danger',
+    onOk() {
+      useRemoveLsDocs()
+      useRemoveLsGraph()
+      exitEdit()
+    },
+    onCancel() { },
+  });
 }
 
 </script>

@@ -1,8 +1,9 @@
-import { computed, Ref } from 'vue'
 import { useDocsStore } from '@/store/modules/docs'
 import { useGraphStore } from '@/store/modules/graph'
 import { contract, mine } from '@/api/arweave'
 import { diffArr, diffObj, cleanObjs } from '@/utils/diff'
+import { useMessage } from '@/hooks/useMessage'
+import { useRootState } from '@/hooks/useApp'
 
 export const initState = async () => {
   const { state } = await contract.readState()
@@ -19,7 +20,7 @@ export const initState = async () => {
   return graphJson
 }
 
-export const sendGraph = async graph => {
+export function sendGraph<T = any>(graph): Promise<T> {
   const newGraph = graph.toJSON()
 
   const graphStore = useGraphStore()
@@ -47,26 +48,55 @@ export const sendGraph = async graph => {
 
   docsStore.mergerDocs(newDocs as any)
 
-  await contract.writeInteraction({
-    function: 'setGraph',
-    data: {
-      updated: updatedGraph,
-      deleted: deletedGraph,
-      created: createdGraph,
-    },
+  const { notification } = useMessage()
+  const { setSpinning } = useRootState()
+
+  return new Promise(() => {
+    setSpinning(true)
+    contract
+      .writeInteraction({
+        function: 'setGraph',
+        data: {
+          updated: updatedGraph,
+          deleted: deletedGraph,
+          created: createdGraph,
+        },
+      })
+      .then(() => {
+        mine()
+        notification.success({
+          message: 'Graph Completed',
+          description: '',
+          duration: 3,
+        });
+      })
+      .then(() => {
+        contract.writeInteraction({
+          function: 'setDocs',
+          data: {
+            updated: updatedDocs,
+            deleted: deletedDocs,
+          },
+        })
+      })
+      .then(() => {
+        mine()
+        setSpinning(false)
+        notification.success({
+          message: 'Documentation Completed',
+          description: '',
+          duration: 3,
+        });
+      })
+      .catch((err) => {
+        setSpinning(false)
+        notification.error({
+          message: 'Failed',
+          description: err,
+          duration: 5,
+        });
+      })
   })
-
-  await mine()
-
-  await contract.writeInteraction({
-    function: 'setDocs',
-    data: {
-      updated: updatedDocs,
-      deleted: deletedDocs,
-    },
-  })
-
-  await mine()
 }
 
 export default {

@@ -21,8 +21,7 @@
       </ColorPicker>
     </div>
     <Doc ref="docRef" :node-id="nodeDataRef.nodeId" :label="nodeDataRef.label" />
-    <a-spin v-if="spinning"
-      class="absolute w-full h-full flex justify-center items-center bg-gray-500/50 bg-opacity-20"
+    <a-spin v-if="spinning" class="absolute w-full h-full flex justify-center items-center bg-gray-500/50 bg-opacity-20"
       :spinning="spinning"></a-spin>
   </div>
 </template>
@@ -44,6 +43,7 @@ import { NodeLabelPath, InstantSaveTime } from '@/settings/graph'
 import { Graph } from '@antv/x6'
 import { useGraphStore } from '@/store/modules/graph'
 import { appSymbol } from '@/hooks/GraphContext'
+import { useMessage } from '@/hooks/useMessage'
 
 const containered = ref<HTMLElement | undefined>(undefined)
 const isReady = ref(false)
@@ -161,7 +161,12 @@ const init = () => {
     isReady.value = true
   }).catch((err) => {
     setSpinning(false)
-    // emit('init-error', err);
+    const { notification } = useMessage()
+    notification.error({
+      message: 'Failed to get data',
+      description: err,
+      duration: 3,
+    });
   });
 }
 

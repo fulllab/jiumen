@@ -1,7 +1,6 @@
 <template>
   <a-config-provider>
     <div id="app">
-      <!-- <full-loading></full-loading> -->
       <app-layout />
     </div>
   </a-config-provider>
