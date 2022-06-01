@@ -16,7 +16,7 @@ const props = defineProps({
   label: { type: String, default: '' },
 });
 
-const isReadOnly = inject(appSymbol)
+const { isReadOnly } = inject(appSymbol) as any
 
 const visible = ref<boolean>(false);
 
