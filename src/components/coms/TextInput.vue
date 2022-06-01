@@ -6,12 +6,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, inject, onMounted} from 'vue'
+import { ref, inject, onMounted } from 'vue'
 import { Input } from 'ant-design-vue'
-import { useIsReadOnly } from '@/hooks/useApp'
+import { useRootState } from '@/hooks/useApp'
 import { NodeLabelPath } from '@/settings/graph'
 
-const isReadonlyRef = useIsReadOnly()
+const { getIsReadOnly } = useRootState()
 
 const node = inject('getNode', () => { })() as any
 const isEditStatus = ref(false)
@@ -21,12 +21,12 @@ const styleObject = ref({
 })
 
 const blur = () => {
-  node.setAttrByPath(NodeLabelPath,text.value)
+  node.setAttrByPath(NodeLabelPath, text.value)
   isEditStatus.value = false
 }
 
 const edit = () => {
-  isEditStatus.value = !isReadonlyRef.value
+  isEditStatus.value = !getIsReadOnly.value
 }
 
 onMounted(() => {

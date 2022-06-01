@@ -12,7 +12,7 @@ import {
 } from '@/settings/graph'
 import { useAppStateWithOut } from '@/store/modules/app'
 import { useGraphStoreWithOut } from '@/store/modules/graph'
-import { useIsReadOnly } from '@/hooks/useApp'
+import { useRootState } from '@/hooks/useApp'
 
 export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
   const graph = ref<Graph>()
@@ -20,7 +20,9 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
     graph: {},
   })
   const docsStore = useAppStateWithOut()
-  const isReadOnly = () => useIsReadOnly()
+  const { getIsReadOnly } = useRootState()
+  // The function form is convenient to call in the graph
+  const isReadOnly = () => getIsReadOnly
 
   createContext(contextRef)
 

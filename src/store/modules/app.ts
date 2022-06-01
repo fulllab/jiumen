@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { store } from '@/store';
 
 interface AppState {
-  pageLoading: boolean;
+  spinning: boolean;
   writable: boolean;
   readOnly: boolean;
   atWork: boolean;
@@ -11,7 +11,7 @@ interface AppState {
 export const useAppState = defineStore({
   id: 'app',
   state: (): AppState => ({
-    pageLoading: true,
+    spinning: true,
     writable: false,
     readOnly: true,
     atWork: false,
@@ -25,8 +25,8 @@ export const useAppState = defineStore({
     getIsReadOnly(): boolean {
       return this.readOnly
     },
-    getPageLoading(): boolean {
-      return this.pageLoading;
+    getSpinning(): boolean {
+      return this.spinning;
     },
     getAtWork(): boolean {
       return this.atWork;
@@ -39,11 +39,11 @@ export const useAppState = defineStore({
     setIsReadOnly(status: boolean): void {
       this.readOnly = status
     },
-    setPageLoading(loading: boolean): void {
-      this.pageLoading = loading;
+    setSpinning(spinning: boolean): void {
+      this.spinning = spinning;
     },
-    setAtWork(loading: boolean): void {
-      this.atWork = loading;
+    setAtWork(atWork: boolean): void {
+      this.atWork = atWork;
     },
   },
 });

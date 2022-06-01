@@ -16,8 +16,6 @@ export const initState = async () => {
   docsStore.setRemoteDocs(state.docs)
   graphStore.setRemoteGraph(graphJson)
 
-  console.log('docsStore.getRemoteDocs',docsStore.getRemoteDocs);
-
   return graphJson
 }
 
@@ -33,6 +31,7 @@ export const sendGraph = async graph => {
   } = diffArr(newGraph.cells, (remoteGrap as any).cells)
 
   // new Date().getTime()
+  // TODO: Version control and support for forking
 
   const docsStore = useDocsStore()
   const allDocs = Object.assign(

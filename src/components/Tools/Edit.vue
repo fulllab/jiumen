@@ -3,10 +3,10 @@
     <div v-if="!atWork" @click="startWork">
       <FormOutlined /> Edit
     </div>
-    <div v-if="!isReadOnly && atWork" @click="preview">
+    <div v-if="!getIsReadOnly && atWork" @click="preview">
       <CoffeeOutlined /> Preview
     </div>
-    <div v-if="isReadOnly && atWork" @click="exitPreview">
+    <div v-if="getIsReadOnly && atWork" @click="exitPreview">
       <EyeInvisibleOutlined /> Exit Preview
     </div>
     <template #overlay>
@@ -32,7 +32,7 @@
 import { computed } from 'vue'
 import { FormOutlined, CoffeeOutlined, PoweroffOutlined, EyeInvisibleOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons-vue'
 import { useAppState } from '@/store/modules/app'
-import { useIsReadOnly } from '@/hooks/useApp'
+import { useRootState } from '@/hooks/useApp'
 import { useRemoveLsGraph } from '@/hooks/useGraph'
 import { useRemoveLsDocs } from '@/hooks/useDocs'
 import { sendGraph } from '@/hooks/useApi'
@@ -41,7 +41,7 @@ import { useContext } from '@/hooks/GraphContext'
 const appState = useAppState()
 const { graph } = useContext()
 
-const isReadOnly = useIsReadOnly()
+const { getIsReadOnly } = useRootState()
 const atWork = computed(() => appState.getAtWork)
 
 const startWork = () => {

@@ -1,13 +1,14 @@
 <template>
   <div class="flex w-full h-full">
-    <div v-if="!isReadonlyRef">
+
+    <div v-if="!getIsReadOnly">
       <Stencil v-if="isReady" />
     </div>
     <div id="containered" ref="containered" />
     <div class="absolute right-5 top-2">
       <Edit v-if="isReady" />
     </div>
-    <div v-if="!isReadonlyRef" class="space-x-2 color-picker-group">
+    <div v-if="!getIsReadOnly" class="space-x-2 color-picker-group">
       <EdgeSelect />
       <ColorPicker v-if="isReady" mode="body">
         <BorderOutlined />
@@ -20,11 +21,13 @@
       </ColorPicker>
     </div>
     <Doc ref="docRef" :node-id="nodeDataRef.nodeId" :label="nodeDataRef.label" />
+    <a-spin v-if="getSpinning" class="absolute w-full h-full flex justify-center items-center bg-gray-500/50 bg-opacity-20"
+      :spinning="getSpinning"></a-spin>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, } from 'vue'
+import { onMounted, ref, Ref } from 'vue'
 import EdgeSelect from './Tools/EdgeSelect.vue'
 import { createGraph } from '@/hooks/useGraph'
 import "@antv/x6-vue-shape"
@@ -34,7 +37,7 @@ import ColorPicker from './Tools/ColorPicker.vue'
 import Doc from './Docs/Doc.vue'
 import { MinusOutlined, BorderOutlined, FontColorsOutlined } from '@ant-design/icons-vue'
 import Edit from './Tools/Edit.vue'
-import { useIsReadOnly } from '@/hooks/useApp'
+import { useRootState } from '@/hooks/useApp'
 import { initState } from '@/hooks/useApi'
 import { NodeLabelPath, InstantSaveTime } from '@/settings/graph'
 import { Graph } from '@antv/x6'
@@ -47,7 +50,7 @@ const nodeDataRef = ref({
   label: ''
 })
 const docRef = ref();
-const isReadonlyRef = useIsReadOnly()
+const { getIsReadOnly, getSpinning, setSpinning } = useRootState()
 const graphStore = useGraphStore()
 
 const openModal = (cell: any) => {
@@ -64,13 +67,15 @@ const saveGraph = (graph: Graph | undefined) => {
   }
 }
 
-onMounted(async () => {
-  const graph = createGraph(containered)
+// const graph: Ref<Graph | undefined> = ref(undefined)
+
+const initGraph = (graphData, graph) => {
+
+  graph.value?.fromJSON(graphData)
   graph.value?.centerContent()
-  isReady.value = true
 
   graph.value?.on('cell:mouseenter', (args: { cell: any }) => {
-    if (isReadonlyRef.value) return
+    if (getIsReadOnly.value) return
 
     if (args.cell.isNode()) {
       const currentNode = args.cell
@@ -130,20 +135,35 @@ onMounted(async () => {
   })
 
   graph.value?.on('node:click', (args: { node: any }) => {
-    if (!isReadonlyRef.value) return
+    if (!getIsReadOnly.value) return
     openModal(args.node)
   })
 
   graph.value?.on('cell:changed', () => {
-    if (isReadonlyRef.value) return
+    if (getIsReadOnly.value) return
     setTimeout(() => {
       saveGraph(graph.value);
     }, InstantSaveTime);
   })
+}
 
-  const initGraph = await initState()
-  graph.value?.fromJSON(initGraph)
-  graph.value?.centerContent()
+const init = () => {
+  const graph = createGraph(containered)
+  initState().then((graphData) => {
+    setSpinning(false)
+    initGraph(graphData, graph)
+    console.log('graphData', graphData);
+  }).then(() => {
+    isReady.value = true
+  }).catch((err) => {
+    setSpinning(false)
+    // emit('init-error', err);
+  });
+}
+
+onMounted(() => {
+  setSpinning(true)
+  init()
 });
 
 </script>
