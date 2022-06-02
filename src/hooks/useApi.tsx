@@ -1,6 +1,6 @@
 import { useDocsStore } from '@/store/modules/docs'
 import { useGraphStore } from '@/store/modules/graph'
-import { contract, mine } from '@/api/arweave'
+import { contract, mineOrWait, getStatus } from '@/api/arweave'
 import { diffArr, diffObj, cleanObjs } from '@/utils/diff'
 import { useMessage } from '@/hooks/useMessage'
 import { useRootState } from '@/hooks/useApp'
@@ -62,13 +62,13 @@ export function sendGraph<T = any>(graph): Promise<T> {
           created: createdGraph,
         },
       })
-      .then(() => {
-        mine()
+      .then((transactionId) => {
         notification.success({
           message: 'Graph Completed',
           description: '',
           duration: 3,
-        });
+        })
+        mineOrWait(transactionId)
       })
       .then(() => {
         contract.writeInteraction({
@@ -79,22 +79,22 @@ export function sendGraph<T = any>(graph): Promise<T> {
           },
         })
       })
-      .then(() => {
-        mine()
+      .then((transactionId) => {
         setSpinning(false)
         notification.success({
           message: 'Documentation Completed',
           description: '',
           duration: 3,
-        });
+        })
+        mineOrWait(transactionId)
       })
-      .catch((err) => {
+      .catch(err => {
         setSpinning(false)
         notification.error({
           message: 'Failed',
           description: err,
           duration: 5,
-        });
+        })
       })
   })
 }

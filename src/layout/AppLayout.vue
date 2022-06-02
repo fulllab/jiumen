@@ -11,8 +11,9 @@
 
 <script lang="ts">
 import AppHeader from './Header.vue'
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { jobFlush } from '@/hooks/useScheduler'
 
 export default defineComponent({
   components: {
@@ -27,6 +28,10 @@ export default defineComponent({
     const selectedKeys = ref<string[]>(['1'])
     const isSollapsed = ref(false)
     const isBroken = ref(false)
+
+    onMounted(() => {
+      jobFlush()
+    })
 
     return {
       fullScreenMode,

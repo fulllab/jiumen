@@ -15,8 +15,6 @@ export const useAppState = defineStore({
     writable: false,
     readOnly: true,
     atWork: false,
-    // projectConfig: Persistent.getLocal(PROJ_CFG_KEY),
-    // beforeMiniInfo: {},
   }),
   getters: {
     isWritable(): boolean {
