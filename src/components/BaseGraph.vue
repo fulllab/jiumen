@@ -156,7 +156,6 @@ const init = () => {
   initState().then((graphData) => {
     setSpinning(false)
     initGraph(graphData, graph)
-    console.log('graphData', graphData);
   }).then(() => {
     isReady.value = true
   }).catch((err) => {

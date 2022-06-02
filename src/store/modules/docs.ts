@@ -2,6 +2,7 @@ import { DocContent, DocsObj } from '@/types'
 import { defineStore } from 'pinia'
 import { store } from '@/store'
 import { STAGE_KEY, REPO_KEY } from '@/types/cacheEnum'
+import { checkedType } from '@/utils/tools'
 
 interface DocsState {
   pageLoading: boolean
@@ -31,10 +32,10 @@ export const useDocsStore = defineStore({
       return this.remoteDocs || {}
     },
     getStageDocs(): DocsObj | {} {
-      return this.stageDocs || localStorage.getItem(STAGE_KEY)
+      return checkedType(this.stageDocs) || JSON.stringify(localStorage.getItem(STAGE_KEY)) || {}
     },
     getRepoDocs(): DocsObj | {} {
-      return this.repoDocs || localStorage.getItem(REPO_KEY)
+      return checkedType(this.repoDocs) || JSON.parse(localStorage.getItem(REPO_KEY) as any) || {}
     },
   },
   actions: {

@@ -39,7 +39,7 @@
         Add resource
       </a-button>
     </a-form-item>
-    <a-form-item class="mb-4 text-right">
+    <a-form-item class="mb-4 text-right b-button">
       <a-dropdown placement="top">
         <a-button shape="circle">
           <template #icon>
@@ -98,6 +98,8 @@ const formState = reactive<formStateType>({
 const initDoc = (id: string) => {
   nodeIdRef.value = id
   const currentDoc = useCurrentDoc(nodeIdRef.value)
+  console.log('currentDoc',currentDoc);
+
   formState.node = currentDoc
 }
 
@@ -165,7 +167,7 @@ onMounted(() => {
   color: rgb(96 96 96 / 85%)
 }
 
-.ant-form-item-control-input-content {
+.b-button .ant-form-item-control-input-content {
     flex: auto;
     max-width: 100%;
     display: flex;

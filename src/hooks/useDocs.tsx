@@ -12,6 +12,13 @@ export const useCurrentDoc = (nodeId: string): DocContent => {
       docsStore.getRepoDocs[nodeId] ||
       docsStore.getRemoteDocs[nodeId]
     : docsStore.getRemoteDocs[nodeId]
+
+  console.log('docsStore.getWorkingDocs[nodeId]', docsStore.getWorkingDocs[nodeId])
+  console.log('docsStore.getStageDocs[nodeId]', docsStore.getStageDocs[nodeId])
+  console.log('docsStore.getRepoDocs[nodeId]', docsStore.getRepoDocs[nodeId])
+  console.log('docsStore.getRepoDocs', docsStore.getRepoDocs)
+  console.log('nodeId', nodeId)
+
   return (
     currentDoc || {
       resources: [],
