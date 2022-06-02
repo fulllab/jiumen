@@ -5,6 +5,18 @@ export type EdgeShape = 'Process' | 'Support'
 
 export type SaveMode = 'stageDocs' | 'repoDocs'
 
+export type LocaleType = 'zh_CN' | 'en' | 'en_US' | 'ru' | 'ja' | 'ko';
+
+export interface LocaleSetting {
+  showPicker: boolean;
+  // Current language
+  locale: LocaleType;
+  // default language
+  fallback: LocaleType;
+  // available Locales
+  availableLocales: LocaleType[];
+}
+
 export enum StatusEnum {
   Idea,
   Draft,

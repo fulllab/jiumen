@@ -5,11 +5,13 @@
         <GithubOutlined />
       </template>
     </a-button>
+    <ChangeLanguage />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { GithubOutlined } from '@ant-design/icons-vue'
+import ChangeLanguage from '@/components/ChangeLanguage.vue'
 </script>
 
 <style scoped lang="stylus">

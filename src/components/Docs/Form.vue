@@ -98,7 +98,6 @@ const formState = reactive<formStateType>({
 const initDoc = (id: string) => {
   nodeIdRef.value = id
   const currentDoc = useCurrentDoc(nodeIdRef.value)
-  console.log('currentDoc',currentDoc);
 
   formState.node = currentDoc
 }

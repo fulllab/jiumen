@@ -1,5 +1,5 @@
 <template>
-  <a-config-provider>
+  <a-config-provider :locale="getAntLocale">
     <div id="app">
       <app-layout />
     </div>
@@ -11,6 +11,7 @@ import { defineComponent, provide, shallowReactive } from 'vue'
 import AppLayout from '@/layout/AppLayout.vue'
 import { appSymbol } from '@/hooks/GraphContext'
 import { useRootState } from '@/hooks/useApp'
+import { useLocale } from './locales/useLocales'
 
 export default defineComponent({
   name: 'App',
@@ -18,12 +19,16 @@ export default defineComponent({
     AppLayout,
   },
   setup() {
+    const { getAntLocale } = useLocale();
     const { getIsReadOnly, getSpinning } = useRootState()
     const appContext = shallowReactive({
       isReadOnly: getIsReadOnly,
       spinning: getSpinning,
     })
     provide(appSymbol, appContext)
+    return {
+      getAntLocale
+    }
   }
 })
 </script>
