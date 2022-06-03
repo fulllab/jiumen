@@ -99,8 +99,6 @@ const formState = reactive<formStateType>({
 });
 
 const initDoc = (id: string) => {
-  console.log('getLocale',getLocale);
-
   nodeIdRef.value = id
   const currentDoc = useCurrentDoc(nodeIdRef.value)
 

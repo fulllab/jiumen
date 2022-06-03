@@ -4,6 +4,7 @@ import { contract, mineOrWait, getStatus } from '@/api/arweave'
 import { diffArr, diffObj, cleanObjs } from '@/utils/diff'
 import { useMessage } from '@/hooks/useMessage'
 import { useRootState } from '@/hooks/useApp'
+import { useI18n } from 'vue-i18n'
 
 export const initState = async () => {
   const { state } = await contract.readState()
@@ -22,6 +23,7 @@ export const initState = async () => {
 
 export function sendGraph<T = any>(graph): Promise<T> {
   const newGraph = graph.toJSON()
+  const { t } = useI18n()
 
   const graphStore = useGraphStore()
   const remoteGrap = graphStore.getRemoteGraph
@@ -64,7 +66,7 @@ export function sendGraph<T = any>(graph): Promise<T> {
       })
       .then((transactionId) => {
         notification.success({
-          message: 'Graph Completed',
+          message: `Graph ${t('notification.completed')}`,
           description: '',
           duration: 3,
         })
@@ -82,7 +84,7 @@ export function sendGraph<T = any>(graph): Promise<T> {
       .then((transactionId) => {
         setSpinning(false)
         notification.success({
-          message: 'Documentation Completed',
+          message: `Documentation ${t('notification.completed')}`,
           description: '',
           duration: 3,
         })
@@ -91,7 +93,7 @@ export function sendGraph<T = any>(graph): Promise<T> {
       .catch(err => {
         setSpinning(false)
         notification.error({
-          message: 'Failed',
+          message: t('notification.failed'),
           description: err,
           duration: 5,
         })

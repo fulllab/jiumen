@@ -1,27 +1,27 @@
 <template>
   <a-dropdown-button>
     <div v-if="!atWork" @click="startWork">
-      <FormOutlined /> Edit
+      <FormOutlined /> {{ $t('editor.edit') }}
     </div>
     <div v-if="!getIsReadOnly && atWork" @click="preview">
-      <CoffeeOutlined /> Preview
+      <CoffeeOutlined /> {{ $t('editor.preview') }}
     </div>
     <div v-if="getIsReadOnly && atWork" @click="exitPreview">
-      <EyeInvisibleOutlined /> Exit Preview
+      <EyeInvisibleOutlined />  {{ $t('editor.exitPreview') }}
     </div>
     <template #overlay>
       <a-menu>
         <a-menu-item key="1" @click="release" :disabled="!atWork">
           <UploadOutlined />
-          Release
+           {{ $t('editor.release.name') }}
         </a-menu-item>
         <a-menu-item key="2" @click="exitEdit" :disabled="!atWork">
           <PoweroffOutlined />
-          Exit Edit
+           {{ $t('editor.exitEdit') }}
         </a-menu-item>
         <a-menu-item danger key="3" @click="emptyDraft">
           <DeleteOutlined />
-          Empty draft
+          {{ $t('editor.emptyDraft.name') }}
         </a-menu-item>
       </a-menu>
     </template>
@@ -38,6 +38,9 @@ import { useRemoveLsDocs } from '@/hooks/useDocs'
 import { sendGraph } from '@/hooks/useApi'
 import { useContext } from '@/hooks/GraphContext'
 import { Modal } from 'ant-design-vue';
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const appState = useAppState()
 const { graph } = useContext()
@@ -65,7 +68,7 @@ const exitEdit = () => {
 
 const release = () => {
   Modal.confirm({
-    title: 'Do you Want to upload files to Arwave?',
+    title: t('editor.release.confirm'),
     onOk() {
       sendGraph(graph)
     },
@@ -75,7 +78,7 @@ const release = () => {
 
 const emptyDraft = () => {
   Modal.confirm({
-    title: 'Do you Want to empty draft?',
+    title: t('editor.emptyDraft.confirm'),
     okType: 'danger',
     onOk() {
       useRemoveLsDocs()

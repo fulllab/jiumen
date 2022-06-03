@@ -7,11 +7,14 @@ import '@/style/basic.styl'
 import 'virtual:windi-base.css'
 import 'virtual:windi-components.css'
 import 'virtual:windi-utilities.css'
-import '@/locales/index'
-// import rsdk from 'redstone-smartweave'
+import { setupI18n } from '@/locales/setupI18n'
 
 import App from './App.vue'
 const app = createApp(App)
 
+app.use(store).use(router)
+
 loadAnt(app)
-app.use(store).use(router).mount('#app')
+setupI18n(app)
+
+app.mount('#app')

@@ -1,16 +1,11 @@
-/**
- * vue-i18n
- * see more : https://pikax.me/vue-composable/composable/i18n/i18n.html#parameters
- */
-
 import { includes } from 'lodash'
-import moment from 'moment'
 import { findKeyByValue } from '@/utils/tools'
-import { useI18n } from 'vue-composable'
 import zhCN from '@/locales/messages/zhCN'
 import en from '@/locales/messages/en'
+import moment from 'moment'
 import { useLocaleStoreWithOut } from '@/store/modules/locale'
 import { LocaleType } from '@/types/'
+import { createI18n, useI18n } from 'vue-i18n'
 
 const __LOCALE__ = window.navigator.language.split('-').join('')
 const localeStore = useLocaleStoreWithOut()
@@ -27,18 +22,10 @@ export const LanguageNameList: { [key: string]: string } = {
   zhCN: '简体(中文)',
 }
 
-export const i18nInstance = useI18n({
-  locale: 'en',
-  messages: {
-    zhCN,
-    en,
-  },
-})
-
 /**
  * @description Automatic loading of language templates required by antd-vue
  */
-function loadAtdLocales() {
+ export function loadAtdLocales() {
   const files = import.meta.globEager(
     '../../node_modules/ant-design-vue/es/locale-provider/*.js',
   )
@@ -53,17 +40,20 @@ function loadAtdLocales() {
   })
 }
 
-/**
- * @functin setLang - set the app's language
- * @param {string} lang - the language will be setted
- * @return {string} lang - langguage name
- */
+export const getLocale = () => {
+  const localeLs = localeStore.getLocaleLs
+  if (localeLs) {
+    return localeLs
+  }
+  const locales = Object.keys(TranslateTable)
+  if (locales.indexOf(__LOCALE__) > -1) {
+    return __LOCALE__
+  }
+  return 'en'
+}
 
 function _set(lang: keyof typeof TranslateTable): keyof typeof TranslateTable {
-  i18nInstance.locale.value = lang as any
-  // Set the time for the current language
   moment.locale(TranslateTable[lang])
-  // Axios.defaults.headers.common['Accept-Language'] = lang
   localeStore.setLocale(lang as LocaleType)
   return lang
 }
@@ -73,19 +63,14 @@ function _set(lang: keyof typeof TranslateTable): keyof typeof TranslateTable {
  * @param {string} lang - Language to be replaced
  * @return {string} lang - Only after returning the language to be changed
  */
-export function setLang(lang: string, immediate = false): Promise<keyof typeof TranslateTable | 'same'> {
-  if (lang === i18nInstance.locale.value && !immediate) {
-    return Promise.resolve('same')
-  }
+ export function setLang(lang: string): Promise<keyof typeof TranslateTable | 'same'> {
   return Promise.resolve(_set(lang))
 }
 
-function initLocale() {
-  const localeLs = localeStore.getLocaleLs
-  const locale = localeStore.getLocale
-  setLang(localeLs || __LOCALE__ , localeLs == locale)
-}
-
-loadAtdLocales()
-initLocale()
-
+export const i18n = createI18n({
+  locale: getLocale(),
+  messages: {
+    zhCN,
+    en,
+  },
+})

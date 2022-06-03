@@ -1,7 +1,7 @@
 <template>
   <a-dropdown :trigger="['click']" placement="topRight">
     <a-button ghost @click="e => e.preventDefault()">
-      {{ i18n.languageName }}
+      {{ $t('languageName') }}
       <DownOutlined />
     </a-button>
     <template v-slot:overlay>
@@ -16,21 +16,24 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { setLang, i18nInstance, LanguageNameList } from '../locales/index'
+import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
 import { DownOutlined } from '@ant-design/icons-vue'
+import { setLang, LanguageNameList, i18n } from "@/locales";
 
 export default defineComponent({
   components: {
     DownOutlined
   },
   setup() {
-    const { i18n } = i18nInstance
+    const { locale, t } = useI18n()
     const changeLanguage = e => {
       const lang = e
+      locale.value = lang
+
       setLang(lang).then(result => {
         if (result === lang) {
-          message.success(`${i18n.value['Current Language:']} ${i18n.value.languageName}`)
+          message.success(`${t('Current Language:')} ${t('languageName')}`)
         }
       })
     }
