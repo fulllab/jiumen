@@ -7,16 +7,6 @@ export type SaveMode = 'stageDocs' | 'repoDocs'
 
 export type LocaleType = 'zh_CN' | 'en' | 'en_US' | 'ru' | 'ja' | 'ko';
 
-export interface LocaleSetting {
-  showPicker: boolean;
-  // Current language
-  locale: LocaleType;
-  // default language
-  fallback: LocaleType;
-  // available Locales
-  availableLocales: LocaleType[];
-}
-
 export enum StatusEnum {
   Idea,
   Draft,
@@ -43,10 +33,14 @@ export interface DocsObj {
   [id: string]: DocContent | null
 }
 
+export interface LocaleString {
+  [locale: string]: string
+}
+
 export type DocContent = {
   status: number
-  introduction: string
-  description: string
+  introduction: LocaleString
+  description: LocaleString
   resources: Resource[]
   priority: number
   progress: number

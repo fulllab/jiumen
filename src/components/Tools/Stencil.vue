@@ -43,12 +43,16 @@ onMounted(() => {
     getDropNode(node) {
       const { width, height } = node.size()
       if (node.data && node.data.parent) {
-        return node.clone().size(width * 4, height * 3).setAttrByPath('data/label','Group')
+        return node.clone().size(width * 4, height * 3).setAttrByPath('data/label',{
+        en: 'Group'
+      })
       }
       // if (node.data.primer == 'rect') {
       //   return node.clone().size(width * 3, height)
       // }
-      return node.clone().size(width * 2, height * 1.5).setAttrByPath('data/label','Text')
+      return node.clone().size(width * 2, height * 1.5).setAttrByPath('data/label',{
+        en: 'Text'
+      })
     }
   })
   stencilContainer.value?.appendChild(stencil.container)

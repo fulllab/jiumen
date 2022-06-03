@@ -44,6 +44,7 @@ import { Graph } from '@antv/x6'
 import { useGraphStore } from '@/store/modules/graph'
 import { appSymbol } from '@/hooks/GraphContext'
 import { useMessage } from '@/hooks/useMessage'
+import { useLocale } from '@/locales/useLocales'
 
 const containered = ref<HTMLElement | undefined>(undefined)
 const isReady = ref(false)
@@ -51,6 +52,7 @@ const nodeDataRef = ref({
   nodeId: '',
   label: ''
 })
+const { getLocale } = useLocale()
 const docRef = ref();
 const { setSpinning } = useRootState()
 
@@ -61,7 +63,7 @@ const graphStore = useGraphStore()
 const openModal = (cell: any) => {
   nodeDataRef.value = {
     nodeId: cell.id,
-    label: cell.getAttrByPath(NodeLabelPath)
+    label: cell.getAttrByPath(NodeLabelPath)[getLocale.value] || ''
   }
   docRef.value?.showModal()
 }

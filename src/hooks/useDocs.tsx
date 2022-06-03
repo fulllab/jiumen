@@ -18,9 +18,9 @@ export const useCurrentDoc = (nodeId: string): DocContent => {
       resources: [],
       progress: 0,
       priority: 0,
-      introduction: '',
+      introduction: {},
       status: 0,
-      description: '',
+      description: {},
     }
   )
 }

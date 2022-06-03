@@ -1,10 +1,13 @@
 <template>
   <a-dropdown :trigger="['click']" placement="topRight">
-    <a class="ant-dropdown-link" @click="e => e.preventDefault()" :style="{ color: titleColor, fontSize: titleSize }"> {{ i18n.languageName }}<DownOutlined /></a>
+    <a-button ghost @click="e => e.preventDefault()">
+      {{ i18n.languageName }}
+      <DownOutlined />
+    </a-button>
     <template v-slot:overlay>
-      <a-menu class="dropdown-panel">
+      <a-menu class="">
         <a-menu-item v-for="(value, key) of LanguageNameList" :key="key" @click="changeLanguage(key)">
-          <span :style="{ color: textColor }">{{ LanguageNameList[key] }}</span>
+          <span>{{ LanguageNameList[key] }}</span>
         </a-menu-item>
       </a-menu>
     </template>
@@ -18,20 +21,6 @@ import { message } from 'ant-design-vue'
 import { DownOutlined } from '@ant-design/icons-vue'
 
 export default defineComponent({
-  props: {
-    titleColor: {
-      type: String,
-      default: '#8a96d9'
-    },
-    textColor: {
-      type: String,
-      default: '#fff'
-    },
-    titleSize: {
-      type: String,
-      default: '14px'
-    }
-  },
   components: {
     DownOutlined
   },

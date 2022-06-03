@@ -12,10 +12,10 @@
       <a-rate v-model:value="formState.node.priority" :disabled="false" />
     </a-form-item>
     <a-form-item label="Introduction">
-      <a-textarea v-model:value="formState.node.introduction" />
+      <a-textarea v-model:value="formState.node.introduction[getLocale]" />
     </a-form-item>
     <a-form-item label="Description">
-      <MarkDown @update:value="saveMarkDown" :value="formState.node.description" />
+      <MarkDown @update:value="saveMarkDown" :value="formState.node.description[getLocale]" />
     </a-form-item>
     <a-space v-for="(resource, index) in formState.node.resources" :key="resource.id"
       style="display: flex; margin-bottom: 8px" align="baseline">
@@ -71,6 +71,7 @@ import { ProjectStatus } from '@/settings/graph'
 import { MinusCircleOutlined, PlusOutlined, EllipsisOutlined, RollbackOutlined, DeleteOutlined, } from '@ant-design/icons-vue';
 import { useCurrentDoc, useAdd, useCommit,useRecoveryDocs } from '@/hooks/useDocs'
 import { MarkDown } from './Markdown'
+import { useLocale } from '@/locales/useLocales'
 
 const props = defineProps({
   nodeId: { type: String, default: '' },
@@ -79,6 +80,8 @@ const props = defineProps({
 const emit = defineEmits(['save'])
 
 const nodeIdRef = ref()
+
+const { getLocale } = useLocale()
 
 interface formStateType {
   node: DocContent
@@ -89,13 +92,15 @@ const formState = reactive<formStateType>({
     resources: [],
     progress: 0,
     priority: 0,
-    introduction: '',
+    introduction: {},
     status: 0,
-    description: '',
+    description: {},
   }
 });
 
 const initDoc = (id: string) => {
+  console.log('getLocale',getLocale);
+
   nodeIdRef.value = id
   const currentDoc = useCurrentDoc(nodeIdRef.value)
 
@@ -120,7 +125,7 @@ const addResource = () => {
 };
 
 const saveMarkDown = (v) => {
-  formState.node.description = v
+  formState.node.description[getLocale.value] = v
   add()
 }
 

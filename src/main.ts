@@ -11,8 +11,7 @@ import '@/locales/index'
 // import rsdk from 'redstone-smartweave'
 
 import App from './App.vue'
-
 const app = createApp(App)
-loadAnt(app)
 
+loadAnt(app)
 app.use(store).use(router).mount('#app')

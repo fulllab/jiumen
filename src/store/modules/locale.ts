@@ -1,6 +1,7 @@
 import type { LocaleType } from '@/types'
 import { defineStore } from 'pinia'
 import { store } from '@/store'
+import { LOCALE_KEY } from '@/types/cacheEnum'
 
 interface LocaleState {
   locale: LocaleType
@@ -15,11 +16,14 @@ export const useLocaleStore = defineStore({
     getLocale(): LocaleType {
       return this.locale
     },
+    getLocaleLs(): LocaleType | null {
+      return localStorage.getItem(LOCALE_KEY) as LocaleType
+    },
   },
   actions: {
     setLocale(language: LocaleType) {
       this.locale = language
-      // ls
+      localStorage.setItem(LOCALE_KEY, language)
     },
   },
 })

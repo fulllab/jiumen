@@ -15,10 +15,6 @@ import { LocaleType } from '@/types/'
 const __LOCALE__ = window.navigator.language.split('-').join('')
 const localeStore = useLocaleStoreWithOut()
 
-if (!__LOCALE__) {
-  localeStore.setLocale(__LOCALE__ as LocaleType)
-}
-
 export const Locales: any = {}
 
 export const TranslateTable: { [key: string]: LocaleType } = {
@@ -32,7 +28,7 @@ export const LanguageNameList: { [key: string]: string } = {
 }
 
 export const i18nInstance = useI18n({
-  locale: 'zhCN',
+  locale: 'en',
   messages: {
     zhCN,
     en,
@@ -68,7 +64,7 @@ function _set(lang: keyof typeof TranslateTable): keyof typeof TranslateTable {
   // Set the time for the current language
   moment.locale(TranslateTable[lang])
   // Axios.defaults.headers.common['Accept-Language'] = lang
-  localeStore.setLocale(__LOCALE__ as LocaleType)
+  localeStore.setLocale(lang as LocaleType)
   return lang
 }
 
@@ -77,12 +73,19 @@ function _set(lang: keyof typeof TranslateTable): keyof typeof TranslateTable {
  * @param {string} lang - Language to be replaced
  * @return {string} lang - Only after returning the language to be changed
  */
-export function setLang(lang: string): Promise<keyof typeof TranslateTable | 'same'> {
-  if (lang === i18nInstance.locale.value) {
+export function setLang(lang: string, immediate = false): Promise<keyof typeof TranslateTable | 'same'> {
+  if (lang === i18nInstance.locale.value && !immediate) {
     return Promise.resolve('same')
   }
   return Promise.resolve(_set(lang))
 }
 
+function initLocale() {
+  const localeLs = localeStore.getLocaleLs
+  const locale = localeStore.getLocale
+  setLang(localeLs || __LOCALE__ , localeLs == locale)
+}
+
 loadAtdLocales()
-setLang(__LOCALE__)
+initLocale()
+

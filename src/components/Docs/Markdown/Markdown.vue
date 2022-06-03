@@ -16,6 +16,7 @@ import {
 } from 'vue';
 import Vditor from 'vditor';
 import 'vditor/dist/index.css';
+import { useLocale } from '@/locales/useLocales'
 
 type Lang = 'zh_CN' | 'en_US' | 'ja_JP' | 'ko_KR' | undefined;
 
@@ -31,8 +32,7 @@ export default defineComponent({
     const vditorRef = ref(null) as Ref<Vditor | null>;
     const initedRef = ref(false);
 
-    // const { getLocale } = useLocale();
-    // const valueRef = ref(props.value || '');
+    const { getLocale } = useLocale();
 
     const valueRef = ref('');
 
@@ -48,19 +48,19 @@ export default defineComponent({
 
     const getCurrentLang = computed((): 'zh_CN' | 'en_US' | 'ja_JP' | 'ko_KR' => {
       let lang: Lang = 'zh_CN';
-      // switch (unref(getLocale)) {
-      //   case 'en':
-      //     lang = 'en_US';
-      //     break;
-      //   case 'ja':
-      //     lang = 'ja_JP';
-      //     break;
-      //   case 'ko':
-      //     lang = 'ko_KR';
-      //     break;
-      //   default:
-      //     lang = 'zh_CN';
-      // }
+      switch (unref(getLocale)) {
+        case 'en':
+          lang = 'en_US';
+          break;
+        case 'ja':
+          lang = 'ja_JP';
+          break;
+        case 'ko':
+          lang = 'ko_KR';
+          break;
+        default:
+          lang = 'zh_CN';
+      }
       return lang;
     });
     function init() {

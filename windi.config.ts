@@ -9,7 +9,7 @@ export default defineConfig({
       zIndex: {
         '-1': '-1',
       },
-      colors: {
+      textColor: {
         primary: primaryColor,
       },
       screens: {

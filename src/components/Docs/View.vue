@@ -8,13 +8,13 @@
       <a-descriptions-item label="Priority">
         <a-rate :value="nodeContent.node.priority" disabled />
       </a-descriptions-item>
-      <a-descriptions-item label="Introduction">{{ nodeContent.node.introduction }}</a-descriptions-item>
+      <a-descriptions-item label="Introduction">{{ nodeContent.node.introduction[getLocale] }}</a-descriptions-item>
     </a-descriptions>
 
     <p class="text-2xl mt-8 font-bold">Description</p>
     <a-divider />
     <a-empty v-if="!nodeContent.node.description" :description="null" />
-    <MarkdownViewer :value="nodeContent.node.description" />
+    <MarkdownViewer :value="nodeContent.node.description[getLocale]" />
 
     <p class="text-2xl mt-8 font-bold">Resources</p>
     <a-divider />
@@ -33,6 +33,7 @@ import { DocContent } from '@/types'
 import { ProjectStatus } from '@/settings/graph'
 import { useCurrentDoc } from '@/hooks/useDocs'
 import { MarkdownViewer } from './Markdown'
+import { useLocale } from '@/locales/useLocales'
 
 const props = defineProps({
   nodeId: { type: String, default: '' },
@@ -44,14 +45,16 @@ interface nodeContentType {
   node: DocContent
 }
 
+const { getLocale } = useLocale();
+
 const nodeContent = reactive<nodeContentType>({
   node: {
     resources: [],
     progress: 0,
     priority: 0,
-    introduction: '',
+    introduction: {},
     status: 0,
-    description: '',
+    description: {},
   }
 });
 

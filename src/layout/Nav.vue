@@ -1,11 +1,11 @@
 <template>
   <div class="nav h-full bg-transparent flex flex-row justify-end items-center">
-    <a-button type="primary" shape="round" size="large">
+    <ChangeLanguage />
+    <a-button class="m-4" shape="circle" ghost>
       <template #icon>
         <GithubOutlined />
       </template>
     </a-button>
-    <ChangeLanguage />
   </div>
 </template>
 
