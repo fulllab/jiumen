@@ -53,7 +53,7 @@ const nodeDataRef = ref({
   label: ''
 })
 const { getLocale } = useLocale()
-const docRef = ref();
+const docRef = ref()
 const { setSpinning } = useRootState()
 
 const { isReadOnly, spinning } = inject(appSymbol) as any

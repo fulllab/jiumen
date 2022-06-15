@@ -4,6 +4,9 @@
       :class="{ active: nav.isActive }" @click="navClick(nav)">
       {{ nav.name }}
     </a-button>
+    <a-button type="link" class="nav-item flex-center" @click="connect()">
+      Connect
+    </a-button>
   </aside>
 </template>
 
@@ -11,12 +14,15 @@
 import { defineComponent, reactive, toRefs, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { NavItem } from '@/types'
+import { useAddress } from '@/hooks/useAccount'
 
 export default defineComponent({
   name: 'Nav',
 
   setup() {
     const router = useRouter()
+
+    const { address, walletLoaded, connectToArconnect } = useAddress()
 
     const reactiveData = reactive({
       navList: [
@@ -42,6 +48,10 @@ export default defineComponent({
       },
     })
 
+    const connect = () => {
+      connectToArconnect()
+    }
+
     const changeNavActive = (currentPath: string) => {
       reactiveData.navList.forEach((v: NavItem) => {
         const temp = v
@@ -65,6 +75,7 @@ export default defineComponent({
 
     return {
       ...toRefs(reactiveData),
+      connect
     }
   },
 })
