@@ -1,7 +1,6 @@
 
 import Arweave from 'arweave'
 import deployedContracts from '@/contract/deployed.json'
-import { url } from '@/settings/url'
 import jwk from '../../.secrets/jwk.json'
 import { useMessage } from '@/hooks/useMessage'
 import { pushJob, removeJob} from '@/hooks/useScheduler'

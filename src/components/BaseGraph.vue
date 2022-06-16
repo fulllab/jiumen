@@ -42,7 +42,7 @@ import { initState } from '@/hooks/useApi'
 import { NodeLabelPath, InstantSaveTime } from '@/settings/graph'
 import { Graph } from '@antv/x6'
 import { useGraphStore } from '@/store/modules/graph'
-import { appSymbol } from '@/hooks/GraphContext'
+import { appSymbol } from '@/hooks/useGraphContext'
 import { useMessage } from '@/hooks/useMessage'
 import { useLocale } from '@/locales/useLocales'
 

@@ -4,7 +4,7 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import { useContext } from '@/hooks/GraphContext'
+import { useContext } from '@/hooks/useGraphContext'
 import { ShapeBorderColor, GroupBorderColor, ShapebgDarkColor } from '@/settings/graph'
 import { Addon } from '@antv/x6'
 import "@antv/x6-vue-shape"

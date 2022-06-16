@@ -3,6 +3,9 @@ import { defineStore } from 'pinia'
 import { store } from '@/store'
 import { STAGE_KEY, REPO_KEY } from '@/types/cacheEnum'
 import { checkedType } from '@/utils/tools'
+import { createStorage } from '@/utils/localStorage'
+
+const ls = createStorage({})
 
 interface DocsState {
   pageLoading: boolean
@@ -32,10 +35,10 @@ export const useDocsStore = defineStore({
       return this.remoteDocs || {}
     },
     getStageDocs(): DocsObj | {} {
-      return checkedType(this.stageDocs) || JSON.stringify(localStorage.getItem(STAGE_KEY)) || {}
+      return checkedType(this.stageDocs) || ls.get(STAGE_KEY) || {}
     },
     getRepoDocs(): DocsObj | {} {
-      return checkedType(this.repoDocs) || JSON.parse(localStorage.getItem(REPO_KEY) as any) || {}
+      return checkedType(this.repoDocs) || ls.get(REPO_KEY) || {}
     },
   },
   actions: {
@@ -64,26 +67,26 @@ export const useDocsStore = defineStore({
     setStageDoc(nodeId: string, data: DocContent): void {
       this.setWorkingDocById(nodeId, data)
       this.stageDocs[nodeId] = data
-      localStorage.setItem(STAGE_KEY, JSON.stringify(this.stageDocs))
+      ls.set(STAGE_KEY, this.stageDocs)
     },
     setRepoDoc(nodeId: string, data: DocContent | null): void {
       this.repoDocs[nodeId] = data
       this.workingDocs[nodeId] = data
-      localStorage.setItem(REPO_KEY, JSON.stringify(this.repoDocs))
+      ls.set(REPO_KEY, this.repoDocs)
 
-      delete this.stageDocs[nodeId]
       localStorage.setItem(STAGE_KEY, JSON.stringify(this.stageDocs))
+      ls.set(STAGE_KEY, this.stageDocs)
     },
     mergerDocs(data: DocsObj): void {
       this.repoDocs = data
       this.stageDocs = {}
       this.workingDocs = {}
-      if (data = {}) {
-        localStorage.removeItem(REPO_KEY)
-      }else {
-        localStorage.setItem(REPO_KEY, JSON.stringify(data))
+      if ((data = {})) {
+        ls.remove(REPO_KEY)
+      } else {
+        ls.set(REPO_KEY, data)
       }
-      localStorage.removeItem(STAGE_KEY)
+      ls.remove(STAGE_KEY)
     },
     recoveryDoc(nodeId: string): void {
       Reflect.deleteProperty(this.workingDocs, nodeId)
@@ -93,8 +96,8 @@ export const useDocsStore = defineStore({
       this.stageDocs = {}
       this.repoDocs = {}
       this.workingDocs = {}
-      localStorage.removeItem(STAGE_KEY)
-      localStorage.removeItem(REPO_KEY)
+      ls.remove(STAGE_KEY)
+      ls.remove(REPO_KEY)
     },
   },
 })

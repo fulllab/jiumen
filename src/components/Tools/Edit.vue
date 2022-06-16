@@ -36,7 +36,7 @@ import { useRootState } from '@/hooks/useApp'
 import { useRemoveLsGraph } from '@/hooks/useGraph'
 import { useRemoveLsDocs } from '@/hooks/useDocs'
 import { sendGraph } from '@/hooks/useApi'
-import { useContext } from '@/hooks/GraphContext'
+import { useContext } from '@/hooks/useGraphContext'
 import { Modal } from 'ant-design-vue';
 import { useI18n } from 'vue-i18n'
 

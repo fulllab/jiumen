@@ -1,6 +1,9 @@
 import { defineStore } from 'pinia'
 import { store } from '@/store'
 import { GRAPH_REPO_KEY, GRAPH_REMOTE_KEY } from '@/types/cacheEnum'
+import { createStorage } from '@/utils/localStorage'
+
+const ls = createStorage({})
 
 // Temporarily disable the staging area, need to make incremental storage
 // for the diagram to improve efficiency
@@ -21,10 +24,10 @@ export const useGraphStore = defineStore({
     //   return this.stageGraph || ''
     // },
     getRepoGraph(): any {
-      return this.repoGraph || JSON.parse(localStorage.getItem(GRAPH_REPO_KEY) as any)
+      return this.repoGraph || ls.get(GRAPH_REPO_KEY)
     },
     getRemoteGraph(): string | '' {
-      return this.remoteGraph || JSON.parse(localStorage.getItem(GRAPH_REMOTE_KEY) as any)
+      return this.remoteGraph || ls.get(GRAPH_REMOTE_KEY)
     },
   },
   actions: {
@@ -33,16 +36,16 @@ export const useGraphStore = defineStore({
     // },
     setRepoGraph(graph: any): void {
       this.repoGraph = graph
-      localStorage.setItem(GRAPH_REPO_KEY, JSON.stringify(this.repoGraph))
+      ls.set(GRAPH_REPO_KEY, this.repoGraph)
     },
     setRemoteGraph(graph: any): void {
       this.remoteGraph = graph
-      localStorage.setItem(GRAPH_REMOTE_KEY, JSON.stringify(this.remoteGraph))
+      ls.set(GRAPH_REMOTE_KEY, this.remoteGraph)
     },
     removeRepoGraph(): void {
       this.repoGraph = ''
-      localStorage.removeItem(GRAPH_REPO_KEY)
-    }
+      ls.remove(GRAPH_REMOTE_KEY)
+    },
   },
 })
 

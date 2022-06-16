@@ -7,7 +7,7 @@
 
 <script lang="ts" setup>
 import { onMounted, inject, ref, defineExpose, watch } from 'vue'
-import { appSymbol } from '@/hooks/GraphContext'
+import { appSymbol } from '@/hooks/useGraphContext'
 import Form from './Form.vue'
 import View from './View.vue';
 

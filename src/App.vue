@@ -9,7 +9,7 @@
 <script lang="ts">
 import { defineComponent, provide, shallowReactive } from 'vue'
 import AppLayout from '@/layout/AppLayout.vue'
-import { appSymbol } from '@/hooks/GraphContext'
+import { appSymbol } from '@/hooks/useGraphContext'
 import { useRootState } from '@/hooks/useApp'
 import { useLocale } from './locales/useLocales'
 
