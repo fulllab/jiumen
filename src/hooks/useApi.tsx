@@ -4,7 +4,7 @@ import { contract, mineOrWait, getStatus } from '@/api/arweave'
 import { diffArr, diffObj, cleanObjs } from '@/utils/diff'
 import { useMessage } from '@/hooks/useMessage'
 import { useRootState } from '@/hooks/useApp'
-import { useI18n } from 'vue-i18n'
+import { useI18n } from '@/hooks/useI18n'
 
 export const initState = async () => {
   const { state } = await contract.readState()
@@ -91,10 +91,11 @@ export function sendGraph<T = any>(graph): Promise<T> {
         mineOrWait(transactionId)
       })
       .catch(err => {
+        console.log('err', err);
         setSpinning(false)
         notification.error({
           message: t('notification.failed'),
-          description: err,
+          description: '',
           duration: 5,
         })
       })

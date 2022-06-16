@@ -30,6 +30,7 @@ export function useAddress() {
             'ACCESS_ADDRESS',
             'ACCESS_ALL_ADDRESSES',
             'SIGN_TRANSACTION',
+            'ENCRYPT'
           ])
           await loadArweaveAddress()
         }

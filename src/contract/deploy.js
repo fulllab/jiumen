@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Arweave = require('arweave');
-const { SmartWeaveWebFactory, SmartWeaveNodeFactory, LoggerFactory } = require('redstone-smartweave');
+const { SmartWeaveNodeFactory, LoggerFactory } = require('redstone-smartweave');
 const { default: ArLocal } = require('arlocal');
 const jwk = require('../../.secrets/jwk.json');
 
@@ -19,6 +19,7 @@ const jwk = require('../../.secrets/jwk.json');
   }
 
   const isArLocal = env == 'arlocal';
+  const isPro = env == 'production';
 
   const { VITE_ARWEAVE_HOST, VITE_ARWEAVE_PROTOCOL, VITE_PORT } = process.env
 
@@ -36,30 +37,31 @@ const jwk = require('../../.secrets/jwk.json');
     port: VITE_PORT,
     host: VITE_ARWEAVE_HOST,
     protocol: VITE_ARWEAVE_PROTOCOL,
+    timeout: 200000,
   });
 
-  const mine = () => isArLocal && arweave.api.get('mine');
+  const mine = () => isPro && arweave.api.get('mine');
 
   const address = await arweave.wallets.jwkToAddress(jwk);
 
   // Minting token for deployment
-  if (isArLocal) {
+  if (!isPro) {
     // It is not necessary to get balance
     const balance = await arweave.wallets.getBalance(address)
     if (balance < 10000000000) {
-      await arweave.api.get(`mint/${address}/10000000000000`);
+      await arweave.api.get(`mint/${address}/1000000000000000`);
       await mine();
     }
   }
   LoggerFactory.INST.logLevel('debug');
 
-  const smartweave = isArLocal
-    ? SmartWeaveNodeFactory.memCached(arweave)
-    : SmartWeaveWebFactory.memCachedBased(arweave)
-      .setInteractionsLoader(
-        new RedstoneGatewayInteractionsLoader(url.redstoneGateway),
-      )
-      .build()
+  const smartweave = SmartWeaveNodeFactory.memCached(arweave)
+  // ?
+  // : SmartWeaveWebFactory.memCachedBased(arweave)
+  //   .setInteractionsLoader(
+  //     new RedstoneGatewayInteractionsLoader(redstoneGateway),
+  //   )
+  //   .build()
 
   const contractSrc = readJson('./jiumen/contract.js');
   // push contract deployer to members

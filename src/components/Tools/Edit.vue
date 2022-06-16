@@ -70,6 +70,7 @@ const release = () => {
   Modal.confirm({
     title: t('editor.release.confirm'),
     onOk() {
+      console.log('start send!');
       sendGraph(graph)
     },
     onCancel() { },
