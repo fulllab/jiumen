@@ -1,6 +1,6 @@
 import { ref, Ref, shallowReactive, watch } from 'vue'
 import { Graph, Shape } from '@antv/x6'
-import { createContext } from './GraphContext'
+import { createContext } from './useGraphContext'
 import { EdgeShape } from '@/types'
 import {
   HighlightingStyle,
