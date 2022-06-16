@@ -74,6 +74,10 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           replacement: 'antd/es',
         },
         {
+          find: 'vue-i18n',
+          replacement: 'vue-i18n/dist/vue-i18n.cjs.js',
+        },
+        {
           find: '@antv/x6',
           replacement: '@antv/x6/dist/x6.js',
         },

@@ -56,7 +56,7 @@ export const createStorage = ({
       const val = this.storage.getItem(this.getKey(key));
       if (!val) return def;
 
-      return JSON.parse(val);
+      return JSON.parse(val).value;
     }
 
     /**
