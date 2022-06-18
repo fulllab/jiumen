@@ -20,10 +20,12 @@ export default defineComponent({
   },
   setup() {
     const { getAntLocale } = useLocale();
-    const { getIsReadOnly, getSpinning } = useRootState()
+    const { getIsReadOnly, getSpinning, getIsMember } = useRootState()
+
     const appContext = shallowReactive({
       isReadOnly: getIsReadOnly,
       spinning: getSpinning,
+      isMember: getIsMember,
     })
     provide(appSymbol, appContext)
     return {

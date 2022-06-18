@@ -5,9 +5,12 @@ import { diffArr, diffObj, cleanObjs } from '@/utils/diff'
 import { useMessage } from '@/hooks/useMessage'
 import { useRootState } from '@/hooks/useApp'
 import { useI18n } from '@/hooks/useI18n'
+import { useAppState } from '@/store/modules/app'
+
 
 export const initState = async () => {
   const { state } = await contract.readState()
+  const appStore = useAppState()
   const graphJson = {
     cells: state.graph,
   }
@@ -17,6 +20,7 @@ export const initState = async () => {
 
   docsStore.setRemoteDocs(state.docs)
   graphStore.setRemoteGraph(graphJson)
+  appStore.setMembers(state.members)
 
   return graphJson
 }

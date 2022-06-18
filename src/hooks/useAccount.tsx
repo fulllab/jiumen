@@ -1,8 +1,13 @@
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useAppState } from '@/store/modules/app'
+import { useRootState } from '@/hooks/useApp'
 
 export function useAddress() {
   const walletLoaded = ref(false)
   const address = ref('')
+  const appStore = useAppState()
+
+  const { setIsMember } = useRootState()
 
   const connectToArconnect = async () => {
     console.log('Connecting to ArConnect')
@@ -46,6 +51,15 @@ export function useAddress() {
       walletLoaded.value = true
     }
   }
+
+
+  watch(
+    () => [appStore.getMembers, address.value],
+    ([members, address]) => {
+      setIsMember(members.includes(address))
+    },
+    { immediate: true }
+  )
 
   return {
     address,

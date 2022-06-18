@@ -3,25 +3,30 @@ import { store } from '@/store';
 
 interface AppState {
   spinning: boolean;
-  writable: boolean;
   readOnly: boolean;
   atWork: boolean;
+  members: string[];
+  isMember: boolean;
 }
 
 export const useAppState = defineStore({
   id: 'app',
   state: (): AppState => ({
     spinning: true,
-    writable: false,
     readOnly: true,
     atWork: false,
+    members: [],
+    isMember: false,
   }),
   getters: {
-    isWritable(): boolean {
-      return this.writable
+    getIsMember(): boolean {
+      return this.isMember
     },
     getIsReadOnly(): boolean {
       return this.readOnly
+    },
+    getMembers(): any {
+      return this.members
     },
     getSpinning(): boolean {
       return this.spinning;
@@ -31,8 +36,8 @@ export const useAppState = defineStore({
     }
   },
   actions: {
-    setWritable(writable: boolean): void {
-      this.writable = writable
+    setIsMember(isMember: boolean): void {
+      this.isMember = isMember
     },
     setIsReadOnly(status: boolean): void {
       this.readOnly = status
@@ -42,6 +47,9 @@ export const useAppState = defineStore({
     },
     setAtWork(atWork: boolean): void {
       this.atWork = atWork;
+    },
+    setMembers(members: any): void {
+      this.members = members;
     },
   },
 });

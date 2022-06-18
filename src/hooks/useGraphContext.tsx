@@ -8,14 +8,6 @@ export const createContext = (context) => {
   provide(contextSymbol, context)
 }
 
-export const useAppConfig = () => {
-  const context = inject(contextSymbol)
-  return context as ShallowReactive<{
-    isReadOnly: boolean;
-    spinning: boolean;
-  }>
-}
-
 export const useContext = () => {
   const context = inject(contextSymbol)
   if (!context) {

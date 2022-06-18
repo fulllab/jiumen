@@ -1,12 +1,11 @@
 <template>
   <div class="flex w-full h-full">
-
     <div v-if="!isReadOnly">
       <Stencil />
     </div>
     <div id="containered" ref="containered" />
     <div class="absolute right-5 top-2">
-      <Edit v-if="isReady" />
+      <Edit v-if="isReady && isMember" />
     </div>
     <div v-if="!isReadOnly" class="space-x-2 color-picker-group">
       <EdgeSelect />
@@ -21,7 +20,7 @@
       </ColorPicker>
     </div>
     <Doc ref="docRef" :node-id="nodeDataRef.nodeId" :label="nodeDataRef.label" />
-    <a-spin v-if="spinning" class="absolute w-full h-full flex justify-center items-center bg-gray-500/50 bg-opacity-20"
+    <a-spin v-if="spinning" class="absolute flex items-center justify-center w-full h-full bg-gray-500/50 bg-opacity-20"
       :spinning="spinning"></a-spin>
   </div>
 </template>
@@ -56,7 +55,7 @@ const { getLocale } = useLocale()
 const docRef = ref()
 const { setSpinning } = useRootState()
 
-const { isReadOnly, spinning } = inject(appSymbol) as any
+const { isReadOnly, spinning, isMember } = inject(appSymbol) as any
 
 const graphStore = useGraphStore()
 

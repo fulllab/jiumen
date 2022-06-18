@@ -5,15 +5,22 @@ export function useRootState() {
   const appStore = useAppState()
   const getIsReadOnly = computed(() => appStore.getIsReadOnly)
   const getSpinning = computed(() => appStore.getSpinning)
+  const getIsMember = computed(() => appStore.getIsMember)
 
   function setSpinning(spinning: boolean) {
     appStore.setSpinning(spinning)
+  }
+
+  function setIsMember(spinning: boolean) {
+    appStore.setIsMember(spinning)
   }
 
   return {
     getIsReadOnly,
     getSpinning,
     setSpinning,
+    setIsMember,
+    getIsMember,
   }
 }
 
