@@ -81,7 +81,9 @@ export const useDocsStore = defineStore({
       this.repoDocs = data
       this.stageDocs = {}
       this.workingDocs = {}
-      if ((data = {})) {
+      console.log('data', data);
+
+      if ((data == {})) {
         ls.remove(REPO_KEY)
       } else {
         ls.set(REPO_KEY, data)

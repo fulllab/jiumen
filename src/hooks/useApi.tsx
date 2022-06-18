@@ -101,7 +101,7 @@ export async function sendGraph(graph) {
 
   try {
     if (updatedDocs || deletedDocs) {
-      contract.writeInteraction({
+      await contract.writeInteraction({
         function: 'setDocs',
         data: {
           updated: updatedDocs,
