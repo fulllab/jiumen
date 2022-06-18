@@ -26,7 +26,7 @@ export async function handle(state, action) {
       checkedMember(action.caller)
       for (let cell of action.input.data.updated) {
         const oldIndex = cell.oldIndex
-        Reflect.deleteProperty(cell, oldIndex);
+        Reflect.deleteProperty(cell, 'oldIndex');
         state.graph[oldIndex] = cell
       }
       const deletedLength = action.input.data.deleted.length;
@@ -37,7 +37,7 @@ export async function handle(state, action) {
       // Keep the layers in order!
       for (let cell of action.input.data.created) {
         const newIndex = cell.newIndex
-        Reflect.deleteProperty(cell, newIndex);
+        Reflect.deleteProperty(cell, 'newIndex');
         state.graph[newIndex] = cell
       }
       return { state };

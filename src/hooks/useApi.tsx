@@ -6,6 +6,7 @@ import { useMessage } from '@/hooks/useMessage'
 import { useRootState } from '@/hooks/useApp'
 import { useI18n } from '@/hooks/useI18n'
 import { useAppState } from '@/store/modules/app'
+import { isEmpty } from '@/utils/is'
 
 export const initState = async () => {
   const { state } = await contract.readState()
@@ -25,7 +26,6 @@ export const initState = async () => {
 }
 
 export async function sendGraph(graph) {
-
   const newGraph = graph.toJSON()
   const { t } = useI18n()
 
@@ -71,7 +71,7 @@ export async function sendGraph(graph) {
 
   let jobsCount = 2
 
-  const success = (send) => {
+  const success = send => {
     jobsCount -= 1
     notification.success({
       message: `${send} ${t('notification.completed')}`,
@@ -83,39 +83,57 @@ export async function sendGraph(graph) {
     }
   }
 
-  if (updatedGraph || deletedGraph || createdGraph) {
-    await contract.writeInteraction({
-      function: 'setGraph',
-      data: {
-        updated: updatedGraph,
-        deleted: deletedGraph,
-        created: createdGraph,
-      },
-    }).then((transactionId)=>{
-      success('Graph')
-      return mineOrWait(transactionId);
-    }).catch((error)=>{
-      showErr(error)
+  const clean = send => {
+    jobsCount -= 1
+    notification.success({
+      message: `${send} is clean , nothing update!`,
+      description: '',
+      duration: 3,
     })
+    if (jobsCount <= 0) {
+      setSpinning(false)
+    }
   }
 
-  try {
-    if (updatedDocs || deletedDocs) {
-      await contract.writeInteraction({
+  if (!isEmpty(updatedGraph) || !isEmpty(deletedGraph) || !isEmpty(createdGraph)) {
+    await contract
+      .writeInteraction({
+        function: 'setGraph',
+        data: {
+          updated: updatedGraph,
+          deleted: deletedGraph,
+          created: createdGraph,
+        },
+      })
+      .then(transactionId => {
+        success('Graph')
+        return mineOrWait(transactionId)
+      })
+      .catch(error => {
+        showErr(error)
+      })
+  } else {
+    clean('Graph')
+  }
+
+  if (!isEmpty(updatedDocs) || !isEmpty(deletedDocs)) {
+    await contract
+      .writeInteraction({
         function: 'setDocs',
         data: {
           updated: updatedDocs,
           deleted: deletedDocs,
         },
-      }).then((transactionId)=> {
+      })
+      .then(transactionId => {
         success('Docs')
         return mineOrWait(transactionId)
-      }).catch((error)=>{
+      })
+      .catch(error => {
         showErr(error)
       })
-    }
-  } catch (error) {
-    showErr(error)
+  } else {
+    clean('Docs')
   }
 }
 

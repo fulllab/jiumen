@@ -73,8 +73,6 @@ export const useDocsStore = defineStore({
       this.repoDocs[nodeId] = data
       this.workingDocs[nodeId] = data
       ls.set(REPO_KEY, this.repoDocs)
-
-      localStorage.setItem(STAGE_KEY, JSON.stringify(this.stageDocs))
       ls.set(STAGE_KEY, this.stageDocs)
     },
     mergerDocs(data: DocsObj): void {
