@@ -13,6 +13,3 @@
   <span> / </span>
   <a href="./README_ZH.md">中文</a>
 </h5>
-
-Vue3 + vite + windi + X6 + SmartWeave. It works in both web and Node.js environment (requires Node.js 16.5+).
-
