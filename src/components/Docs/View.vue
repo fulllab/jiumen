@@ -14,7 +14,7 @@
     <p class="text-2xl mt-8 font-bold">Description</p>
     <a-divider />
     <a-empty v-if="!nodeContent.node.description" :description="null" />
-    <MarkdownViewer :value="nodeContent.node.description[getLocale]" />
+    <MarkdownViewer :value="nodeContent.node.description[getLocale]" class="vditor-reset" />
 
     <p class="text-2xl mt-8 font-bold">Resources</p>
     <a-divider />

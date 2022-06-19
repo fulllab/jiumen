@@ -32,13 +32,15 @@ export async function handle(state, action) {
       const deletedLength = action.input.data.deleted.length;
       if (deletedLength > 0) {
         // Direct deletion will result in an error
-        state.graph = state.graph.filter((item, index) => !action.input.data.deleted.includes(index))
+        state.graph = state.graph.filter((item, index) => !action.input.data.deleted.includes(index) && item)
       }
       // Keep the layers in order!
       for (let cell of action.input.data.created) {
-        const newIndex = cell.newIndex
-        Reflect.deleteProperty(cell, 'newIndex');
-        state.graph[newIndex] = cell
+        if (cell.newIndex) {
+          const newIndex = cell.newIndex
+          Reflect.deleteProperty(cell, 'newIndex');
+          state.graph[newIndex] = cell
+        }
       }
       return { state };
     }

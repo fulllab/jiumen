@@ -11,8 +11,9 @@ import { isEmpty } from '@/utils/is'
 export const initState = async () => {
   const { state } = await contract.readState()
   const appStore = useAppState()
+  const graphChecked = state.graph.filter(item => item && !isEmpty(item))
   const graphJson = {
-    cells: state.graph,
+    cells: graphChecked,
   }
 
   const graphStore = useGraphStore()

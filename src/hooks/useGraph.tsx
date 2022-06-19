@@ -125,7 +125,10 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
         connector: 'rounded',
         connectionPoint: 'boundary',
         router: {
-          name: 'metro',
+          name: 'er',
+          // args: {
+          //   step: graph.value?.options.grid.size || 12,
+          // },
         },
         createEdge() {
           let edgeLineOp = {
