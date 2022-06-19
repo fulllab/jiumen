@@ -54,10 +54,7 @@ const diffArr = (news: Array<any> = [], olds: Array<any> = [], key = 'id') => {
       item.newIndex = index.toString()
       created.push(item)
     } else if (!isObjectValueEqual(olds[oldIndex + 1 - 1], item)) {
-      console.log('olds', olds[oldIndex])
-      console.log('item', item)
-
-      // item.oldIndex = oldIndex
+      item.oldIndex = oldIndex
       updated.push(item)
     }
   }
