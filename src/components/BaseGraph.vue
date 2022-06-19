@@ -182,6 +182,14 @@ onMounted(() => {
   overflow hidden !important
 }
 
+.x6-node.x6-node-immovable {
+  cursor: pointer !important;
+}
+
+.x6-node.x6-node-immovable:hover {
+  filter: brightness(105%);
+}
+
 .gra {
   width 100%
   height 100%

@@ -53,9 +53,8 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
       selecting: {
         enabled: true,
       },
-      keyboard: {
-        enabled: true,
-      },
+      // TODO Temporarily invalid
+      keyboard: true,
       history: {
         enabled: true,
         ignoreChange: true,
@@ -79,6 +78,7 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
         if (isReadOnly().value) {
           return {
             magnetConnectable: false,
+            nodeMovable: false
           }
         }
         return true
@@ -125,7 +125,7 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
         connector: 'rounded',
         connectionPoint: 'boundary',
         router: {
-          name: 'manhattan',
+          name: 'metro',
         },
         createEdge() {
           let edgeLineOp = {
