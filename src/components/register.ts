@@ -37,17 +37,6 @@ export class RectShape extends VueShape {}
 export class GroupShape extends VueShape {}
 export class EllipseShape extends VueShape {}
 
-const portsAttrs = {
-  circle: {
-    r: 3,
-    stroke: ShapeBorderColor,
-    fill: ShapebgColor,
-    magnet: true,
-    strokeWidth: 1,
-    visibility: 'visible', // hidden  visible
-  },
-}
-
 RectShape.config({
   primer: "rect",
   attrs: {
@@ -62,34 +51,6 @@ RectShape.config({
   },
   data: {
     primer: "rect",
-  },
-  ports: {
-    items: [
-      {
-        id: 'port1',
-        group: 'left',
-      },
-      {
-        id: 'port2',
-        group: 'right',
-      },
-    ],
-    groups: {
-      left: {
-        position: 'left',
-        attrs: portsAttrs,
-      },
-      right: {
-        position: 'right',
-        attrs: portsAttrs,
-      },
-    },
-    portMarkup: [
-      {
-        tagName: 'circle',
-        selector: 'portBody',
-      },
-    ],
   },
   component: {
     template: `<general-com />`,
@@ -111,38 +72,6 @@ EllipseShape.config({
   },
   data: {
     primer: "ellipse",
-  },
-  ports: {
-    items: [
-      {
-        id: 'port1',
-        group: 'ellipse',
-      },
-      {
-        id: 'port2',
-        group: 'ellipse',
-      },
-      {
-        id: 'port3',
-        group: 'ellipse',
-      },
-      {
-        id: 'port4',
-        group: 'ellipse',
-      },
-    ],
-    groups: {
-      ellipse: {
-        position: 'ellipseSpread',
-        attrs: portsAttrs,
-      },
-    },
-    portMarkup: [
-      {
-        tagName: 'circle',
-        selector: 'portBody',
-      },
-    ],
   },
   component: {
     template: `<general-com />`,
@@ -167,34 +96,6 @@ GroupShape.config({
   data: {
     primer: "rect",
     parent: true,
-  },
-  ports: {
-    items: [
-      {
-        id: 'port1',
-        group: 'left',
-      },
-      {
-        id: 'port2',
-        group: 'right',
-      },
-    ],
-    groups: {
-      left: {
-        position: 'left',
-        attrs: portsAttrs,
-      },
-      right: {
-        position: 'right',
-        attrs: portsAttrs,
-      },
-    },
-    portMarkup: [
-      {
-        tagName: 'circle',
-        selector: 'portBody',
-      },
-    ],
   },
   component: {
     template: `<group-com />`,
