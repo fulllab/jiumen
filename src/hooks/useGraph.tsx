@@ -73,7 +73,7 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
         enabled: true,
         global: true,
         // Preventing conflicts with scroller
-        // modifiers: ['meta'],
+        modifiers: ['meta'],
       },
       interacting: () => {
         if (isReadOnly().value) {
