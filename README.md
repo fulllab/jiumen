@@ -54,7 +54,7 @@ Create a directory `./.secrets` ，and add the `jwk.json` file.
 yarn deploy:al
 ```
 
-### 启动
+### Launch 
 
 Open a new window.
 
