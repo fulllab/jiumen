@@ -10,17 +10,11 @@
 
 <script lang="ts" setup>
 import { useRouter } from 'vue-router'
-import { useAddress } from '@/hooks/useAccount'
-
-const { address, walletLoaded, connectToArconnect } = useAddress()
 const router = useRouter()
-
-
 
 const goGitHub = () => {
   window.open('https://github.com/ZeroDAO/jiumen')
 }
-
 
 </script>
 

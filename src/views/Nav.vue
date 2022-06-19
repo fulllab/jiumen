@@ -22,7 +22,7 @@ export default defineComponent({
   setup() {
     const router = useRouter()
 
-    const { address, walletLoaded, connectToArconnect } = useAddress()
+    const { connectToArconnect } = useAddress()
 
     const reactiveData = reactive({
       navList: [
