@@ -5,7 +5,7 @@
     </div>
     <div id="containered" ref="containered" />
     <div class="absolute right-5 top-2">
-      <Edit v-if="isReady && isMember" />
+      <Edit v-if="isReady" />
     </div>
     <div v-if="!isReadOnly" class="space-x-2 color-picker-group">
       <EdgeSelect />
