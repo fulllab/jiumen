@@ -1,10 +1,6 @@
 <div align="center">
-  
-![Logo](https://pic.tom24h.com/ors/jiumen-logo.svg)
 
-[![Twitter URL](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Ftwitter.com%2Fzerodaonet)](https://twitter.com/z_ourspace)
-[![Discord](https://img.shields.io/badge/Discord-gray?logo=discord)](https://discord.gg/K56C6jtr)
-[![Medium](https://img.shields.io/badge/Medium-gray?logo=medium)](https://zerodao.medium.com/)
+![Logo](https://pic.tom24h.com/ors/jiumen-logo.svg)
 
 </div>
 
@@ -13,6 +9,7 @@
   <span> / </span>
   <a href="./README_ZH.md">中文</a>
 </h5>
+
 
 Demo: [ZeroDAO Strategy](https://www.zerodao.net/)
 Official Website: [JIUMEN](https://www.jiumen.io/)
@@ -23,9 +20,8 @@ A strategic canvas for DAO and Web3 projects, with the goal of getting members t
 
 Traditional companies have a clear organizational structure and information is delivered through specific organizational structures very efficiently. information in DAO is disseminated through the community, which resembles a peer-to-peer network topology, so the amount of information received by each user grows super linearly. This increases the information asymmetry between investors, communities, and project parties, creating the problem of difficult collaboration. For example, a Defi project in June 2022 led to a financial risk and governance crisis because there was no risk management. Using a clear strategic canvas, perhaps the community could have identified this apparently fatal problem.
 
-<div align="center">
-![JIUMEN](https://pic.tom24h.com/jiumen/fjiumen.svg)
-</div>
+![](https://pic.tom24h.com/jiumen/fjiumen.svg)
+
 
 Vue3 + vite + windi + X6 + SmartWeave , Ensure Node.js 16.5+ .
 
@@ -86,5 +82,3 @@ yarn build
 - Multi-user version, where each DAO and web3 project can quickly build its own strategy canvas
 - Eth wallet compatible, no need to pay storage fees
 - An application to showcase great canvases
-
-
