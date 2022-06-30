@@ -15,12 +15,17 @@
 </h5>
 
 Demo: [ZeroDAO Strategy](https://www.zerodao.net/)
+Official Website: [JIUMEN](https://www.jiumen.io/)
 
 A strategic canvas for DAO and Web3 projects, with the goal of getting members to understand a complex DAO in less than a minute.
 
 **It is currently in MVP phase and lacks some core features. It is untested because the contract needs to be refactored.**
 
 Traditional companies have a clear organizational structure and information is delivered through specific organizational structures very efficiently. information in DAO is disseminated through the community, which resembles a peer-to-peer network topology, so the amount of information received by each user grows super linearly. This increases the information asymmetry between investors, communities, and project parties, creating the problem of difficult collaboration. For example, a Defi project in June 2022 led to a financial risk and governance crisis because there was no risk management. Using a clear strategic canvas, perhaps the community could have identified this apparently fatal problem.
+
+<div align="center">
+![JIUMEN](https://pic.tom24h.com/jiumen/fjiumen.svg)
+</div>
 
 Vue3 + vite + windi + X6 + SmartWeave , Ensure Node.js 16.5+ .
 
