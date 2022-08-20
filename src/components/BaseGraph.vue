@@ -21,7 +21,7 @@
     </div>
     <MiniMap v-if="isReady" />
     <Zoom v-if="isReady" />
-    <Doc ref="docRef" :node-id="nodeDataRef.nodeId" :label="nodeDataRef.label" />
+    <Doc v-if="isReady" ref="docRef" :node-id="nodeDataRef.nodeId" :label="nodeDataRef.label" />
     <a-spin v-if="spinning" class="absolute flex items-center justify-center w-full h-full bg-gray-500/50 bg-opacity-20"
       :spinning="spinning"></a-spin>
   </div>

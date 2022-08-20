@@ -9,12 +9,15 @@
 import { onMounted, inject, ref, defineExpose, watch } from 'vue'
 import { appSymbol } from '@/hooks/useGraphContext'
 import Form from './Form.vue'
-import View from './View.vue';
+import View from './View.vue'
+import { useContext } from '@/hooks/useGraphContext'
 
 const props = defineProps({
   nodeId: { type: String, default: '' },
   label: { type: String, default: '' },
 });
+
+const { graph } = useContext()
 
 const { isReadOnly } = inject(appSymbol) as any
 
@@ -23,11 +26,13 @@ const visible = ref<boolean>(false);
 const contentRef = ref();
 
 const showModal = () => {
-  visible.value = true;
+  visible.value = true
+  graph.disableMouseWheel()
 };
 
 const onClose = () => {
-  visible.value = false;
+  visible.value = false
+  graph.enableMouseWheel()
 };
 
 defineExpose({
