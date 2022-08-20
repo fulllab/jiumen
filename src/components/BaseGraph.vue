@@ -20,6 +20,7 @@
       </ColorPicker>
     </div>
     <MiniMap v-if="isReady" />
+    <Zoom v-if="isReady" />
     <Doc ref="docRef" :node-id="nodeDataRef.nodeId" :label="nodeDataRef.label" />
     <a-spin v-if="spinning" class="absolute flex items-center justify-center w-full h-full bg-gray-500/50 bg-opacity-20"
       :spinning="spinning"></a-spin>
@@ -33,6 +34,7 @@ import { createGraph } from '@/hooks/useGraph'
 import "@antv/x6-vue-shape"
 import Stencil from '@/components/Tools/Stencil.vue'
 import MiniMap from '@/components/Tools/MiniMap.vue'
+import Zoom from '@/components/Tools/Zoom.vue'
 import './register'
 
 import ColorPicker from './Tools/ColorPicker.vue'
