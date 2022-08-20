@@ -1,5 +1,6 @@
 // import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import WindiCSS from 'vite-plugin-windicss'
 import { loadEnv } from 'vite'
 import type { UserConfig, ConfigEnv } from 'vite'
@@ -93,6 +94,6 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       cors: true,
     },
     // The vite plugin used by the project. The quantity is large, so it is separately extracted and managed
-    plugins: [vue(), WindiCSS()],
+    plugins: [vue(), vueJsx(), WindiCSS()],
   }
 }

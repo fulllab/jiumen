@@ -141,7 +141,7 @@ onMounted(() => {
 }
 .x6-widget-stencil {
   width 120px
-  background: #ffffff !important
+  background #ffffff !important
 }
 .x6-widget-stencil-group-content {
   margin auto
