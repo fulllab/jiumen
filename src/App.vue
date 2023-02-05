@@ -12,7 +12,8 @@ import AppLayout from '@/layout/AppLayout.vue'
 import { appSymbol } from '@/hooks/useGraphContext'
 import { useRootState } from '@/hooks/useApp'
 import { useLocale } from './locales/useLocales'
-
+import { useWeb3Onboard } from '@/hooks/useCeramic'
+import { getIsMember } from '@/hooks/useGraph'
 export default defineComponent({
   name: 'App',
   components: {
@@ -20,12 +21,15 @@ export default defineComponent({
   },
   setup() {
     const { getAntLocale } = useLocale();
-    const { getIsReadOnly, getSpinning, getIsMember } = useRootState()
+    const { getIsReadOnly, getSpinning } = useRootState()
+    const isMember = getIsMember()
+    const { initCeramic } = useWeb3Onboard()
+    initCeramic()
 
     const appContext = shallowReactive({
       isReadOnly: getIsReadOnly,
       spinning: getSpinning,
-      isMember: getIsMember,
+      isMember: isMember,
     })
     provide(appSymbol, appContext)
     return {

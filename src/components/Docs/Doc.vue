@@ -1,7 +1,9 @@
 <template>
   <a-drawer :title="label" placement="bottom" :visible="visible" @close="onClose" height="100%">
-    <Form v-if="!isReadOnly" ref="contentRef" @save="onClose" :node-id="props.nodeId"></Form>
-    <View v-else ref="contentRef" :node-id="props.nodeId" />
+    <Form v-if="!isReadOnly" ref="contentRef" @save="onClose" :node-id="props.nodeId" :doc-steam-id="props.docSteamId"
+      :graph-steam-id="props.graphSteamId"></Form>
+    <View v-else ref="contentRef" :node-id="props.nodeId" :doc-steam-id="props.docSteamId"
+      :graph-steam-id="props.graphSteamId" />
   </a-drawer>
 </template>
 
@@ -15,14 +17,13 @@ import { useContext } from '@/hooks/useGraphContext'
 const props = defineProps({
   nodeId: { type: String, default: '' },
   label: { type: String, default: '' },
+  graphSteamId: { type: String, default: '' },
+  docSteamId: { type: String, default: '' },
 });
 
 const { graph } = useContext()
-
 const { isReadOnly } = inject(appSymbol) as any
-
 const visible = ref<boolean>(false);
-
 const contentRef = ref();
 
 const showModal = () => {
@@ -40,17 +41,16 @@ defineExpose({
 })
 
 watch(
-  () => props.nodeId,
-  (nodeId) => {
-    contentRef.value?.initDoc(nodeId)
+  () => [props.nodeId, props.graphSteamId, props.docSteamId],
+  (nodeId, graphSteamId, docSteamId) => {
+    contentRef.value?.initDoc(nodeId, graphSteamId, docSteamId)
   })
 
 onMounted(() => {
-  contentRef.value?.initDoc(props.nodeId)
+  contentRef.value?.initDoc(props.nodeId, props.graphSteamId, props.docSteamId)
 });
 
 </script>
-
 
 <style lang="stylus">
 .full-modal {

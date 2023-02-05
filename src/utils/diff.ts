@@ -71,6 +71,7 @@ const diffArr = (news: Array<any> = [], olds: Array<any> = [], key = 'id') => {
 const diffObj = (news = {}, olds = {}) => {
   const deleted: Array<string> = []
   const updated = {}
+  const created = {}
 
   for (const key in news) {
     const inOlds = Object.hasOwnProperty.call(olds, key)
@@ -79,16 +80,18 @@ const diffObj = (news = {}, olds = {}) => {
       if (inOlds) {
         deleted.push(key)
       }
+    } else if (!inOlds) {
+      created[key] = news[key]
     } else {
-      if ((inOlds && olds[key] != news[key]) || !inOlds) {
+      if (inOlds && olds[key] != news[key]) {
         updated[key] = news[key]
       }
     }
   }
-  return { deleted, updated }
+  return { deleted, updated, created }
 }
 
-const cleanObjs = (arr = [], obj = {}, key = 'id') => {
+const cleanObjs = (arr = [{}], obj = {}, key = 'id') => {
   const objKeys = Object.keys(obj)
   const newObj = {}
   arr.map(item => {

@@ -49,7 +49,7 @@
         <template #overlay>
           <a-menu>
             <a-menu-item @click="recovery">
-              <RollbackOutlined  />
+              <RollbackOutlined />
               Recovery
             </a-menu-item>
             <a-menu-item danger @click="delDoc">
@@ -65,21 +65,28 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, reactive } from 'vue'
+import { onMounted, ref, reactive, inject } from 'vue'
+import { ceramicSymbol } from '@/hooks/useGraphContext'
 import { DocContent, Resource } from '@/types'
 import { ProjectStatus } from '@/settings/graph'
 import { MinusCircleOutlined, PlusOutlined, EllipsisOutlined, RollbackOutlined, DeleteOutlined, } from '@ant-design/icons-vue';
-import { useCurrentDoc, useAdd, useCommit,useRecoveryDocs } from '@/hooks/useDocs'
+import { useCurrentDoc, useAdd, useCommit, useRecoveryDocs } from '@/hooks/useDocs'
 import { MarkDown } from './Markdown'
 import { useLocale } from '@/locales/useLocales'
 
 const props = defineProps({
   nodeId: { type: String, default: '' },
+  graphSteamId: { type: String, default: '' },
+  docSteamId: { type: String, default: '' },
 });
+
+const { ceramic } = inject(ceramicSymbol) as any
 
 const emit = defineEmits(['save'])
 
 const nodeIdRef = ref()
+const graphSteamIdRef = ref()
+const docSteamIdRef = ref()
 
 const { getLocale } = useLocale()
 
@@ -89,20 +96,28 @@ interface formStateType {
 
 const formState = reactive<formStateType>({
   node: {
+    stream_id: '',
+    id: '',
     resources: [],
     progress: 0,
     priority: 0,
     introduction: {},
     status: 0,
-    description: {},
+    description: {}
   }
 });
 
-const initDoc = (id: string) => {
+const initDoc = async (id: string, graphSteamId: string, docSteamId: string) => {
   nodeIdRef.value = id
-  const currentDoc = useCurrentDoc(nodeIdRef.value)
+  graphSteamIdRef.value = graphSteamId
+  docSteamIdRef.value = docSteamId
+  let currentDoc = {}
+  // ceramic, docSteamId, id, docSteamId)
+  currentDoc = await useCurrentDoc(ceramic, graphSteamId, id, docSteamId)
+  currentDoc['stream_id'] = graphSteamId
+  currentDoc['id'] = id
 
-  formState.node = currentDoc
+  formState.node = { ...formState.node, ...currentDoc }
 }
 
 const removeResource = (item: Resource) => {
@@ -128,11 +143,11 @@ const saveMarkDown = (v) => {
 }
 
 const add = () => {
-  useAdd(nodeIdRef.value, formState.node)
+  useAdd(graphSteamIdRef.value, nodeIdRef.value, formState.node)
 }
 
 const commit = () => {
-  useCommit(nodeIdRef.value, formState.node)
+  useCommit(graphSteamIdRef.value, nodeIdRef.value, formState.node)
   emit('save')
 }
 
@@ -142,11 +157,11 @@ const onFailed = (e) => {
 
 const recovery = () => {
   useRecoveryDocs(nodeIdRef.value)
-  initDoc(nodeIdRef.value)
+  initDoc(nodeIdRef.value, graphSteamIdRef.value, docSteamIdRef.value)
 }
 
 const delDoc = () => {
-  useCommit(nodeIdRef.value, null)
+  useCommit(graphSteamIdRef.value, nodeIdRef.value, null)
   emit('save')
 }
 
@@ -154,8 +169,8 @@ defineExpose({
   initDoc
 })
 
-onMounted(() => {
-  initDoc(props.nodeId)
+onMounted(async () => {
+  await initDoc(props.nodeId, props.graphSteamId, props.docSteamId)
 });
 
 </script>

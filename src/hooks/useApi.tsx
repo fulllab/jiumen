@@ -1,59 +1,41 @@
 import { useDocsStore } from '@/store/modules/docs'
 import { useGraphStore } from '@/store/modules/graph'
-import { contract, mineOrWait } from '@/api/arweave'
-import { diffArr, diffObj, cleanObjs } from '@/utils/diff'
+import { diffObj, cleanObjs, isObjectValueEqual } from '@/utils/diff'
 import { useMessage } from '@/hooks/useMessage'
 import { useRootState } from '@/hooks/useApp'
 import { useI18n } from '@/hooks/useI18n'
-import { useAppState } from '@/store/modules/app'
 import { isEmpty } from '@/utils/is'
+import { useDataBase } from '@/hooks/useCeramic'
+import { CeramicApi } from '@ceramicnetwork/common'
+import { mergerLsDocs, getStageLsDocs, getRepoLsDocs } from '@/hooks/useDocs'
+import { Graph } from '@antv/x6'
+import { Graph as GraphCeramic } from '@/types'
 
-export const initState = async () => {
-  const { state } = await contract.readState()
-  const appStore = useAppState()
-  const graphChecked = state.graph.filter(item => item && !isEmpty(item))
-  const graphJson = {
-    cells: graphChecked,
-  }
-
-  const graphStore = useGraphStore()
-  const docsStore = useDocsStore()
-
-  docsStore.setRemoteDocs(state.docs)
-  graphStore.setRemoteGraph(graphJson)
-  appStore.setMembers(state.members)
-
-  return graphJson
-}
-
-export async function sendGraph(graph) {
-  const newGraph = graph.toJSON()
+export async function sendGraph(ceramic: CeramicApi, graphId: string, graph: Graph) {
+  let newGraph = graph.toJSON().cells
   const { t } = useI18n()
+  const { addDocs, updateDocs, deleteDocs, updateTile } = useDataBase(ceramic)
 
   const graphStore = useGraphStore()
   const remoteGrap = graphStore.getRemoteGraph
-  const {
-    created: createdGraph,
-    deleted: deletedGraph,
-    updated: updatedGraph,
-  } = diffArr(newGraph.cells, (remoteGrap as any).cells)
-
-  // new Date().getTime()
-  // TODO: Version control and support for forking
 
   const docsStore = useDocsStore()
   const allDocs = Object.assign(
-    docsStore.getRepoDocs,
-    docsStore.getStageDocs,
+    getRepoLsDocs(graphId),
+    getStageLsDocs(graphId),
     docsStore.getWorkingDocs,
   )
 
   const remoteDocs = docsStore.getRemoteDocs
-  const newDocs = cleanObjs(newGraph.cells, allDocs)
+  const newDocs = cleanObjs(newGraph, allDocs)
 
-  const { deleted: deletedDocs, updated: updatedDocs } = diffObj(newDocs, remoteDocs)
+  const {
+    deleted: deletedDocs,
+    updated: updatedDocs,
+    created: createdDocs,
+  } = diffObj(newDocs, remoteDocs)
 
-  docsStore.mergerDocs(newDocs as any)
+  mergerLsDocs(graphId, newDocs as any)
 
   const { notification } = useMessage()
   const { setSpinning } = useRootState()
@@ -70,7 +52,7 @@ export async function sendGraph(graph) {
 
   setSpinning(true)
 
-  let jobsCount = 2
+  let jobsCount = 4
 
   const success = send => {
     jobsCount -= 1
@@ -84,61 +66,88 @@ export async function sendGraph(graph) {
     }
   }
 
-  const clean = send => {
-    jobsCount -= 1
-    notification.success({
-      message: `${send} is clean , nothing update!`,
-      description: '',
-      duration: 3,
+  if (!isEmpty(updatedDocs)) {
+    const updatedDocsArr = Object.values(updatedDocs).map((doc)=>{
+      const docCeramic = doc as any
+      for (let index = 0; index < newGraph.length; index++) {
+        const cell = newGraph[index]
+        if (cell.id === docCeramic.id) {
+          docCeramic.docSteamId = cell.data.docSteamId
+          return docCeramic
+        }
+      }
     })
-    if (jobsCount <= 0) {
-      setSpinning(false)
-    }
-  }
-
-  if (!isEmpty(updatedGraph) || !isEmpty(deletedGraph) || !isEmpty(createdGraph)) {
-    await contract
-      .writeInteraction({
-        function: 'setGraph',
-        data: {
-          updated: updatedGraph,
-          deleted: deletedGraph,
-          created: createdGraph,
-        },
-      })
-      .then(transactionId => {
-        success('Graph')
-        return mineOrWait(transactionId)
+    await updateDocs(updatedDocsArr as any)
+      .then(() => {
+        success('Docs updated')
       })
       .catch(error => {
         showErr(error)
       })
   } else {
-    clean('Graph')
+    success('Docs updated')
   }
 
-  if (!isEmpty(updatedDocs) || !isEmpty(deletedDocs)) {
-    await contract
-      .writeInteraction({
-        function: 'setDocs',
-        data: {
-          updated: updatedDocs,
-          deleted: deletedDocs,
-        },
-      })
-      .then(transactionId => {
-        success('Docs')
-        return mineOrWait(transactionId)
+  if (!isEmpty(deletedDocs)) {
+    const deletedDocsArr = Object.values(deletedDocs)
+    await deleteDocs(deletedDocsArr as any)
+      .then(() => {
+        success('Docs deleted')
       })
       .catch(error => {
         showErr(error)
       })
   } else {
-    clean('Docs')
+    success('Docs deleted')
+  }
+
+  if (!isEmpty(createdDocs)) {
+    const createdDocsArr = Object.values(createdDocs)
+    await addDocs(createdDocsArr as any)
+      .then(createdDocsArrWithCid => {
+        const cells = newGraph
+        createdDocsArrWithCid.forEach(doc => {
+          for (let index = 0; index < cells.length; index++) {
+            const cell = cells[index]
+            if (cell.id === doc.id) {
+              cell.data.docSteamId = doc.stream_id
+              break
+            }
+          }
+        })
+        newGraph = cells
+      })
+      .then(() => {
+        updateTile(graphId, _handleGraphToJSON(newGraph))
+      })
+      .then(() => {
+        success('Docs Created && Graph updated')
+      })
+      .catch(error => {
+        showErr(error)
+      })
+  } else {
+    success('Docs Created && Graph updated')
+  }
+
+  if (!isObjectValueEqual(newGraph, remoteGrap) && isEmpty(createdDocs)) {
+    updateTile(graphId, _handleGraphToJSON(newGraph))
+      .then(() => {
+        success('Graph updated!')
+      })
+      .catch(error => {
+        showErr(error)
+      })
+  } else {
+    success('Graph updated!')
   }
 }
 
+function _handleGraphToJSON(graph: Array<any>) {
+  return graph.map(cell => JSON.stringify(cell)
+  )
+}
+
 export default {
-  initState,
   sendGraph,
 }

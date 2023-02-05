@@ -7,17 +7,17 @@
       <CoffeeOutlined /> {{ $t('editor.preview') }}
     </div>
     <div v-if="getIsReadOnly && atWork" @click="exitPreview">
-      <EyeInvisibleOutlined />  {{ $t('editor.exitPreview') }}
+      <EyeInvisibleOutlined /> {{ $t('editor.exitPreview') }}
     </div>
     <template #overlay>
       <a-menu>
         <a-menu-item key="1" @click="release" :disabled="!atWork">
           <UploadOutlined />
-           {{ $t('editor.release.name') }}
+          {{ $t('editor.release.name') }}
         </a-menu-item>
         <a-menu-item key="2" @click="exitEdit" :disabled="!atWork">
           <PoweroffOutlined />
-           {{ $t('editor.exitEdit') }}
+          {{ $t('editor.exitEdit') }}
         </a-menu-item>
         <a-menu-item danger key="3" @click="emptyDraft">
           <DeleteOutlined />
@@ -29,16 +29,23 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import { FormOutlined, CoffeeOutlined, PoweroffOutlined, EyeInvisibleOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons-vue'
 import { useAppState } from '@/store/modules/app'
 import { useRootState } from '@/hooks/useApp'
-import { useRemoveLsGraph } from '@/hooks/useGraph'
+import { removeGraphStore } from '@/hooks/useGraph'
 import { useRemoveLsDocs } from '@/hooks/useDocs'
 import { sendGraph } from '@/hooks/useApi'
 import { useContext } from '@/hooks/useGraphContext'
 import { Modal } from 'ant-design-vue';
 import { useI18n } from 'vue-i18n'
+import { ceramicSymbol } from '@/hooks/useGraphContext'
+
+const props = defineProps({
+  graphId: { type: String, required: true },
+});
+
+const { ceramic } = inject(ceramicSymbol) as any
 
 const { t } = useI18n()
 
@@ -71,7 +78,7 @@ const release = () => {
     title: t('editor.release.confirm'),
     onOk() {
       console.log('start send!');
-      sendGraph(graph)
+      sendGraph(ceramic, props.graphId ,graph)
     },
     onCancel() { },
   });
@@ -82,8 +89,8 @@ const emptyDraft = () => {
     title: t('editor.emptyDraft.confirm'),
     okType: 'danger',
     onOk() {
-      useRemoveLsDocs()
-      useRemoveLsGraph()
+      useRemoveLsDocs(props.graphId)
+      removeGraphStore(props.graphId)
       exitEdit()
     },
     onCancel() { },

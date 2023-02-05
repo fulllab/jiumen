@@ -12,7 +12,7 @@ export default {
     exitPreview: 'Exit Preview',
     release: {
       name: 'Release',
-      confirm: 'Do you Want to upload files to Arwave?'
+      confirm: 'Do you Want to upload files to IPFS?'
     },
     exitEdit: 'Exit Edit',
     emptyDraft: {

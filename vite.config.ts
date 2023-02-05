@@ -93,6 +93,14 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       open: true,
       cors: true,
     },
+    build: {
+      target: 'es2020',
+    },
+    optimizeDeps: {
+      esbuildOptions: {
+        target: 'es2020',
+      },
+    },
     // The vite plugin used by the project. The quantity is large, so it is separately extracted and managed
     plugins: [vue(), vueJsx(), WindiCSS()],
   }

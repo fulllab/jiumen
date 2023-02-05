@@ -5,7 +5,7 @@
     </div>
     <div id="containered" ref="containered" />
     <div class="absolute right-5 top-2">
-      <Edit v-if="isReady && isMember" />
+      <Edit v-if="isReady && isMember" :graph-id="(id as any)" />
     </div>
     <div v-if="!isReadOnly" class="space-x-2 color-picker-group">
       <EdgeSelect />
@@ -21,7 +21,8 @@
     </div>
     <MiniMap v-if="isReady" />
     <Zoom v-if="isReady" />
-    <Doc v-if="isReady" ref="docRef" :node-id="nodeDataRef.nodeId" :label="nodeDataRef.label" />
+    <Doc v-if="isReady" ref="docRef" :node-id="nodeDataRef.nodeId" :label="nodeDataRef.label"
+      :graphSteamId="nodeDataRef.graphSteamId" :docSteamId="nodeDataRef.docSteamId" />
     <a-spin v-if="spinning" class="absolute flex items-center justify-center w-full h-full bg-gray-500/50 bg-opacity-20"
       :spinning="spinning"></a-spin>
   </div>
@@ -29,6 +30,7 @@
 
 <script lang="ts" setup>
 import { onMounted, ref, inject } from 'vue'
+import { useRouter } from 'vue-router'
 import EdgeSelect from './Tools/EdgeSelect.vue'
 import { createGraph } from '@/hooks/useGraph'
 import "@antv/x6-vue-shape"
@@ -42,43 +44,47 @@ import Doc from './Docs/Doc.vue'
 import { MinusOutlined, BorderOutlined, FontColorsOutlined } from '@ant-design/icons-vue'
 import Edit from './Tools/Edit.vue'
 import { useRootState } from '@/hooks/useApp'
-import { initState } from '@/hooks/useApi'
 import { NodeLabelPath, InstantSaveTime } from '@/settings/graph'
 import { Graph } from '@antv/x6'
-import { useGraphStore } from '@/store/modules/graph'
-import { appSymbol } from '@/hooks/useGraphContext'
+import { appSymbol, ceramicSymbol } from '@/hooks/useGraphContext'
 import { useMessage } from '@/hooks/useMessage'
 import { useLocale } from '@/locales/useLocales'
+import { initGraphData, setGraphStore } from '@/hooks/useGraph'
+
+const router = useRouter()
+const { id } = router.currentRoute.value.params
 
 const containered = ref<HTMLElement | undefined>(undefined)
 const isReady = ref(false)
 const nodeDataRef = ref({
   nodeId: '',
-  label: ''
+  label: '',
+  graphSteamId: '',
+  docSteamId: ''
 })
 const { getLocale } = useLocale()
 const docRef = ref()
 const { setSpinning } = useRootState()
 
-const { isReadOnly, spinning, isMember } = inject(appSymbol) as any
+const { ceramic } = inject(ceramicSymbol) as any
 
-const graphStore = useGraphStore()
+const { isReadOnly, spinning, isMember } = inject(appSymbol) as any
 
 const openModal = (cell: any) => {
   nodeDataRef.value = {
     nodeId: cell.id,
-    label: cell.getAttrByPath(NodeLabelPath)[getLocale.value] || ''
+    label: cell.getAttrByPath(NodeLabelPath)[getLocale.value] || '',
+    graphSteamId: id as string,
+    docSteamId: cell.data?.docSteamId || ''
   }
   docRef.value?.showModal()
 }
 
 const saveGraph = (graph: Graph | undefined) => {
-  if (graph) {
-    graphStore.setRepoGraph(graph.toJSON() as any)
+  if (graph && typeof id === 'string') {
+    setGraphStore(id, graph, false)
   }
 }
-
-// const graph: Ref<Graph | undefined> = ref(undefined)
 
 const initGraph = (graphData, graph) => {
 
@@ -159,7 +165,12 @@ const initGraph = (graphData, graph) => {
 
 const init = () => {
   const graph = createGraph(containered)
-  initState().then((graphData) => {
+  if (typeof id !== 'string' || id === '') {
+    console.log('id is not string or empty', id)
+    setSpinning(false)
+    return
+  }
+  initGraphData(id, ceramic).then((graphData) => {
     setSpinning(false)
     initGraph(graphData, graph)
   }).then(() => {
@@ -167,6 +178,7 @@ const init = () => {
   }).catch((err) => {
     setSpinning(false)
     const { notification } = useMessage()
+    console.log('err', err)
     notification.error({
       message: 'Failed to get data',
       description: err,

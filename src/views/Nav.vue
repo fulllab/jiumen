@@ -14,7 +14,7 @@
 import { defineComponent, reactive, toRefs, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { NavItem } from '@/types'
-import { useAddress } from '@/hooks/useAccount'
+import { useAddress } from '@/hooks/useCeramic'
 
 export default defineComponent({
   name: 'Nav',

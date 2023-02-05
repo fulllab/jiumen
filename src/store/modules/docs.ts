@@ -1,11 +1,7 @@
 import { DocContent, DocsObj } from '@/types'
 import { defineStore } from 'pinia'
 import { store } from '@/store'
-import { STAGE_KEY, REPO_KEY } from '@/types/cacheEnum'
 import { checkedType } from '@/utils/tools'
-import { createStorage } from '@/utils/localStorage'
-
-const ls = createStorage({})
 
 interface DocsState {
   pageLoading: boolean
@@ -35,10 +31,10 @@ export const useDocsStore = defineStore({
       return this.remoteDocs || {}
     },
     getStageDocs(): DocsObj | {} {
-      return checkedType(this.stageDocs) || ls.get(STAGE_KEY) || {}
+      return checkedType(this.stageDocs)
     },
     getRepoDocs(): DocsObj | {} {
-      return checkedType(this.repoDocs) || ls.get(REPO_KEY) || {}
+      return checkedType(this.repoDocs)
     },
   },
   actions: {
@@ -61,43 +57,30 @@ export const useDocsStore = defineStore({
     //     localStorage.getItem(STAGE_KEY),
     //   )
     // },
-    setRemoteDocs(data: DocsObj): void {
-      this.remoteDocs = data
+    setRemoteDocById(id: string, data: DocContent): void {
+      this.remoteDocs[id] = data
     },
     setStageDoc(nodeId: string, data: DocContent): void {
       this.setWorkingDocById(nodeId, data)
       this.stageDocs[nodeId] = data
-      ls.set(STAGE_KEY, this.stageDocs)
     },
     setRepoDoc(nodeId: string, data: DocContent | null): void {
       this.repoDocs[nodeId] = data
       this.workingDocs[nodeId] = data
-      ls.set(REPO_KEY, this.repoDocs)
-      ls.set(STAGE_KEY, this.stageDocs)
     },
     mergerDocs(data: DocsObj): void {
       this.repoDocs = data
       this.stageDocs = {}
       this.workingDocs = {}
-      console.log('data', data);
-
-      if ((data == {})) {
-        ls.remove(REPO_KEY)
-      } else {
-        ls.set(REPO_KEY, data)
-      }
-      ls.remove(STAGE_KEY)
     },
     recoveryDoc(nodeId: string): void {
       Reflect.deleteProperty(this.workingDocs, nodeId)
       Reflect.deleteProperty(this.remoteDocs, nodeId)
     },
-    removeLsDocs(): void {
+    removeDocs(): void {
       this.stageDocs = {}
       this.repoDocs = {}
       this.workingDocs = {}
-      ls.remove(STAGE_KEY)
-      ls.remove(REPO_KEY)
     },
   },
 })

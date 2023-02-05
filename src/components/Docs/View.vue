@@ -28,16 +28,21 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, reactive } from 'vue'
+import { onMounted, ref, reactive, inject } from 'vue'
 import { DocContent } from '@/types'
 import { ProjectStatus } from '@/settings/graph'
 import { useCurrentDoc } from '@/hooks/useDocs'
 import { MarkdownViewer } from './Markdown'
 import { useLocale } from '@/locales/useLocales'
+import { ceramicSymbol } from '@/hooks/useGraphContext'
 
 const props = defineProps({
   nodeId: { type: String, default: '' },
+  graphSteamId: { type: String, default: '' },
+  docSteamId: { type: String, default: '' },
 });
+
+const { ceramic } = inject(ceramicSymbol) as any
 
 const nodeIdRef = ref()
 
@@ -49,6 +54,8 @@ const { getLocale } = useLocale();
 
 const nodeContent = reactive<nodeContentType>({
   node: {
+    stream_id: '',
+    id: '',
     resources: [],
     progress: 0,
     priority: 0,
@@ -58,9 +65,9 @@ const nodeContent = reactive<nodeContentType>({
   }
 });
 
-const initDoc = (id: string) => {
+const initDoc = async (graphId: string, id: string, docSteamId: string) => {
   nodeIdRef.value = id
-  nodeContent.node = useCurrentDoc(id)
+  nodeContent.node = await useCurrentDoc(ceramic, graphId, id, docSteamId)
 }
 
 defineExpose({
@@ -68,7 +75,7 @@ defineExpose({
 })
 
 onMounted(() => {
-  initDoc(props.nodeId)
+  initDoc(props.graphSteamId, props.nodeId, props.docSteamId)
 });
 
 </script>

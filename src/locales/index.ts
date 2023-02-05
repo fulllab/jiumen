@@ -68,6 +68,7 @@ function _set(lang: keyof typeof TranslateTable): keyof typeof TranslateTable {
 }
 
 export const i18n = createI18n({
+  legacy: false,
   locale: getLocale(),
   messages: {
     zhCN,

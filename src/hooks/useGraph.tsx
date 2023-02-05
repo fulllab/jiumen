@@ -1,4 +1,4 @@
-import { ref, Ref, shallowReactive, watch } from 'vue'
+import { ref, Ref, shallowReactive, watch, computed } from 'vue'
 import { Graph, Shape } from '@antv/x6'
 import { createContext } from './useGraphContext'
 import { EdgeShape } from '@/types'
@@ -12,7 +12,14 @@ import {
 } from '@/settings/graph'
 import { useAppStateWithOut } from '@/store/modules/app'
 import { useGraphStoreWithOut } from '@/store/modules/graph'
+import { useUsersStateWithOut } from '@/store/modules/users'
 import { useRootState } from '@/hooks/useApp'
+import { useDataBase } from '@/hooks/useCeramic'
+import { CeramicApi } from '@ceramicnetwork/common'
+import { useDocsStore } from '@/store/modules/docs'
+import isEmpty from 'lodash/isEmpty'
+import { createKVStorage } from '@/utils/localStorage'
+import { GRAPH_REPO_KEY, GRAPH_REMOTE_KEY } from '@/types/cacheEnum'
 
 export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
   const graph = ref<Graph>()
@@ -23,8 +30,9 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
   const { getIsReadOnly } = useRootState()
   // The function form is convenient to call in the graph
   const isReadOnly = () => getIsReadOnly
-
   createContext(contextRef)
+
+  const graphStore = useGraphStoreWithOut()
 
   if (containered) {
     graph.value = new Graph({
@@ -78,7 +86,7 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
         if (isReadOnly().value) {
           return {
             magnetConnectable: false,
-            nodeMovable: false
+            nodeMovable: false,
           }
         }
         return true
@@ -158,10 +166,13 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
   }
 
   watch(
-    () => docsStore.getAtWork,
-    atWork => {
-      const graphStore = useGraphStoreWithOut()
-      let graphLs = atWork ? graphStore.getRepoGraph : graphStore.getRemoteGraph
+    [() => docsStore.getAtWork, () => graphStore.getGraphId],
+    ([atWork, graphId]) => {
+      if (isEmpty(graphId) || !graphId) {
+        return
+      }
+      const { repoLsGraph, remoteLsGraph } = getGraphStore(graphId)
+      let graphLs = atWork ? repoLsGraph : remoteLsGraph
       if (!!graphLs) {
         graph.value?.fromJSON(graphLs)
       }
@@ -171,6 +182,40 @@ export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
   return graph
 }
 
+const getGraphStore = (graphId: string) => {
+  const ls = createKVStorage({})
+  const graphStore = useGraphStoreWithOut()
+  const getRemoteGraph = graphStore.getRepoGraph
+  const repoLsGraph = getRemoteGraph || ls.getItem(GRAPH_REPO_KEY, graphId)
+  const remoteLsGraph =
+    graphStore.getRemoteGraph || ls.getItem(GRAPH_REMOTE_KEY, graphId)
+  return {
+    repoLsGraph,
+    remoteLsGraph,
+  }
+}
+
+export const setGraphStore = (graphId: string, graph: Graph, isRemote: boolean) => {
+  const ls = createKVStorage({})
+  const graphStore = useGraphStoreWithOut()
+  const graphJson = graph
+  const key = isRemote ? GRAPH_REMOTE_KEY : GRAPH_REPO_KEY
+
+  if (isRemote) {
+    graphStore.setRemoteGraph(graphJson)
+  } else {
+    graphStore.setRepoGraph(graphJson)
+  }
+  ls.setItem(key, graphId, graphJson)
+}
+
+export const removeGraphStore = (graphId: string) => {
+  const ls = createKVStorage({})
+  const graphStore = useGraphStoreWithOut()
+  graphStore.removeRepoGraph()
+  ls.removeItem(GRAPH_REMOTE_KEY, graphId)
+}
+
 export const edgeShape = ref<EdgeShape>('Process')
 
 export function useRemoveLsGraph() {
@@ -178,9 +223,64 @@ export function useRemoveLsGraph() {
   graphStore.removeRepoGraph()
 }
 
+export async function useInitGraphList(ceramic: CeramicApi) {
+  const { setSpinning } = useRootState()
+  setSpinning(true)
+  const usersState = useUsersStateWithOut()
+  const account = usersState.account
+  const graphStore = useGraphStoreWithOut()
+  if (account) {
+    const { getGraphs } = useDataBase(ceramic)
+    const graphList = await getGraphs()
+    graphStore.setGraphs(graphList ? graphList.graphs : [])
+  } else {
+    graphStore.setGraphs([])
+  }
+  setSpinning(false)
+}
+
+export async function initGraphData(id: string, ceramic: CeramicApi) {
+  const usersState = useUsersStateWithOut()
+  const { loadTile } = useDataBase(ceramic)
+  const { content, controllers } = await loadTile(id)
+
+  const graphChecked = content.map(item => JSON.parse(item))
+  const graphJson = {
+    cells: graphChecked,
+  }
+
+  const graphStore = useGraphStoreWithOut()
+
+  setGraphStore(id, graphJson as any, true)
+  graphStore.setControllers(controllers)
+
+  watch(
+    () => [graphStore.controllers, usersState.getParent],
+    ([controllers, parent]) => {
+      if (parent && typeof parent == 'string') {
+        graphStore.setIsMember(controllers?.includes(parent) || false)
+      } else {
+        graphStore.setIsMember(false)
+      }
+    },
+    { immediate: true },
+  )
+
+  return graphJson
+}
+
+export function getIsMember() {
+  const graphStore = useGraphStoreWithOut()
+  const isMember = computed(() => graphStore.getIsMember)
+  return isMember
+}
+
 export default {
   createGraph,
   Graph,
+  getIsMember,
   edgeShape,
   useRemoveLsGraph,
+  useInitGraphList,
+  setGraphStore,
 }

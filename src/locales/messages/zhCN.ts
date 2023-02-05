@@ -12,7 +12,7 @@ const zhCN = {
     exitPreview: '退出预览',
     release: {
       name: '发布',
-      confirm: '确定上传文件到 Arwave 网络?'
+      confirm: '确定上传文件到 IPFS ?'
     },
     exitEdit: '退出编辑',
     emptyDraft: {

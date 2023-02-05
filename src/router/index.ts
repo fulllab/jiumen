@@ -1,12 +1,18 @@
 import { createRouter, createWebHashHistory, Router, RouteRecordRaw } from 'vue-router'
 import Test from '@/views/Test.vue'
 import BaseGraph from '@/components/BaseGraph.vue'
+import GraphList from '@/components/GraphList.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
+    name: 'GraphList',
+    component: GraphList,
+  },
+  {
+    path: '/graph/:id',
     name: 'Home',
-    component: BaseGraph,
+    component: () => import('@/components/BaseGraph.vue'),
   },
   {
     path: '/test',

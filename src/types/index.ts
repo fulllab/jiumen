@@ -38,6 +38,8 @@ export interface LocaleString {
 }
 
 export type DocContent = {
+  stream_id: string
+  id: string
   status: number
   introduction: LocaleString
   description: LocaleString
@@ -45,6 +47,21 @@ export type DocContent = {
   priority: number
   progress: number
 }
+
+export type DID = string
+export type GraphId = string
+export type Doc = string
+
+export type GraphMetadata = {
+  id: GraphId
+  name: string
+}
+
+export type GraphList = {
+  graphs: GraphMetadata[]
+}
+
+export type Graph = string[]
 
 export interface NavItem {
   path: string
