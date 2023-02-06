@@ -1,4 +1,4 @@
-import{A as R,C as B}from"./caip-9ca4a743.js";import"./uint8arrays-499feafe.js";import"./@stablelib-7cabded6.js";import"./inherits-c31b4f37.js";import"./bignumber.js-377fbb8c.js";import"./elliptic-464a2e13.js";import{v as x}from"./@ethersproject-c84a39ae.js";import{d as _}from"./@ipld-966a175d.js";import{a as N,e as j,s as P}from"./multiformats-412ad19c.js";import{a as K,n as l}from"./apg-js-78e0169b.js";const H=`
+import{A as R,C as B}from"./caip-9ca4a743.js";import"./uint8arrays-499feafe.js";import"./@stablelib-7cabded6.js";import"./inherits-c31b4f37.js";import"./bignumber.js-377fbb8c.js";import"./elliptic-464a2e13.js";import{v as x}from"./@ethersproject-c84a39ae.js";import{d as _}from"./@ipld-966a175d.js";import{a as N,e as j,s as P}from"./multiformats-412ad19c.js";import{a as K,n as l}from"./apg-js-648c7dea.js";const H=`
 sign-in-with-ethereum =
     domain %s" wants you to sign in with your Ethereum account:" LF
     address LF
