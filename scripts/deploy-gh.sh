@@ -2,7 +2,7 @@ set -e
 
 cd dist
 
-echo 'www.zerodao.net' > CNAME
+echo 'alpha.jiumen.io' > CNAME
 
 git init
 

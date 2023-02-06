@@ -1,20 +1,13 @@
 import { init } from '@web3-onboard/vue'
 import injectedModule from "@web3-onboard/injected-wallets";
 
-// import walletConnectModule from "@web3-onboard/walletconnect";
-// import walletLinkModule from "@web3-onboard/walletlink";
-
 // RPC urls
 const MAINNET_RPC_URL = "https://mainnet.infura.io/v3/";
 
 // Injected wallet
 const injected = injectedModule();
-// web3Oboard modules
-// const walletLink = walletLinkModule();
-// const walletConnect = walletConnectModule();
 
 export const initWeb3Onboard = init({
-  // wallets: [injected, walletLink, walletConnect],
   wallets: [injected],
   chains: [
     {
