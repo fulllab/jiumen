@@ -1,7 +1,7 @@
-import { DocContent, DocsObj } from '@/types'
+import { DocContent, DocsObj } from '../../types'
 import { defineStore } from 'pinia'
-import { store } from '@/store'
-import { checkedType } from '@/utils/tools'
+import { store } from '../'
+import { checkedType } from '../../utils/tools'
 
 interface DocsState {
   pageLoading: boolean

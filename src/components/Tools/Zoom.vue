@@ -16,7 +16,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons-vue'
-import { useContext } from '@/hooks/useGraphContext'
+import { useContext } from '../../hooks/useGraphContext'
 
 const { graph } = useContext()
 

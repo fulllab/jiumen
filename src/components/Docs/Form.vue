@@ -66,13 +66,13 @@
 
 <script lang="ts" setup>
 import { onMounted, ref, reactive, inject } from 'vue'
-import { ceramicSymbol } from '@/hooks/useGraphContext'
-import { DocContent, Resource } from '@/types'
-import { ProjectStatus } from '@/settings/graph'
+import { ceramicSymbol } from '../../hooks/useGraphContext'
+import { DocContent, Resource } from '../../types'
+import { ProjectStatus } from '../../settings/graph'
 import { MinusCircleOutlined, PlusOutlined, EllipsisOutlined, RollbackOutlined, DeleteOutlined, } from '@ant-design/icons-vue';
-import { useCurrentDoc, useAdd, useCommit, useRecoveryDocs } from '@/hooks/useDocs'
+import { useCurrentDoc, useAdd, useCommit, useRecoveryDocs } from '../../hooks/useDocs'
 import { MarkDown } from './Markdown'
-import { useLocale } from '@/locales/useLocales'
+import { useLocale } from '../../locales/useLocales'
 
 const props = defineProps({
   nodeId: { type: String, default: '' },

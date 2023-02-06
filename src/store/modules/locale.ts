@@ -1,8 +1,8 @@
-import type { LocaleType } from '@/types'
+import type { LocaleType } from '../../types'
 import { defineStore } from 'pinia'
-import { store } from '@/store'
-import { LOCALE_KEY } from '@/types/cacheEnum'
-import { createStorage } from '@/utils/localStorage'
+import { store } from '../'
+import { LOCALE_KEY } from '../../types/cacheEnum'
+import { createStorage } from '../../utils/localStorage'
 
 const ls = createStorage({})
 

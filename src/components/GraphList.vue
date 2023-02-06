@@ -26,14 +26,14 @@ import "@antv/x6-vue-shape"
 import { useRouter } from 'vue-router'
 import { PlusOutlined } from '@ant-design/icons-vue'
 
-import { useInitGraphList } from '@/hooks/useGraph'
-import { useRootState } from '@/hooks/useApp'
-import { ceramicSymbol, appSymbol } from '@/hooks/useGraphContext'
-import { useDataBase } from '@/hooks/useCeramic'
+import { useInitGraphList } from '../hooks/useGraph'
+import { useRootState } from '../hooks/useApp'
+import { ceramicSymbol, appSymbol } from '../hooks/useGraphContext'
+import { useDataBase } from '../hooks/useCeramic'
 
-import { useUsersState } from '@/store/modules/users'
-import { useGraphStore } from '@/store/modules/graph'
-import { useWeb3Onboard } from '@/hooks/useCeramic'
+import { useUsersState } from '../store/modules/users'
+import { useGraphStore } from '../store/modules/graph'
+import { useWeb3Onboard } from '../hooks/useCeramic'
 
 const { connectWallet } = useWeb3Onboard()
 const router = useRouter()

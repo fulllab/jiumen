@@ -8,10 +8,10 @@
 <script lang="ts" setup>
 import { ref, inject, onMounted, reactive } from 'vue'
 import { Input } from 'ant-design-vue'
-import { NodeLabelPath } from '@/settings/graph'
-import { useIsReadOnly } from '@/hooks/useApp'
-import { useLocale } from '@/locales/useLocales'
-import { LocaleString } from '@/types'
+import { NodeLabelPath } from '../../settings/graph'
+import { useIsReadOnly } from '../../hooks/useApp'
+import { useLocale } from '../../locales/useLocales'
+import { LocaleString } from '../../types'
 
 const getIsReadOnly = useIsReadOnly()
 

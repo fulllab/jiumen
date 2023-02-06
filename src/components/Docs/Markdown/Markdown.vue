@@ -16,7 +16,7 @@ import {
 } from 'vue';
 import Vditor from 'vditor';
 import 'vditor/dist/index.css';
-import { useLocale } from '@/locales/useLocales'
+import { useLocale } from '../../../locales/useLocales'
 
 type Lang = 'zh_CN' | 'en_US' | 'ja_JP' | 'ko_KR' | undefined;
 

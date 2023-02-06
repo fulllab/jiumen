@@ -1,6 +1,6 @@
 // clone form https://github.com/vbenjs/vue-vben-admin/blob/main/src/hooks/web/useI18n.ts
 
-import { i18n } from '@/locales/index';
+import { i18n } from '../locales/index';
 
 type I18nGlobalTranslation = {
   (key: string): string;

@@ -5,7 +5,7 @@ import publishedModel from '../../scripts/publish-model.json'
 import { DataModel } from '@glazed/datamodel'
 import { DIDDataStore } from '@glazed/did-datastore'
 import { TileLoader } from '@glazed/tile-loader'
-import { GraphList, Graph, DocContent } from '@/types'
+import { GraphList, Graph, DocContent } from '../types'
 import {
   EthereumAuthProvider,
 } from '@self.id/web'

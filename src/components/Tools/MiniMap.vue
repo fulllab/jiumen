@@ -1,8 +1,8 @@
 <script lang="tsx">
 // @ts-nocheck
 import { defineComponent, onMounted, onUnmounted, ref, watch } from 'vue';
-import { useContext } from '@/hooks/useGraphContext'
-import { mergeOption } from '@/utils/tools'
+import { useContext } from '../../hooks/useGraphContext'
+import { mergeOption } from '../../utils/tools'
 
 const defaultOptions = {
   enabled: true,

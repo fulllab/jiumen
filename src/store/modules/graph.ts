@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import { store } from '@/store'
-import { GRAPH_REPO_KEY, GRAPH_REMOTE_KEY } from '@/types/cacheEnum'
-import { GraphList, GraphMetadata } from '@/types/'
+import { store } from '../'
+import { GRAPH_REPO_KEY, GRAPH_REMOTE_KEY } from '../../types/cacheEnum'
+import { GraphList, GraphMetadata } from '../../types/'
 // Temporarily disable the staging area, need to make incremental storage
 // for the diagram to improve efficiency
 interface GraphState {

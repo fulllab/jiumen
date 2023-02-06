@@ -1,5 +1,5 @@
 import type { App } from 'vue'
-import { i18n, loadAtdLocales } from '@/locales'
+import { i18n, loadAtdLocales } from './'
 
 // setup i18n instance with glob
 export async function setupI18n(app: App) {

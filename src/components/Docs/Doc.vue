@@ -8,11 +8,11 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, inject, ref, defineExpose, watch } from 'vue'
-import { appSymbol } from '@/hooks/useGraphContext'
+import { onMounted, inject, ref, watch } from 'vue'
+import { appSymbol } from '../../hooks/useGraphContext'
 import Form from './Form.vue'
 import View from './View.vue'
-import { useContext } from '@/hooks/useGraphContext'
+import { useContext } from '../../hooks/useGraphContext'
 
 const props = defineProps({
   nodeId: { type: String, default: '' },

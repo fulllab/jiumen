@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory, Router, RouteRecordRaw } from 'vue-router'
-import Test from '@/views/Test.vue'
-import BaseGraph from '@/components/BaseGraph.vue'
-import GraphList from '@/components/GraphList.vue'
+import Test from '../views/Test.vue'
+import BaseGraph from '../components/BaseGraph.vue'
+import GraphList from '../components/GraphList.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -12,7 +12,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/graph/:id',
     name: 'Home',
-    component: () => import('@/components/BaseGraph.vue'),
+    component: () => import('../components/BaseGraph.vue'),
   },
   {
     path: '/test',

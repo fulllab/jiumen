@@ -5,10 +5,12 @@ import { DID } from "dids";
 import { Ed25519Provider } from "key-did-provider-ed25519";
 import { getResolver } from "key-did-resolver";
 import { fromString } from "uint8arrays";
+import path from 'path';
+
 import fs from "fs";
 
 const dirPath = "./scripts/models";
-import path from "path";
+
 const env = process.env.NODE_ENV || 'arlocal';
 import dotenv from 'dotenv';
 dotenv.config({ path: `.env.${env}` });

@@ -1,6 +1,6 @@
 import { computed, ref, Ref } from 'vue'
-import { useAppState } from '@/store/modules/app'
-import { useGraphStore } from '@/store/modules/graph'
+import { useAppState } from '../store/modules/app'
+import { useGraphStore } from '../store/modules/graph'
 
 export function useRootState() {
   const appStore = useAppState()

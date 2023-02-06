@@ -1,7 +1,7 @@
 import { watch, shallowReactive } from 'vue'
-import { useUsersState } from '@/store/modules/users'
-import { useGraphStore } from '@/store/modules/graph'
-import { initWeb3Onboard } from '@/utils/onboard'
+import { useUsersState } from '../store/modules/users'
+import { useGraphStore } from '../store/modules/graph'
+import { initWeb3Onboard } from '../utils/onboard'
 import { useOnboard } from '@web3-onboard/vue'
 import { ethers } from 'ethers'
 import { EthereumAuthProvider } from '@self.id/web'
@@ -16,9 +16,9 @@ import {
   createDataModel,
   createTileLoader,
   authenticate as authenticateCeramic,
-} from '@/api/ceramic'
-import { Graph, DocContent, GraphList, GraphMetadata } from '@/types'
-import { useInitGraphList } from '@/hooks/useGraph'
+} from '../api/ceramic'
+import { Graph, DocContent, GraphList, GraphMetadata } from '../types'
+import { useInitGraphList } from './useGraph'
 
 export function useWeb3Onboard() {
   const { alreadyConnectedWallets, connectingWallet, connectedWallet, connectWallet } =

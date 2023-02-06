@@ -15,7 +15,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Sketch } from '@ckpack/vue-color'
-import { useContext } from '@/hooks/useGraphContext'
+import { useContext } from '../../hooks/useGraphContext'
 import { modeProps } from './ModeProps'
 
 const props = defineProps(modeProps);

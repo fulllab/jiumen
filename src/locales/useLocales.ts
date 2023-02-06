@@ -1,4 +1,4 @@
-import { useLocaleStoreWithOut } from '@/store/modules/locale'
+import { useLocaleStoreWithOut } from '../store/modules/locale'
 import { computed } from 'vue'
 import { Locales } from './'
 

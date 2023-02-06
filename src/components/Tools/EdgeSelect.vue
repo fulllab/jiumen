@@ -6,5 +6,5 @@
 </template>
 
 <script lang="ts" setup>
-import { edgeShape } from '@/hooks/useGraph'
+import { edgeShape } from '../../hooks/useGraph'
 </script>

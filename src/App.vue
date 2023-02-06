@@ -8,12 +8,12 @@
 
 <script lang="ts">
 import { defineComponent, provide, shallowReactive } from 'vue'
-import AppLayout from '@/layout/AppLayout.vue'
-import { appSymbol } from '@/hooks/useGraphContext'
-import { useRootState } from '@/hooks/useApp'
+import AppLayout from './layout/AppLayout.vue'
+import { appSymbol } from './hooks/useGraphContext'
+import { useRootState } from './hooks/useApp'
 import { useLocale } from './locales/useLocales'
-import { useWeb3Onboard } from '@/hooks/useCeramic'
-import { getIsMember } from '@/hooks/useGraph'
+import { useWeb3Onboard } from './hooks/useCeramic'
+import { getIsMember } from './hooks/useGraph'
 export default defineComponent({
   name: 'App',
   components: {

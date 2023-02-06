@@ -18,9 +18,9 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 // import { GithubOutlined } from '@ant-design/icons-vue'
-import ChangeLanguage from '@/components/ChangeLanguage.vue'
-import { useWeb3Onboard } from '@/hooks/useCeramic'
-import { useUsersState } from '@/store/modules/users'
+import ChangeLanguage from '../components/ChangeLanguage.vue'
+import { useWeb3Onboard } from '../hooks/useCeramic'
+import { useUsersState } from '../store/modules/users'
 
 const { connectWallet } = useWeb3Onboard()
 

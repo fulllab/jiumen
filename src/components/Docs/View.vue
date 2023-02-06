@@ -29,12 +29,12 @@
 
 <script lang="ts" setup>
 import { onMounted, ref, reactive, inject } from 'vue'
-import { DocContent } from '@/types'
-import { ProjectStatus } from '@/settings/graph'
-import { useCurrentDoc } from '@/hooks/useDocs'
+import { DocContent } from '../../types'
+import { ProjectStatus } from '../../settings/graph'
+import { useCurrentDoc } from '../../hooks/useDocs'
 import { MarkdownViewer } from './Markdown'
-import { useLocale } from '@/locales/useLocales'
-import { ceramicSymbol } from '@/hooks/useGraphContext'
+import { useLocale } from '../../locales/useLocales'
+import { ceramicSymbol } from '../../hooks/useGraphContext'
 
 const props = defineProps({
   nodeId: { type: String, default: '' },

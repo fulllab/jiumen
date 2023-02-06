@@ -1,11 +1,11 @@
-import { DocContent } from '@/types'
-import { useDocsStore } from '@/store/modules/docs'
-import { useAppState } from '@/store/modules/app'
-import { STAGE_KEY, REPO_KEY } from '@/types/cacheEnum'
-import { createKVStorage } from '@/utils/localStorage'
-import { DocsObj } from '@/types'
+import { DocContent } from '../types'
+import { useDocsStore } from '../store/modules/docs'
+import { useAppState } from '../store/modules/app'
+import { STAGE_KEY, REPO_KEY } from '../types/cacheEnum'
+import { createKVStorage } from '../utils/localStorage'
+import { DocsObj } from '../types'
 import isEmpty from 'lodash/isEmpty'
-import { useDataBase } from '@/hooks/useCeramic'
+import { useDataBase } from './useCeramic'
 import { CeramicApi } from '@ceramicnetwork/common'
 
 export const useCurrentDoc = async (

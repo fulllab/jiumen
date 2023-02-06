@@ -1,7 +1,7 @@
 import { ref, Ref, shallowReactive, watch, computed } from 'vue'
 import { Graph, Shape } from '@antv/x6'
 import { createContext } from './useGraphContext'
-import { EdgeShape } from '@/types'
+import { EdgeShape } from '../types'
 import {
   HighlightingStyle,
   ProcessWidth,
@@ -9,17 +9,17 @@ import {
   SupportWidth,
   SupportColor,
   CanveBackground,
-} from '@/settings/graph'
-import { useAppStateWithOut } from '@/store/modules/app'
-import { useGraphStoreWithOut } from '@/store/modules/graph'
-import { useUsersStateWithOut } from '@/store/modules/users'
-import { useRootState } from '@/hooks/useApp'
-import { useDataBase } from '@/hooks/useCeramic'
+} from '../settings/graph'
+import { useAppStateWithOut } from '../store/modules/app'
+import { useGraphStoreWithOut } from '../store/modules/graph'
+import { useUsersStateWithOut } from '../store/modules/users'
+import { useRootState } from './useApp'
+import { useDataBase } from './useCeramic'
 import { CeramicApi } from '@ceramicnetwork/common'
-import { useDocsStore } from '@/store/modules/docs'
+import { useDocsStore } from '../store/modules/docs'
 import isEmpty from 'lodash/isEmpty'
-import { createKVStorage } from '@/utils/localStorage'
-import { GRAPH_REPO_KEY, GRAPH_REMOTE_KEY } from '@/types/cacheEnum'
+import { createKVStorage } from '../utils/localStorage'
+import { GRAPH_REPO_KEY, GRAPH_REMOTE_KEY } from '../types/cacheEnum'
 
 export const createGraph = (containered?: Ref<HTMLElement | undefined>) => {
   const graph = ref<Graph>()

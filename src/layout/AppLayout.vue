@@ -13,7 +13,7 @@
 import AppHeader from './Header.vue'
 import { defineComponent, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { jobFlush } from '@/hooks/useScheduler'
+import { jobFlush } from '../hooks/useScheduler'
 
 export default defineComponent({
   components: {

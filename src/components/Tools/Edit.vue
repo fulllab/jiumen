@@ -31,15 +31,15 @@
 <script lang="ts" setup>
 import { computed, inject } from 'vue'
 import { FormOutlined, CoffeeOutlined, PoweroffOutlined, EyeInvisibleOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons-vue'
-import { useAppState } from '@/store/modules/app'
-import { useRootState } from '@/hooks/useApp'
-import { removeGraphStore } from '@/hooks/useGraph'
-import { useRemoveLsDocs } from '@/hooks/useDocs'
-import { sendGraph } from '@/hooks/useApi'
-import { useContext } from '@/hooks/useGraphContext'
+import { useAppState } from '../../store/modules/app'
+import { useRootState } from '../../hooks/useApp'
+import { removeGraphStore } from '../../hooks/useGraph'
+import { useRemoveLsDocs } from '../../hooks/useDocs'
+import { sendGraph } from '../../hooks/useApi'
+import { useContext } from '../../hooks/useGraphContext'
 import { Modal } from 'ant-design-vue';
 import { useI18n } from 'vue-i18n'
-import { ceramicSymbol } from '@/hooks/useGraphContext'
+import { ceramicSymbol } from '../../hooks/useGraphContext'
 
 const props = defineProps({
   graphId: { type: String, required: true },

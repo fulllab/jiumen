@@ -8,7 +8,7 @@ import {
   GroupBorderColor,
   GroupbgColor,
   ShapebgColor,
-} from '@/settings/graph'
+} from '../settings/graph'
 
 const ShapeComs = {
   TEXT_INPUT: 'TextInput',

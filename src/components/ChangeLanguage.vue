@@ -19,7 +19,7 @@ import { defineComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
 import { DownOutlined } from '@ant-design/icons-vue'
-import { setLang, LanguageNameList, i18n } from "@/locales";
+import { setLang, LanguageNameList, i18n } from "../locales";
 
 export default defineComponent({
   components: {

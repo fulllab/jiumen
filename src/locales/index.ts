@@ -1,10 +1,10 @@
 import { includes } from 'lodash'
-import { findKeyByValue } from '@/utils/tools'
-import zhCN from '@/locales/messages/zhCN'
-import en from '@/locales/messages/en'
+import { findKeyByValue } from '../utils/tools'
+import zhCN from './messages/zhCN'
+import en from './messages/en'
 import moment from 'moment'
-import { useLocaleStoreWithOut } from '@/store/modules/locale'
-import { LocaleType } from '@/types/'
+import { useLocaleStoreWithOut } from '../store/modules/locale'
+import { LocaleType } from '../types/'
 import { createI18n, useI18n } from 'vue-i18n'
 
 const __LOCALE__ = window.navigator.language.split('-').join('')
