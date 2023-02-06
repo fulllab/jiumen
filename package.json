@@ -4,8 +4,10 @@
   "private": false,
   "description": "A strategic canvas for Web3 projects",
   "scripts": {
-    "create-model": "cross-env NODE_ENV=develop node --experimental-json-modules ./scripts/create-model.mjs",
-    "publish-model": "cross-env NODE_ENV=develop node --experimental-json-modules ./scripts/publish-model.mjs",
+    "create-model:dev": "cross-env NODE_ENV=develop node --experimental-json-modules ./scripts/create-model.mjs",
+    "publish-model:dev": "cross-env NODE_ENV=develop node --experimental-json-modules ./scripts/publish-model.mjs",
+    "create-model": "cross-env NODE_ENV=production node --experimental-json-modules ./scripts/create-model.mjs",
+    "publish-model": "cross-env NODE_ENV=production node --experimental-json-modules ./scripts/publish-model.mjs",
     "dev": "vite --mode develop",
     "build": "vite build",
     "build-tsc": "vue-tsc --noEmit && vite build",
