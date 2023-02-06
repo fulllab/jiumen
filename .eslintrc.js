@@ -13,7 +13,7 @@ module.exports = defineConfig({
     parser: '@typescript-eslint/parser',
     ecmaVersion: 2020,
     sourceType: 'module',
-    jsxPragma: 'React',
+    jsxPragma: 'Vue',
     ecmaFeatures: {
       jsx: true,
     },
