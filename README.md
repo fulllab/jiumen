@@ -11,58 +11,42 @@
 </h5>
 
 
-Demo: [ZeroDAO Strategy](https://www.zerodao.net/)
+Demo: [Tyr it online](https://alpha.jiumen.io/)
 Official Website: [JIUMEN](https://www.jiumen.io/)
 
 A strategic canvas for DAO and Web3 projects, with the goal of getting members to understand a complex DAO in less than a minute.
-
-**It is currently in MVP phase and lacks some core features. It is untested because the contract needs to be refactored.**
 
 Traditional companies have a clear organizational structure and information is delivered through specific organizational structures very efficiently. information in DAO is disseminated through the community, which resembles a peer-to-peer network topology, so the amount of information received by each user grows super linearly. This increases the information asymmetry between investors, communities, and project parties, creating the problem of difficult collaboration. For example, a Defi project in June 2022 led to a financial risk and governance crisis because there was no risk management. Using a clear strategic canvas, perhaps the community could have identified this apparently fatal problem.
 
 ![](https://pic.tom24h.com/jiumen/fjiumen.svg)
 
-
-Vue3 + vite + windi + X6 + SmartWeave , Ensure Node.js 16.5+ .
+Vue3 + vite + windi + X6 + Ceramic + IPFS.
 
 ## Development
 
-### Install
+### Setup
 
 ```bash
 yarn
 ```
 
-### Import `jwk`
+### Schemas
 
-Create a directory `./.secrets` ，and add the `jwk.json` file.
+#### `yarn create-model`
 
-### Local Deployment Contracts
+This will run create-model.mjs , creating all models in the `scripts/models/` folder. The SEED variable needs to be modified in the environment file to a 32-byte hexadecimal code in order to create the key DID.
 
-```bash
-yarn deploy:al
-```
+#### `yarn publish-model`
 
-### Launch 
+This will run publish-model.mjs to publish the model to Ceramic.
 
-Open a new window.
+### Quick Start
 
 ```bash
-yarn al
+yarn dev
 ```
 
-### Deploy Contract
-
-```bash
-// Deploy contract to the test network
-yarn deploy:dev
-
-// Deploy contracts to the main network
-// It is still a test network, so there is no need to have a balance
-yarn deploy:main
-```
-
-### Build
+### 编译
 
 ```bash
 yarn build
@@ -75,10 +59,11 @@ yarn build
 - Complete internationalization solution including graphics and documentation
 - Decentralized permanent storage
 
-## Official Plan
+## TODO-List
 
-- Refactoring Contracts
-- Replace Vue3 with react, because the graphics engine doesn't support Vue well enough
-- Multi-user version, where each DAO and web3 project can quickly build its own strategy canvas
-- Eth wallet compatible, no need to pay storage fees
+- Replace Vue3 with react
+- Engine replacement
+- Using IPFS to store thumbnails and media files
+- Support CRDT
+- Authentication with NFT support
 - An application to showcase great canvases

@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite-plugin-windicss'
-import { primaryColor } from './src/settings/themeConfig';
+import { primaryColor } from './src/settings/themeConfig'
 
 export default defineConfig({
   darkMode: 'class',

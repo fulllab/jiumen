@@ -14,28 +14,12 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
     base: './',
     root,
     resolve: {
-      alias: [
-        {
-          find: '@',
-          replacement: resolve(__dirname, 'src'),
-        },
-        {
-          find: 'antd/lib',
-          replacement: 'antd/es',
-        },
-        {
-          find: 'vue-i18n',
-          replacement: 'vue-i18n/dist/vue-i18n.cjs.js',
-        },
-        {
-          find: '@antv/x6',
-          replacement: '@antv/x6/dist/x6.js',
-        },
-        {
-          find: 'vue',
-          replacement: 'vue/dist/vue.esm-bundler.js',
-        },
-      ],
+      alias: {
+        '@': resolve(__dirname, 'src'),
+        'antd/lib': 'antd/es',
+        'vue-i18n': 'vue-i18n/dist/vue-i18n.cjs.js',
+        '@antv/x6': '@antv/x6/dist/x6.js',
+      },
     },
     server: {
       port: 3600,
@@ -64,11 +48,11 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
           assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
           manualChunks(id) {
             if (id.includes('node_modules')) {
-              return id.toString().split('node_modules/')[1].split('/')[0].toString();
+              return id.toString().split('node_modules/')[1].split('/')[0].toString()
             }
-          }
-        }
-      }
+          },
+        },
+      },
     },
     define: {
       'process.env': {},

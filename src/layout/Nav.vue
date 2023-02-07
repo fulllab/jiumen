@@ -29,7 +29,7 @@ const usersState = useUsersState()
 const accountRef = computed(() => {
   if (!usersState.account) return null
   const address = usersState.account.address
-  return `${address.slice(0,5)}...${address.slice(-5)}`
+  return `${address.slice(0, 5)}...${address.slice(-5)}`
 })
 const connect = () => {
   connectWallet()
