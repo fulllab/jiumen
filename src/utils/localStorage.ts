@@ -77,7 +77,7 @@ export const createStorage = ({ prefixKey = '', storage = localStorage }) => {
 export const createKVStorage = ({ prefixKey = '', storage = localStorage }) => {
   const ls = createStorage({ prefixKey, storage })
 
-  const setItem = (key: string, itemKey: string ,value: any) => {
+  const setItem = (key: string, itemKey: string, value: any) => {
     const data = ls.get(key)
     if (!data) {
       ls.set(key, {

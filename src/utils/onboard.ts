@@ -1,30 +1,30 @@
 import { init } from '@web3-onboard/vue'
-import injectedModule from "@web3-onboard/injected-wallets";
+import injectedModule from '@web3-onboard/injected-wallets'
 
 // RPC urls
-const MAINNET_RPC_URL = "https://mainnet.infura.io/v3/8be8e752a1bd4e208276f7d65e8ceca8";
+const MAINNET_RPC_URL = 'https://mainnet.infura.io/v3/8be8e752a1bd4e208276f7d65e8ceca8'
 
 // Injected wallet
-const injected = injectedModule();
+const injected = injectedModule()
 
 export const initWeb3Onboard = init({
   wallets: [injected],
   chains: [
     {
-      id: "0x1",
-      token: "ETH",
-      label: "Ethereum Mainnet",
+      id: '0x1',
+      token: 'ETH',
+      label: 'Ethereum Mainnet',
       rpcUrl: MAINNET_RPC_URL,
     },
   ],
   appMetadata: {
-    name: "Passport",
-    icon: "/src/assets/jiumen-logo-icon.svg",
-    logo: "/src/assets/jiumen-logo-icon.svg",
-    description: "Strategic canvas for Web3 projects",
+    name: 'Passport',
+    icon: new URL(`../assets/jiumen-logo-icon.svg`, import.meta.url).href,
+    logo: new URL(`../assets/jiumen-logo-icon.svg`, import.meta.url).href,
+    description: 'Strategic canvas for Web3 projects',
     recommendedInjectedWallets: [
-      { name: "Coinbase", url: "https://wallet.coinbase.com/" },
-      { name: "MetaMask", url: "https://metamask.io" },
+      { name: 'Coinbase', url: 'https://wallet.coinbase.com/' },
+      { name: 'MetaMask', url: 'https://metamask.io' },
     ],
   },
   accountCenter: {
@@ -33,6 +33,6 @@ export const initWeb3Onboard = init({
     },
     mobile: {
       enabled: false,
-    }
-  }
-});
+    },
+  },
+})

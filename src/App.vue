@@ -20,7 +20,7 @@ export default defineComponent({
     AppLayout,
   },
   setup() {
-    const { getAntLocale } = useLocale();
+    const { getAntLocale } = useLocale()
     const { getIsReadOnly, getSpinning } = useRootState()
     const isMember = getIsMember()
     const { initCeramic } = useWeb3Onboard()
@@ -33,9 +33,12 @@ export default defineComponent({
     })
     provide(appSymbol, appContext)
     return {
-      getAntLocale
+      getAntLocale,
     }
-  }
+  },
+  created() {
+    document.body.removeChild(document.getElementById('Loading') as any)
+  },
 })
 </script>
 
